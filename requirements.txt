@@ -4,4 +4,4 @@ gym
 pickle
 matplotlib
 numdifftools
-omega
+omegaconf
