@@ -170,8 +170,8 @@ class ilqr_controller():
         up_U: upperbound of u: m*1
         low_U: lower bound of u: m*1
         XU: concatenation of X_0:T-1, U_0:T-1, T*(m+n)*1
-        dyn_f: transition dynamics R^(m+n) -> R^n, torch
-        cost_f: reward function R^(m+n) -> R, torch
+        dyn_f: transition dynamics R^(m+n) -> R^n, torch.nn.Module
+        cost_f: reward function R^(m+n) -> R, torch.nn.Module
         val_f: value function R^n -> R, torch
         '''
         self.up_X = up_X
@@ -212,7 +212,7 @@ class ilqr_controller():
         
 
         # linearize cost
-        # TODO: can we utilize torch hessian to speedup?
+        # TODO: can we further speedup with high accuracy?
         self.C = np.asarray([af.hessian(self.cost_f, XU_t[i,:]).detach().numpy() for i in range(self.T)])
         self.c = grad(self.cost_f, self.XU[:,:,0])
         #debug
