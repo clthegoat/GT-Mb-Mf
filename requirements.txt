@@ -3,3 +3,5 @@ numpy
 gym
 pickle
 matplotlib
+numdifftools
+omega
