@@ -45,7 +45,7 @@ class Agent():
     def store_transition(self, transition):
         self.memory.update(transition)
 
-    def update(self, conf):
+    def update(self):
 
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -53,7 +53,7 @@ class Agent():
         self.reward_model.to(device)
 
         # data preparation
-        transitions = self.memory.sample(conf.data.mem_batchsize)
+        transitions = self.memory.sample(self.conf.data.mem_batchsize)
         s_a = torch.tensor([t.s_a for t in transitions], dtype=torch.float).view(-1, self.dim_state_action)
         s_ = torch.tensor([t.s_ for t in transitions], dtype=torch.float).view(-1, self.dim_state)
         r = torch.tensor([t.r for t in transitions], dtype=torch.float).view(-1, 1)

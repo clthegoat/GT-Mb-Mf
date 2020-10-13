@@ -14,7 +14,7 @@ Transition = namedtuple('Transition', ['s_a', 's_', 'r'])
 
 
 def main(conf):
-
+    print('****** begin! ******')
     env = gym.make(conf.data.name)
     agent = Agent(conf)
 
@@ -23,14 +23,14 @@ def main(conf):
     trial_len = conf.train.trail_len
 
     for i in range(num_trials):
-
+        # print('episode {}'.format(i))
         # initial state
         state_list = []
         init_state = env.reset()
         state_list.append(init_state)
 
         for j in range(trial_len):
-
+            # print('step {} in episode {}'.format(j,i))
             # here should be replace with action solved by LQR
             action = env.action_space.sample()
             state_action = np.concatenate((state_list[j], action))
@@ -45,6 +45,7 @@ def main(conf):
             # train
             if agent.memory.isfull:
                 agent.update()
+    print('****** done! ******')
 
 
 if __name__ == '__main__':

@@ -8,11 +8,10 @@ class trans_model(nn.Module):
         self.fc = nn.Sequential(
             nn.Linear(dim_state + dim_action, 100),
             nn.ReLU(),
-            nn.Linear(100, dim_state),
+            nn.Linear(100, dim_state)
         )
 
     def forward(self, x):
-
         return self.fc(x)
 
 
@@ -22,9 +21,8 @@ class reward_model(nn.Module):
         self.fc = nn.Sequential(
             nn.Linear(dim_state + dim_action, 100),
             nn.ReLU(),
-            nn.Linear(100, 1),
+            nn.Linear(100, 1)
         )
 
-    def foward(self, x):
-
+    def forward(self, x):
         return self.fc(x)
