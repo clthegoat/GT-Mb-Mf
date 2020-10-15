@@ -57,8 +57,8 @@ def lqr_controller(T, F, f, C, c, V_T, v_T):
         qu = q[n:m+n,:]
 
         #compute optimal K
-        Kt = np.dot(-np.linalg.inv(Quu), Qux)
-        kt = np.dot(-np.linalg.inv(Quu), qu)
+        Kt = np.dot(-np.linalg.pinv(Quu+1e-4*np.eye(m)), Qux)
+        kt = np.dot(-np.linalg.pinv(Quu+1e-4*np.eye(m)), qu)
         K[t,:,:] = Kt
         k[t,:,:] = kt
 
@@ -135,7 +135,25 @@ def hess(net, inputs, eps=1e-3):
     # (N*a*a)
     return h.detach().numpy()
 
+def forward_sim(X_0,U,f):
+    '''
+    simulate a traj given input
+    X_0: init state n*1
+    U: seq of inputs T*m*1
+    f: dynamic
+    '''
+    T = U.shape[0]
+    n = X_0.shape[0]
+    X = np.zeros((T+1,n,1))
+    X[0,:,:] = X_0
 
+    for t in range(T):
+        xu = torch.from_numpy(np.concatenate([X[t,:,:],U[t,:,:]])[:,0]).float()
+
+        #forward dyn
+        X[t+1,:,:] = f(xu).detach().numpy().reshape((n,1))
+
+    return X
 
 class ilqr_controller():
 
@@ -161,7 +179,7 @@ class ilqr_controller():
 
     """
 
-    def __init__(self, X, U, up_X, low_X, up_U, low_U, T, dyn_f, cost_f, val_f, lr, M):
+    def __init__(self, X, U, up_X, low_X, up_U, low_U, T, dyn_f, cost_f, val_f, lr, M, visualize=0, print_loss=0):
         '''
         X: states, T+1*n*1
         U: actions T*m*1
@@ -196,6 +214,9 @@ class ilqr_controller():
         self.iter_num = M
         self.lr = lr
 
+        self.print_loss = print_loss
+        self.visualize = visualize
+
         
     
     # linearize dynamic and reward function
@@ -220,19 +241,21 @@ class ilqr_controller():
         
 
         # linearize val
-        X_T = torch.from_numpy(self.X[self.T,:,0])
-        self.V_T = af.hessian(self.cost_f, X_T).detach().numpy()
-        self.v_T = grad(self.val_f,self.X[self.T,:,:])
+        X_T = torch.from_numpy(self.X[self.T,:,0]).float()
+        self.V_T = af.hessian(self.val_f, X_T).detach().numpy()
+        self.v_T = grad(self.val_f,self.X[self.T,:,:].reshape((1,-1)))
         #debug
         self.v_T = self.v_T.reshape((-1, 1))
         # print(self.V_T.shape)
         # print(self.v_T.shape)
 
+    
+
     # apply ilqr
     def solve_ilqr(self):
 
         for i in range(self.iter_num):
-            print(i)
+            
 
             #linearize
             self.linearize()
@@ -247,32 +270,36 @@ class ilqr_controller():
             new_U = self.U
             for t in range(self.T):
                 dx = new_X[t,:,:]-self.X[t,:,:]
-                new_U[t,:,:] = np.dot(self.K[t,:,:],dx) + self.lr*self.k[t,:,:] + self.U[t,:,:]
+                new_U[t,:,:] = np.dot(self.K[t,:,:],dx) + self.lr*(self.k[t,:,:]) + self.U[t,:,:]
+                new_U[t,:,:] = np.clip(new_U[t,:,:], self.low_U, self.up_U)
                 xu = torch.from_numpy(np.concatenate([new_X[t,:,:],new_U[t,:,:]])[:,0]).float()
 
                 #forward dyn
                 new_X[t+1,:,:] = self.dyn_f(xu).detach().numpy().reshape((self.n,1))
+                new_X[t+1,:,:] = np.clip(new_X[t+1,:,:], self.low_X, self.up_X)
                 
                 #compute sum of cost
                 total_cost+=self.cost_f(xu).detach().numpy()
 
-            print(total_cost)
+            if self.print_loss:
+                print(total_cost)
             #regain XU
             self.X = np.clip(new_X, self.low_X, self.up_X)
             self.U = np.clip(new_U, self.low_U, self.up_U)
             self.XU = np.concatenate([self.X[0:self.T,:,:],self.U[:,:,:]],axis=1) 
 
             #plot trajectory
-            # if i%20==19:
-            #     plt.plot(self.X[:,0,0])
-
-        #plt.show()
+            if self.visualize:
+                if i%20==19:
+                    plt.plot(self.X[:,0,0])
+        if self.visualize:
+            plt.show()
             
             
 
         
 
-        return self.K, self.k, self.XU
+        return self.K, self.k, self.X, self.U
              
 
     
