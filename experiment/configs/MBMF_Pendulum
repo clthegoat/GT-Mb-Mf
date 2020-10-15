@@ -1,6 +1,11 @@
 train:
   num_trials: 10000
   trail_len: 50
+  MVE:
+    H_step: 5
+    discount_rate: 0.99
+    actor_critic_iter_perstep: 10
+    tau: 0.005
 
 data:
   name: Pendulum-v0
