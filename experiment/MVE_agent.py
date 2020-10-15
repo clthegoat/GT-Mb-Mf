@@ -131,7 +131,8 @@ class MVE_agent():
         critic_pred[:,0] = self.critic_local(torch.cat((states, actions), 1))
         for t in range(H_step): # model-based: predict H steps forward
             states = next_states
-            actions = self.actor_target(states)
+            with torch.no_grad():
+                actions = self.actor_target(states)
             critic_pred[:,t+1] = self.critic_local(torch.cat((states, actions), 1))
             next_states = self.trans_model(torch.cat((states, actions), 1))
             env.state = states
@@ -139,8 +140,9 @@ class MVE_agent():
             imag_rewards_list.append(rewards)
         critic_pred = critic_pred[:,:-1] # Q(s_t,a_t), t~[-1,H-1]
         final_states = next_states # s_H
-        final_actions = self.actor_target(final_states) # a_H
-        final_critic = self.critic_target(torch.cat((final_states, final_actions), 1)) # Q'(s_H,a_H)
+        with torch.no_grad():
+            final_actions = self.actor_target(final_states) # a_H
+            final_critic = self.critic_target(torch.cat((final_states, final_actions), 1)) # Q'(s_H,a_H)
 
         critic_target = torch.empty(states.size(0), H_step, dtype=torch.float) # MVE
         critic_target[:,H_step-1] = imag_rewards_list[-1] + self.discount_rate * final_critic
