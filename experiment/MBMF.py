@@ -12,7 +12,8 @@ from Pendulum import PendulumEnv
 
 
 # basic setting
-Transition = namedtuple('Transition', ['s_a', 's_', 'r'])
+# Transition = namedtuple('Transition', ['s_a', 's_', 'r'])
+Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_next', 's_', 'r', 'done'])
 
 
 def main(conf):
@@ -56,7 +57,12 @@ def main(conf):
             state_list.append(torch.tensor(gt_state))
 
             # memory store
-            agent.store_transition(Transition(state_action, gt_state, gt_reward))
+            # agent.store_transition(Transition(state_action, gt_state, gt_reward))
+            # Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_next', 's_', 'r', 'done'])
+            if j == trial_len:
+                agent.store_transition(Ext_transition(state_list[j], action, state_action, state_list[j], gt_state, gt_reward, done))
+            else:
+                agent.store_transition(Ext_transition(state_list[j], action, state_action, state_list[j+1], gt_state, gt_reward, done))
             episode_reward += gt_reward
             #render
             env.render()
