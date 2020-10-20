@@ -2,11 +2,12 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.distributions import Normal
-from .models.model_based import actor_model, critic_model, trans_model
-from pendulum import PendulumRnv
+from models.model_based import actor_model, critic_model, trans_model
+from Pendulum import PendulumEnv
 from Agent import Memory
 import copy
 import numpy as np
+import random
 
 class OU_Noise(object):
     """Ornstein-Uhlenbeck process."""
@@ -53,18 +54,23 @@ class MVE_agent():
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self.dim_state = self.config.data.state.dim
         self.dim_action = self.config.data.action.dim
+        self.dim_state_action = self.dim_state + self.dim_action
         self.trans_model = trans_model(self.dim_state, self.dim_action)
         self.critic_local = critic_model(self.dim_state, self.dim_action).to(self.device)
         self.critic_target = critic_model(self.dim_state, self.dim_action).to(self.device)
-        copy_model_over(self.critic_local, self.critic_target)
+        self.copy_model_over(self.critic_local, self.critic_target)
         self.actor_local = actor_model(self.dim_state, self.dim_action).to(self.device)
         self.actor_target = actor_model(self.dim_state, self.dim_action).to(self.device)
-        copy_model_over(self.actor_local, self.actor_target)
+        self.copy_model_over(self.actor_local, self.actor_target)
         self.memory = Memory(self.config.data.mem_capacity)
         self.optimizer_t = optim.Adam(self.trans_model.parameters(), lr=1e-3)
         self.optimizer_c = optim.Adam(self.critic_local.parameters(), lr=1e-3)
         self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=3e-4)
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
+        # self.select_action()
+        # self.store_transition()
+        # self.sample_transitions()
+        
 
     def select_action(self,state):
         """Picks an action using the actor network and then adds some noise to it to ensure exploration"""
@@ -86,28 +92,32 @@ class MVE_agent():
         else:
             batch_size = self.config.data.mem_batchsize
         transitions = self.memory.sample(batch_size)
-        states = torch.from_numpy(np.vstack([t.state for t in transitions if t is not None])).float().to(self.device)
-        actions = torch.from_numpy(np.vstack([t.action for t in transitions if t is not None])).float().to(self.device)
-        rewards = torch.from_numpy(np.vstack([t.reward for t in transitions if t is not None])).float().to(self.device)
-        next_states = torch.from_numpy(np.vstack([t.next_state for t in transitions if t is not None])).float().to(self.device)
+        # print([t.s for t in transitions])
+        states = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+        # print(states)
+        actions = torch.from_numpy(np.vstack([t.a for t in transitions if t is not None])).float().to(self.device)
+        rewards = torch.from_numpy(np.vstack([t.r for t in transitions if t is not None])).float().to(self.device)
+        next_states = torch.from_numpy(np.vstack([t.s_ for t in transitions if t is not None])).float().to(self.device)
         dones = torch.from_numpy(np.vstack([int(t.done) for t in transitions if t is not None])).float().to(self.device)
-        return states, actions, rewards, next_states, dones
+        s_a = torch.tensor([t.s_a for t in transitions], dtype=torch.float).view(-1, self.dim_state_action)
+        return states, actions, s_a, rewards, next_states, dones
 
     def update(self, num_iter=10):
         """ update transition model"""
-        states, actions, _, next_states, _ = sample_transitions()
-        trans_learn(states, actions, next_states) # now update once for each step, can also be put in the following loop to update several times
+        states, actions, states_actions, rewards, next_states, dones = self.sample_transitions()
+        self.trans_learn(states, actions, states_actions, next_states) # now update once for each step, can also be put in the following loop to update several times
         
         """ update actor & critic model"""
-        env = PendulumRnv() # used to get true reward
+        env = PendulumEnv() # used to get true reward
         for _ in range(num_iter):
-            states, actions, rewards, next_states, dones = sample_transitions()
-            actor_learn(states)
-            critic_learn(self, states, actions, rewards, next_states, dones, env)
+            states, actions, states_actions, rewards, next_states, dones = self.sample_transitions()
+            self.actor_learn(states)
+            self.critic_learn(self, states=states, actions=actions, rewards=rewards, next_states=next_states, dones=dones, env=env)
 
-    def trans_learn(self, states, actions, next_states):
+    def trans_learn(self, states, actions, states_actions, next_states):
         """Runs a learning iteration for the transition model"""
-        states_pred = self.trans_model(torch.cat((states, actions), 1))
+        # states_pred = self.trans_model(torch.cat((states, actions), 1))
+        states_pred = self.trans_model(states_actions)
         trans_loss = F.mse_loss(states_pred, next_states)
         self.optimizer_t.zero_grad()
         trans_loss.backward()
