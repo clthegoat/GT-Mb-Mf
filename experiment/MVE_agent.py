@@ -4,7 +4,7 @@ import torch.optim as optim
 from torch.distributions import Normal
 from models.model_based import actor_model, critic_model, trans_model
 from Pendulum import PendulumEnv
-from Agent import Memory
+from MPC_agent import Memory
 import copy
 import numpy as np
 import random

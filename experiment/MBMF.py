@@ -7,7 +7,7 @@ import numpy as np
 
 from collections import namedtuple
 from omegaconf import OmegaConf
-from Agent import *
+from MPC_agent import *
 from MVE_agent import *
 from Pendulum import PendulumEnv
 
@@ -22,7 +22,7 @@ def main(conf):
     print('****** begin! ******')
     env = PendulumEnv()
     # agent = Agent(conf)
-    agent = MVE_agent(conf)
+    agent = MPC_agent(conf)
 
     # train setting
     num_trials = conf.train.num_trials
@@ -36,10 +36,12 @@ def main(conf):
         #reset the state to be a single start point:
         
         init_state = env.reset()
-        if i>200:
-            env.state = np.asarray([0.,0.])
-            init_state = env._get_obs()
-            env.last_u = None
+        # if i>agent.num_random:
+        #     env.state = np.asarray([0.,0.])
+        #     init_state = env._get_obs()
+        #     env.last_u = None
+        #     print(init_state)
+            #print(agent.value_model(torch.from_numpy(init_state).float()))
         
         state_list.append(init_state)
         
@@ -48,10 +50,10 @@ def main(conf):
         for j in range(trial_len):
             # print('step {} in episode {}'.format(j,i))
             # here should be replace with action solved by LQR
-            if i<200:
+            if i<=agent.num_random:
                 action = env.action_space.sample()
             else:
-                action = agent.select_action(j, state_list[j], 1)
+                action = agent.select_action(j, state_list[j], mode=2, exploration=0)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -65,9 +67,11 @@ def main(conf):
             agent.store_transition(Ext_transition(state_list[j], action, state_action, gt_state, gt_reward, done))
             episode_reward += gt_reward
             #render
-            env.render()
+            if i>agent.num_random:
+                env.render()
+
         # train
-        if agent.memory.count>256:
+        if agent.memory.count>agent.batch_size:
             agent.update()
 
         #see the trend of reward

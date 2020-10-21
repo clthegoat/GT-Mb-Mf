@@ -107,7 +107,7 @@ def grad(net, inputs, eps=1e-4):
 
 
 # not accurate, maynot used
-def hess(net, inputs, eps=1e-3):
+def num_hess(net, inputs, eps=1e-3):
     '''
     inputs: N*a
     net: R^a -> R^b
@@ -135,25 +135,75 @@ def hess(net, inputs, eps=1e-3):
     # (N*a*a)
     return h.detach().numpy()
 
-def forward_sim(X_0,U,f):
+
+
+def compute_jacobian(f, x, output_dims):
+    '''
+    Normal:
+        f: input_dims -> output_dims
+    Jacobian mode:
+        f: output_dims x input_dims -> output_dims x output_dims
+    '''
+    repeat_dims = tuple(output_dims) + (1,) * len(x.shape)
+    jac_x = x.detach().repeat(*repeat_dims)
+    jac_x.requires_grad_()
+    jac_y = f(jac_x)
+    ml = torch.meshgrid([torch.arange(dim) for dim in output_dims])
+    index = [m.flatten() for m in ml]
+    gradient = torch.zeros(output_dims + output_dims)
+    gradient.__setitem__(tuple(index)*2, 1)
+    
+    jac_y.backward(gradient)
+        
+    return jac_x.grad.data
+
+
+def torch_hessian(f, x):
+    batch_size = x.shape[0]
+    x_dim = x.shape[1]
+    x.requires_grad_(True)
+    loss = f(x)
+    first_drv = torch.zeros(batch_size, x_dim)
+    hessian = torch.zeros(batch_size, x_dim, x_dim)
+    for n in range(batch_size):
+        first_drv[n] = torch.autograd.grad(loss[n], x,
+                                                    create_graph=True, retain_graph=True)[0][n]
+        for i in range(x_dim):
+            hessian[n][i] = torch.autograd.grad(first_drv[n][i], x,
+                                                    create_graph=True, retain_graph=True)[0][n]
+    
+    return hessian.detach().numpy()
+
+
+
+def forward_sim(X_0,U,f,c,v):
     '''
     simulate a traj given input
     X_0: init state n*1
     U: seq of inputs T*m*1
     f: dynamic
+    c: cost_f
+    v: val_f
     '''
     T = U.shape[0]
     n = X_0.shape[0]
     X = np.zeros((T+1,n,1))
     X[0,:,:] = X_0
-
+    cost = 0
     for t in range(T):
         xu = torch.from_numpy(np.concatenate([X[t,:,:],U[t,:,:]])[:,0]).float()
 
         #forward dyn
         X[t+1,:,:] = f(xu).detach().numpy().reshape((n,1))
+        cost += c(xu)
+    cost += v(torch.from_numpy(X[T,:,0]).float())
+    
+    return X, cost
 
-    return X
+
+
+
+
 
 class ilqr_controller():
 
@@ -217,6 +267,12 @@ class ilqr_controller():
         self.print_loss = print_loss
         self.visualize = visualize
 
+        #self.map = Pool().map
+
+
+    def hessian_torch(self, XU):
+        return af.hessian(self.cost_f, XU).detach().numpy()
+
         
     
     # linearize dynamic and reward function
@@ -225,17 +281,30 @@ class ilqr_controller():
         XU_t = torch.from_numpy(self.XU[:,:,0]).float()
         #print(XU_t.size())
         # apply num method
-        self.F = grad(self.dyn_f, self.XU[:,:,0]).reshape((self.T, self.n, self.n+self.m)) #T*n*n+m
+        #self.F = grad(self.dyn_f, self.XU[:,:,0]).reshape((self.T, self.n, self.n+self.m)) #T*n*n+m
+        self.F = compute_jacobian(self.dyn_f, XU_t, (self.T,self.n))
+        
+        self.F = np.concatenate([self.F[i,:,i,:] for i in range(self.T)]).reshape((self.T, self.n, self.n+self.m))
         #print(self.F)
         self.f = self.dyn_f(XU_t).detach().numpy()
         self.f = self.f.reshape((self.T, -1, 1))
         #print(self.f)
         
-
         # linearize cost
         # TODO: can we further speedup with high accuracy?
-        self.C = np.asarray([af.hessian(self.cost_f, XU_t[i,:]).detach().numpy() for i in range(self.T)])
-        self.c = grad(self.cost_f, self.XU[:,:,0])
+        self.C = [self.hessian_torch(XU_t[i,:]) for i in range(self.T)]
+        # self.C = Parallel(n_jobs=4,backend="threading")(delayed(self.hessian_torch)(XU_t[i,:]) for i in range(self.T))
+        # self.C = self.map(self.hessian_torch, [XU_t[i,:] for i in range(self.T)])
+        self.C = np.asarray(self.C)
+        
+        #self.C = torch_hessian(self.cost_f, XU_t)
+        #try numerical
+        #self.C = hess(self.cost_f, self.XU[:,:,0])
+        #self.c = grad(self.cost_f, self.XU[:,:,0])
+        
+        self.c = compute_jacobian(self.cost_f, XU_t, (self.T,1))
+        self.c = np.concatenate([self.c[i,:,i,:] for i in range(self.T)])
+        #print(self.c.shape)
         #debug
         self.c = self.c.reshape((self.T, -1, 1))
         
@@ -270,7 +339,7 @@ class ilqr_controller():
             new_U = self.U
             for t in range(self.T):
                 dx = new_X[t,:,:]-self.X[t,:,:]
-                new_U[t,:,:] = np.dot(self.K[t,:,:],dx) + self.lr*(self.k[t,:,:]) + self.U[t,:,:]
+                new_U[t,:,:] = self.lr*(np.dot(self.K[t,:,:],dx) + self.k[t,:,:]) + self.U[t,:,:]
                 new_U[t,:,:] = np.clip(new_U[t,:,:], self.low_U, self.up_U)
                 xu = torch.from_numpy(np.concatenate([new_X[t,:,:],new_U[t,:,:]])[:,0]).float()
 
@@ -287,6 +356,7 @@ class ilqr_controller():
             self.X = np.clip(new_X, self.low_X, self.up_X)
             self.U = np.clip(new_U, self.low_U, self.up_U)
             self.XU = np.concatenate([self.X[0:self.T,:,:],self.U[:,:,:]],axis=1) 
+
 
             #plot trajectory
             if self.visualize:
@@ -430,36 +500,37 @@ def test_grad():
     time_e = time.clock()-time_start
     print(time_e)
 
+#define a dynamic function
+class dynamic(nn.Module):
+    #double integrater
+    def __init__(self):
+        super(dynamic, self).__init__()
+        self.linear2 = nn.Linear(3, 2)
+        self.linear2.weight.data.fill_(0.0)
+        self.linear2.weight[0,0] = 1.
+        self.linear2.weight[0,1] = 1.
+        self.linear2.weight[1,1] = 1.
+        self.linear2.weight[1,2] = 1.
+        
+    #print(xu.shape)
+    def forward(self, xu):
+        return self.linear2(xu)
+
+#define a cost function
+class cost(nn.Module):
+
+    def forward(self, xu):
+        return torch.square(torch.norm(xu+2,dim=len(xu.size())-1))
+    
+
+#define a terminal function
+class val(nn.Module):
+
+    def forward(self, x):
+        return torch.square(torch.norm(x+2,dim=len(x.size())-1))
 
 def test_ilqr():
-    #define a dynamic function
-    class dynamic(nn.Module):
-        #double integrater
-        def __init__(self):
-            super(dynamic, self).__init__()
-            self.linear2 = nn.Linear(3, 2)
-            self.linear2.weight.data.fill_(0.0)
-            self.linear2.weight[0,0] = 1.
-            self.linear2.weight[0,1] = 1.
-            self.linear2.weight[1,1] = 1.
-            self.linear2.weight[1,2] = 1.
-            
-        #print(xu.shape)
-        def forward(self, xu):
-            return self.linear2(xu)
-
-    #define a cost function
-    class cost(nn.Module):
-
-        def forward(self, xu):
-            return torch.square(torch.norm(xu+2,dim=len(xu.size())-1))
-        
-
-    #define a terminal function
-    class val(nn.Module):
-
-        def forward(self, x):
-            return torch.square(torch.norm(x+2,dim=len(x.size())-1))
+    
 
     #give initial value
     T = 20
@@ -475,7 +546,7 @@ def test_ilqr():
     val_f = val()
     #example usage:
     time_start = time.clock()
-    ilqr_ctrl = ilqr_controller(X,U,up_X,low_X,up_U,low_U,T,dyn_f,cost_f,val_f, 0.1, 5)
+    ilqr_ctrl = ilqr_controller(X,U,up_X,low_X,up_U,low_U,T,dyn_f,cost_f,val_f, 0.5, 10, 1, 1)
     ilqr_ctrl.solve_ilqr()
     time_e = time.clock()-time_start
     print(time_e)
@@ -486,4 +557,4 @@ def test_ilqr():
 
 #test_lqr()
 #test_grad()
-test_ilqr()
+#test_ilqr()

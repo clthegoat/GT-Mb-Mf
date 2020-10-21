@@ -1,11 +1,16 @@
 train:
   num_trials: 10000
-  trail_len: 50
+  trail_len: 75
+  num_random: 2000
+  action_noise: 0.1
+  gamma: 0.99
+  target_update_num: 50
   MVE:
     H_step: 5
     discount_rate: 0.99
     actor_critic_iter_perstep: 10
     tau: 0.005
+
 
 data:
   name: Pendulum-v0
@@ -13,10 +18,11 @@ data:
     dim: 3
   action:
     dim: 1
-  mem_capacity: 2000
+  mem_capacity: 10000
   mem_batchsize: 128
 
 planning:
-  horizon: 50
-  ilqr_learning_rate: 0.001
+  horizon: 10
+  ilqr_learning_rate: 0.0001
   ilqr_iteration_num: 10
+  shooting_num: 20
