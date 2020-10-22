@@ -59,7 +59,7 @@ class actor_model(nn.Module):
         )
 
     def forward(self, x):
-        return self.fc(x)
+        return 2.0*self.fc(x)
 
 
 class critic_model(nn.Module):
