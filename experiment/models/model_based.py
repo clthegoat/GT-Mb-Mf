@@ -54,7 +54,8 @@ class actor_model(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
-            nn.Linear(64, dim_action)
+            nn.Linear(64, dim_action),
+            nn.Tanh()
         )
 
     def forward(self, x):

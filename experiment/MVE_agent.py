@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.distributions import Normal
@@ -48,7 +49,8 @@ class MVE_agent():
 
     def __init__(self, conf):
         self.conf = conf
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        #self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = 'cpu'
         """ model parameters"""
         self.num_random = self.conf.train.num_random # number of first random trails
         self.tau = self.conf.MVE.target_model_update_rate
@@ -78,12 +80,13 @@ class MVE_agent():
         self.optimizer_t = optim.Adam(self.trans_model.parameters(), lr=1e-3)
         self.optimizer_r = optim.Adam(self.reward_model.parameters(), lr=1e-3)
         self.optimizer_c = optim.Adam(self.critic_local.parameters(), lr=1e-3)
-        self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=3e-4)
+        self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=1e-4)
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
         self.training_step = 0
         # self.select_action()
         # self.store_transition()
         # self.sample_transitions()
+        self.max_grad_norm = 0.01
         
 
     def select_action(self,state):
@@ -163,6 +166,7 @@ class MVE_agent():
         actor_loss = -self.critic_local(torch.cat((states, actions_pred), 1)).mean()
         self.optimizer_a.zero_grad()
         actor_loss.backward()
+        nn.utils.clip_grad_norm_(self.actor_local.parameters(), self.max_grad_norm)
         self.optimizer_a.step()
         self.soft_update_of_target_network(self.actor_local, self.actor_target, self.tau)
 
@@ -174,6 +178,7 @@ class MVE_agent():
         # compute Q(s^t, a^t) for t~[-1,T]
         critic_pred = torch.empty(self.batch_size, self.T+1, dtype=torch.float)
         critic_pred[:,0:1] = self.critic_local(states_actions)
+
         for t in range(1,self.T+1): # model-based: predict T steps forward
             states = next_states
             with torch.no_grad():
@@ -187,19 +192,23 @@ class MVE_agent():
             # env.state = states
             # _, rewards, _, _ = env.step(actions)
             imag_rewards_list.append(rewards)
+
         critic_pred = critic_pred[:,:-1] # Q(s^t,a^t), t~[-1,T-1]
-        final_states = next_states # s_T
+        final_states = states # s_T
         with torch.no_grad():
             final_actions = self.actor_target(final_states) # a_T
             final_critic = self.critic_target(torch.cat((final_states, final_actions), 1)) # Q'(s_T,a_T)
-        # compute sum of discounted reward and ternimal cost for each timestep t~[-1,T-1]
-        critic_target = torch.empty(self.batch_size, self.T, dtype=torch.float)
-        critic_target[:,self.T-1:self.T] = imag_rewards_list[-1] + self.gamma * final_critic
-        for t in range(self.T-1,0,-1):
-            critic_target[:,t-1:t] = imag_rewards_list[t-1] + self.gamma * critic_target[:,t:t+1]
-        critic_loss = F.mse_loss(critic_pred, critic_target) / self.T
+            # compute sum of discounted reward and ternimal cost for each timestep t~[-1,T-1]
+            critic_target = torch.empty(self.batch_size, self.T, dtype=torch.float)
+            critic_target[:,self.T-1:self.T] = imag_rewards_list[self.T-1] + self.gamma * final_critic
+            #add -1
+            for t in range(self.T-1,-1,-1):
+                critic_target[:,t-1:t] = imag_rewards_list[t-1] + self.gamma * critic_target[:,t:t+1]
+        #print(critic_pred.size())
+        critic_loss = F.mse_loss(critic_pred, critic_target) / (self.T)
         self.optimizer_c.zero_grad()
         critic_loss.backward()
+        nn.utils.clip_grad_norm_(self.critic_local.parameters(), self.max_grad_norm)
         self.optimizer_c.step()
         self.soft_update_of_target_network(self.critic_local, self.critic_target, self.tau)
 

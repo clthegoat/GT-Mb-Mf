@@ -75,7 +75,7 @@ def main(conf):
             agent.store_transition(Ext_transition(state_list[j], action, state_action, gt_state, gt_reward, done))
             episode_reward += gt_reward
             #render
-            if i>agent.num_random:
+            if i>agent.num_random and i%200==0:
                 env.render()
 
         # train

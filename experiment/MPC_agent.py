@@ -98,7 +98,8 @@ class MPC_agent():
         mode: action choosing mode:
             0: fixed initial state, ilqr + mpc
             1: pure ilqr
-            2: random shooting + ilqr
+            2: random shooting + ilqr + mpc
+            3: ilqr + mpc, initialize with traj of last step
 
         exploration: whether add noise
         '''
@@ -168,8 +169,10 @@ class MPC_agent():
                 result_action = self.ilqr_lr*(np.dot(self.K[num_step,:,:],dx) + self.k[num_step,:,:]) + (1-self.ilqr_lr)*self.traj_U[num_step,:,:]
                 result_action = result_action.reshape((-1,))
 
+
         elif mode == 2:
             #random shooting:
+            
             X_0 = state.reshape((-1,1))
             min_c = 1000000
             for i in range(self.shooting_num):
@@ -179,6 +182,64 @@ class MPC_agent():
                     min_c = c
                     min_U = U
                     min_X = X
+
+
+
+            #do ilqr based on best one
+
+            ilqr_ctrl = ilqr.ilqr_controller(min_X, min_U,
+                                                self.up_X,self.low_X,self.up_U,self.low_U,
+                                                num_plan_step,
+                                                self.trans_model,self.reward_model,self.value_model,
+                                                self.ilqr_lr, self.ilqr_iter_num, 0, 0)
+
+            self.K,self.k,traj_X,traj_U = ilqr_ctrl.solve_ilqr()
+                
+            self.traj_X = traj_X
+            self.traj_U = traj_U
+            # self.traj_U = min_U
+            # self.traj_X = min_X
+
+            result_action = self.traj_U[0,:,:].reshape((-1,))
+
+
+
+        elif mode == 3:
+            #TODO: add warm up based on last time step
+            #random shooting:
+            if num_step==0:
+                X_0 = state.reshape((-1,1))
+                min_c = 1000000
+                for i in range(self.shooting_num):
+                    U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
+                    X, c = ilqr.forward_sim(X_0,U,self.trans_model,self.reward_model,self.value_model)
+                    if c<min_c:
+                        min_c = c
+                        min_U = U
+                        min_X = X
+            
+            else:
+                #extract the last actions from previous optimization for initialization
+                min_U = self.traj_U[1:min(num_plan_step+1,self.T),:,:]
+                X_0 = state.reshape((-1,1))
+                min_X, c = ilqr.forward_sim(X_0,min_U,self.trans_model,self.reward_model,self.value_model)
+                min_v = 100000
+                if num_plan_step == self.T:
+                    #append a new action at the end with random shooting
+                    for i in range(self.shooting_num):
+                        u = np.random.uniform(self.low_U,self.up_U,(1, self.dim_action,1))
+                        xu = torch.from_numpy(np.concatenate([min_X[-1,:,:],u[0,:,:]])[:,0]).float()
+                        new_x = self.trans_model(xu)
+                        v = self.reward_model(xu) + self.gamma * self.value_model(new_x)
+                        if v<min_v:
+                            min_v = v
+                            min_u = u
+                            min_x = new_x.detach().numpy().reshape((1,self.dim_state,1))
+
+                    min_U = np.concatenate([min_U,min_u])
+                    min_X = np.concatenate([min_X,min_x])
+
+
 
 
             #do ilqr based on best one
@@ -202,6 +263,8 @@ class MPC_agent():
 
             #print(result_action.shape)
         return result_action + exploration*np.random.normal(0.0,self.action_noise,(self.dim_action))
+
+
 
 
     def store_transition(self, transition):

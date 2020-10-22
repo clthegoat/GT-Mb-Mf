@@ -1,7 +1,7 @@
 train:
   num_trials: 10000
   trail_len: 75
-  num_random: 2000
+  num_random: 1000
   action_noise: 0.1
   gamma: 0.99
   target_update_num: 50
@@ -19,10 +19,10 @@ data:
 planning:
   horizon: 10
   ilqr_learning_rate: 0.0001
-  ilqr_iteration_num: 10
-  shooting_num: 20
+  ilqr_iteration_num: 5
+  shooting_num: 30
 
 MVE:
-  horizon: 5
-  iteration_num: 10
-  target_model_update_rate: 0.005
+  horizon: 1
+  iteration_num: 1
+  target_model_update_rate: 0.01
