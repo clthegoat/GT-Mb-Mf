@@ -5,12 +5,7 @@ train:
   action_noise: 0.1
   gamma: 0.99
   target_update_num: 50
-  MVE:
-    H_step: 5
-    discount_rate: 0.99
-    actor_critic_iter_perstep: 10
-    tau: 0.005
-
+  Agent_Type: MVE
 
 data:
   name: Pendulum-v0
@@ -26,3 +21,8 @@ planning:
   ilqr_learning_rate: 0.0001
   ilqr_iteration_num: 10
   shooting_num: 20
+
+MVE:
+  horizon: 5
+  iteration_num: 10
+  target_model_update_rate: 0.005

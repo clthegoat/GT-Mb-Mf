@@ -21,8 +21,13 @@ Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_', 'r', 'done
 def main(conf):
     print('****** begin! ******')
     env = PendulumEnv()
-    # agent = Agent(conf)
-    agent = MPC_agent(conf)
+    Agent_Type = conf.train.Agent_Type
+    if Agent_Type == "MPC":
+        agent = MPC_agent(conf)
+    elif Agent_Type == "MVE":
+        agent = MVE_agent(conf)
+    else:
+        raise ValueError
 
     # train setting
     num_trials = conf.train.num_trials
@@ -42,8 +47,7 @@ def main(conf):
         #     env.last_u = None
         #     print(init_state)
             #print(agent.value_model(torch.from_numpy(init_state).float()))
-        
-        state_list.append(init_state)
+        state_list.append(torch.tensor(init_state, dtype=torch.float))
         
 
         episode_reward = 0
@@ -53,13 +57,17 @@ def main(conf):
             if i<=agent.num_random:
                 action = env.action_space.sample()
             else:
-                action = agent.select_action(j, state_list[j], mode=2, exploration=0)
+                if Agent_Type == "MPC":
+                    action = agent.select_action(j, state_list[j], mode=2, exploration=0)
+                elif Agent_Type == "MVE":
+                    action = agent.select_action(state_list[j])
+                
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
             #print(env.state)
             gt_state, gt_reward, done, info = env.step(action)
-            state_list.append(torch.tensor(gt_state))
+            state_list.append(torch.tensor(gt_state, dtype=torch.float))
 
             # memory store
             # agent.store_transition(Transition(state_action, gt_state, gt_reward))
