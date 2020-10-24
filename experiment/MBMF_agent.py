@@ -43,6 +43,12 @@ class Memory():
         MF_memory = np.array(MF_memory)
         return np.random.choice(MF_memory[0:self.count], batch_size)
 
+    def judge_sample(self, step):
+        memory = self.memory.tolist()
+        trans_memory = [tran for tran in memory if tran.t == step]
+        trans_memory = np.array(trans_memory)
+        return trans_memory
+
 
 class MBMF_agent(MVE_agent):
 
@@ -60,6 +66,8 @@ class MBMF_agent(MVE_agent):
 
         # here we temporarily fix K
         self.K = self.conf.train.K
+        self.c1 = self.conf.train.c1
+        self.c2 = self.conf.train.c2
 
     def select_action(self, num_step, state, mode, exploration):
         '''
@@ -128,32 +136,51 @@ class MBMF_agent(MVE_agent):
         mb_t = [t.t for t in mb_transitions]
         mb_s, mb_s_a, mb_s_, mb_r = mb_s.to(device), mb_s_a.to(device), mb_s_.to(device), mb_r.to(device)
 
-        # get q-value target
-        with torch.no_grad():
-            q_target = self.critic_model(mb_s_a)
+        # q prediction and target
+        q_pred = self.critic_local(mb_s_a)
+        q_target = torch.zeros(self.batch_size)
 
-        q_pred = torch.zeros(self.batch_size)
+        # policy prediction and target
+        a_target = torch.zeros(self.batch_size)
+        a_pred = torch.zeros(self.batch_size)
 
         for i in range(self.batch_size):
             time_step = mb_t[i]
             cur_state = mb_s[i]
             j = 0
             while time_step < self.trail_len - self.K:  # here not sure whether < or <=
-                action = self.select_action(time_step, cur_state, mode=2, exploration=0).to(device)
+                with torch.no_grad():
+                    action = self.select_action(time_step, cur_state, mode=2, exploration=0).to(device)
                 state_action = torch.cat((cur_state, action))
+                # record action (only record target action and predicted action on first step)
+                if not j:
+                    a_target[i] = action
+                    a_pred[i] = self.actor_local(cur_state)
+
                 reward = self.reward_model(state_action)
                 cur_state = self.trans_model(state_action)
-                q_pred[i] += reward * self.gamma**j
+                with torch.no_grad():
+                    q_target[i] += reward * self.gamma**j
                 time_step += 1
                 j += 1
             action_H = self.select_action(time_step, cur_state, mode=2, exploration=0).to(device)
             state_action_H = torch.cat((cur_state, action_H))
-            q_pred[i] += self.critic_model(state_action_H) * self.gamma ** j
+
+            with torch.no_grad():
+                q_target[i] += self.critic_target(state_action_H) * self.gamma ** j
 
         # update mf-critic model
+        q_target, q_pred = q_target.view([-1, 1]), q_pred.view([-1, 1])
         mb_critic_loss = F.mse_loss(q_target, q_pred)
         self.optimizer_c.zero_grad()
         mb_critic_loss.backward()
+        self.optimizer_c.step()
+
+        # update mf-actor model
+        a_target, a_pred = a_target.view([-1, 1]), a_pred.view([-1, 1])
+        mb_actor_loss = F.mse_loss(a_pred, a_target)
+        self.optimizer_a.zero_grad()
+        mb_actor_loss.backward()
         self.optimizer_c.step()
 
 
@@ -167,8 +194,34 @@ class MBMF_agent(MVE_agent):
         mf_t = [t.t for t in mf_transitions]
         mf_s, mf_s_a, mf_s_, mf_r = mf_s.to(device), mf_s_a.to(device), mf_s_.to(device), mf_r.to(device)
 
-        actor_loss = self.actor_learn(mf_s)
-        critic_loss = self.critic_learn(mf_s_a, mf_r, mf_s_)
+        mf_actor_loss = self.actor_learn(mf_s)
+        mf_critic_loss = self.critic_learn(mf_s_a, mf_r, mf_s_)
+
+
+        # automatic transformation
+        # here the selection of t-k+1 and t-k looks problemic
+
+        # tk1_judge_step = self.trail_len - self.K + 1
+        # tk_judge_step = self.trail_len - self.K
+        # tk1_transition = self.memory.judge_sample(tk1_judge_step)
+        # tk_transition = self.memory.judge_sample(tk_judge_step)
+        #
+        # tk1_s = torch.tensor([t.s for t in tk1_transition], dtype=torch.float).view([-1, self.dim_state])
+        # tk1_q = self.critic_local(tk1_s, self.actor_local(tk1_s)) # not sure whether use local or target
+        #
+        # tk_s = torch.tensor([t.s for t in tk_transition], dtype=torch.float).view([-1, self.dim_state])
+        # tk_a = torch.tensor([t.a for t in tk_transition], dtype=torch.float).view([-1, self.dim_state])
+        # tk_q = self.critic_local(tk_s, tk_a)
+        #
+        # accuracy = torch.abs(tk_q - tk1_q) / tk_q  # not sure how to compute accuracy
+
+
+
+
+
+
+
+
 
 
 
