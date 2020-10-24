@@ -89,7 +89,7 @@ class MVE_agent():
         self.max_grad_norm = 0.01
         
 
-    def select_action(self,state):
+    def select_action(self,num_step, state, mode, exploration):
         """Picks an action using the actor network and then adds some noise to it to ensure exploration"""
         state = state.unsqueeze(0).to(self.device)
         self.actor_local.eval()

@@ -7,15 +7,17 @@ import numpy as np
 
 from collections import namedtuple
 from omegaconf import OmegaConf
-from MPC_agent import *
-from MVE_agent import *
-from Pendulum import PendulumEnv
+from .MPC_agent import *
+from .MVE_agent import *
+from .MBMF_agent import *
+from .Pendulum import PendulumEnv
 
 
 # basic setting
 # Transition = namedtuple('Transition', ['s_a', 's_', 'r'])
 # Ext_transition = namedtuple('Ext_transition', ['state', 'action', 'state_action', 'next state', 'reward', 'done'])
 Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_', 'r', 'done'])
+MBMF_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
 
 
 def main(conf):
@@ -26,6 +28,8 @@ def main(conf):
         agent = MPC_agent(conf)
     elif Agent_Type == "MVE":
         agent = MVE_agent(conf)
+    elif Agent_Type == "MBMF":
+        agent = MBMF_agent(conf)
     else:
         raise ValueError
 
@@ -73,9 +77,14 @@ def main(conf):
             # agent.store_transition(Transition(state_action, gt_state, gt_reward))
             # Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_', 'r', 'done'])
             agent.store_transition(Ext_transition(state_list[j], action, state_action, gt_state, gt_reward, done))
+
+            # # MBMF modify
+            # agent.store_transition(MBMF_transition(state_list[j], action, state_action, gt_state, gt_reward, j, done))
+            # # end
+
             episode_reward += gt_reward
             #render
-            if i>agent.num_random and i%200==0:
+            if i > agent.num_random and i % 200 == 0:
                 env.render()
 
         # train

@@ -5,7 +5,7 @@ import numpy as np
 
 import ilqr
 
-from models.model_based import trans_model, reward_model, value_model
+from .models.model_based import trans_model, reward_model, value_model
 
 
 class Memory():

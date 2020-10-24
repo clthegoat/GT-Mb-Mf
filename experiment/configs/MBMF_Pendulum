@@ -6,6 +6,7 @@ train:
   gamma: 0.99
   target_update_num: 50
   Agent_Type: MVE
+  K: 25
 
 data:
   name: Pendulum-v0
