@@ -7,18 +7,18 @@ import numpy as np
 
 from collections import namedtuple
 from omegaconf import OmegaConf
-from .MPC_agent import *
-from .MVE_agent import *
-from .MBMF_agent import *
-from .Pendulum import PendulumEnv
+from MPC_agent import *
+from MVE_agent import *
+from MBMF_agent import *
+from Pendulum import PendulumEnv
 
 
 # basic setting
 # Transition = namedtuple('Transition', ['s_a', 's_', 'r'])
 # Ext_transition = namedtuple('Ext_transition', ['state', 'action', 'state_action', 'next state', 'reward', 'done'])
-Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_', 'r', 'done'])
-MBMF_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-
+# Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_', 'r', 'done'])
+# MBMF_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
 
 def main(conf):
     print('****** begin! ******')
@@ -32,7 +32,7 @@ def main(conf):
         agent = MBMF_agent(conf)
     else:
         raise ValueError
-
+    print('****** step1 ******')
     # train setting
     num_trials = conf.train.num_trials
     trial_len = conf.train.trail_len
@@ -74,13 +74,8 @@ def main(conf):
             state_list.append(torch.tensor(gt_state, dtype=torch.float))
 
             # memory store
-            # agent.store_transition(Transition(state_action, gt_state, gt_reward))
-            # Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_', 'r', 'done'])
-            agent.store_transition(Ext_transition(state_list[j], action, state_action, gt_state, gt_reward, done))
-
-            # # MBMF modify
-            # agent.store_transition(MBMF_transition(state_list[j], action, state_action, gt_state, gt_reward, j, done))
-            # # end
+            # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+            agent.store_transition(Ext_transition(state_list[j], action, state_action, gt_state, gt_reward, j, done))
 
             episode_reward += gt_reward
             #render

@@ -1,12 +1,13 @@
+from numpy.core.defchararray import index
 import torch
 import numpy as np
 import torch.optim as optim
 import torch.nn.functional as F
 
-from .models.model_based import trans_model, reward_model, value_model, actor_model, critic_model
-from .MPC_agent import MPC_agent
-from .MVE_agent import MVE_agent
-
+from models.model_based import trans_model, reward_model, value_model, actor_model, critic_model
+from MPC_agent import MPC_agent
+from MVE_agent import MVE_agent
+from collections import namedtuple
 
 
 
@@ -31,11 +32,52 @@ class Memory():
     def all_sample(self, batch_size):
         return np.random.choice(self.memory[0:self.count], batch_size)
 
+    # def MB_sample(self, batch_size, trail_len, K):
+    #     memory = self.memory.tolist()
+    #     print(trail_len)
+    #     print(K)
+    #     # print(memory)
+    #     MB_memory = [tran for tran in memory if (tran is not None) and (tran.t < (trail_len - K))] # not sure whether < or <=
+    #     # MB_memory = np.array(MB_memory,dtype=tuple)
+    #     # print(MB_memory)
+    #     number_of_rows = len(MB_memory)
+    #     print(number_of_rows)
+    #     random_indices = np.random.choice(number_of_rows, size=batch_size)
+    #     random_MB_sample = []
+    #     for i in random_indices:
+    #         random_MB_sample.append(MB_memory[i])
+    #     print(random_MB_sample)
+    #     # return np.random.choice(MB_memory[0:self.count], batch_size)
+    #     return random_MB_sample
+
     def MB_sample(self, batch_size, trail_len, K):
         memory = self.memory.tolist()
-        MB_memory = [tran for tran in memory if tran.t < trail_len - K] # not sure whether < or <=
-        MB_memory = np.array(MB_memory)
-        return np.random.choice(MB_memory[0:self.count], batch_size)
+        print(type(memory))
+        print(trail_len)
+        print(K)
+        # print(memory)
+        mb_transition = namedtuple('mb_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+        # MB_memory = np.array([tran for tran in memory if (tran is not None) and (tran.t < (trail_len - K))], dtype=object) # not sure whether < or <=
+        i = 0
+        MB_memory = np.empty(1000, dtype=object)
+        # MB_memory = []
+        for tran in memory:
+            if (tran is not None) and (tran.t < (trail_len - K)):
+                MB_memory[i] = mb_transition(tran.s, tran.a, tran.s_a, tran.s_, tran.r, tran.t, tran.done)
+                # MB_memory = np.append(MB_memory, mb_transition(tran.s, tran.a, tran.s_a, tran.s_, tran.r, tran.t, tran.done))
+                i = i + 1
+        i = 0
+        index = []
+        for tran in MB_memory:
+            if tran == None:
+                index.append(i)
+            i = i + 1
+
+        new_MB_memory = np.delete(MB_memory, index)
+        # print(new_MB_memory)
+        # print("yes")
+        return np.random.choice(new_MB_memory[0:self.count], batch_size)
+        # return random_MB_sample
 
     def MF_sample(self, batch_size, trail_len, K):
         memory = self.memory.tolist()
@@ -53,7 +95,7 @@ class Memory():
 class MBMF_agent(MVE_agent):
 
     def __init__(self, conf):
-        super().__init__()
+        super().__init__(conf)
         self.conf = conf
 
         self.gamma = self.conf.train.gamma
@@ -68,6 +110,8 @@ class MBMF_agent(MVE_agent):
         self.K = self.conf.train.K
         self.c1 = self.conf.train.c1
         self.c2 = self.conf.train.c2
+        # self.trail_len = self.conf.trail_len # steps in each trail
+        # self.batch_size = self.conf.data.mem_batchsize
 
     def select_action(self, num_step, state, mode, exploration):
         '''
@@ -127,14 +171,24 @@ class MBMF_agent(MVE_agent):
 
 
         # update model-based models
-        mb_transitions = self.memory.MB_sample(self.batch_size, self.trail_len, self.K)
-        mb_s = torch.tensor([t.s for t in mb_transitions], dtype=torch.float).view(-1, self.dim_state)
-        mb_s_a = torch.tensor([t.s_a for t in mb_transitions], dtype=torch.float).view(-1, self.dim_state_action)
-        mb_s_ = torch.tensor([t.s_ for t in mb_transitions], dtype=torch.float).view(-1, self.dim_state)
-        # actually train cost
-        mb_r = -torch.tensor([t.r for t in mb_transitions], dtype=torch.float).view(-1, 1)
+        mb_transitions = self.memory.MB_sample(batch_size = self.batch_size, trail_len = self.trail_len, K = self.K)
+
+        mb_s = torch.from_numpy(np.vstack((t.s for t in mb_transitions if t is not None))).float().to(self.device)
+        mb_a = torch.tensor([t.a for t in mb_transitions], dtype=torch.float).view(-1, self.dim_action).to(self.device)
+        mb_s_a = torch.tensor([t.s_a for t in mb_transitions], dtype=torch.float).view(-1, self.dim_state_action).to(self.device)
+        mb_s_ = torch.tensor([t.s_ for t in mb_transitions], dtype=torch.float).view(-1, self.dim_state).to(self.device)
+        mb_r = torch.tensor([t.r for t in mb_transitions], dtype=torch.float).view(-1, 1).to(self.device)
         mb_t = [t.t for t in mb_transitions]
         mb_s, mb_s_a, mb_s_, mb_r = mb_s.to(device), mb_s_a.to(device), mb_s_.to(device), mb_r.to(device)
+
+
+        # mb_s = torch.tensor([t.s for t in mb_transitions], dtype=torch.float).view(-1, self.dim_state)
+        # mb_s_a = torch.tensor([t.s_a for t in mb_transitions], dtype=torch.float).view(-1, self.dim_state_action)
+        # mb_s_ = torch.tensor([t.s_ for t in mb_transitions], dtype=torch.float).view(-1, self.dim_state)
+        # # actually train cost
+        # mb_r = -torch.tensor([t.r for t in mb_transitions], dtype=torch.float).view(-1, 1)
+        # mb_t = [t.t for t in mb_transitions]
+        # mb_s, mb_s_a, mb_s_, mb_r = mb_s.to(device), mb_s_a.to(device), mb_s_.to(device), mb_r.to(device)
 
         # q prediction and target
         q_pred = self.critic_local(mb_s_a)

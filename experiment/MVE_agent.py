@@ -56,7 +56,7 @@ class MVE_agent():
         self.tau = self.conf.MVE.target_model_update_rate
         self.gamma = self.conf.train.gamma # reward discount
         self.T = self.conf.MVE.horizon     # forward predict steps
-        self.trail_len = self.conf.trail_len # steps in each trail
+        self.trail_len = self.conf.train.trail_len # steps in each trail
         self.batch_size = self.conf.data.mem_batchsize
         self.iter_num = self.conf.MVE.iteration_num # iteration num after selecting an action
         self.dim_state = self.conf.data.state.dim
@@ -111,6 +111,7 @@ class MVE_agent():
             batch_size = self.batch_size
         
         transitions = self.memory.sample(batch_size)
+        print(type(transitions))
         s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
         # s = torch.tensor([t.s for t in transitions], dtype=torch.float).view(-1, self.dim_state).to(self.device)
         a = torch.tensor([t.a for t in transitions], dtype=torch.float).view(-1, self.dim_action).to(self.device)
