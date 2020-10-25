@@ -199,21 +199,26 @@ class MBMF_agent(MVE_agent):
 
 
         # automatic transformation
-        # here the selection of t-k+1 and t-k looks problemic
 
-        # tk1_judge_step = self.trail_len - self.K + 1
-        # tk_judge_step = self.trail_len - self.K
-        # tk1_transition = self.memory.judge_sample(tk1_judge_step)
-        # tk_transition = self.memory.judge_sample(tk_judge_step)
-        #
-        # tk1_s = torch.tensor([t.s for t in tk1_transition], dtype=torch.float).view([-1, self.dim_state])
-        # tk1_q = self.critic_local(tk1_s, self.actor_local(tk1_s)) # not sure whether use local or target
-        #
-        # tk_s = torch.tensor([t.s for t in tk_transition], dtype=torch.float).view([-1, self.dim_state])
-        # tk_a = torch.tensor([t.a for t in tk_transition], dtype=torch.float).view([-1, self.dim_state])
-        # tk_q = self.critic_local(tk_s, tk_a)
-        #
-        # accuracy = torch.abs(tk_q - tk1_q) / tk_q  # not sure how to compute accuracy
+        tk_judge_step = self.trail_len - self.K
+
+        tk_transition = self.memory.judge_sample(tk_judge_step)
+
+        tk_s = torch.tensor([t.s for t in tk_transition], dtype=torch.float).view([-1, self.dim_state])
+        tk_a = torch.tensor([t.a for t in tk_transition], dtype=torch.float).view([-1, self.dim_action])
+        tk_s_ = torch.tensor([t.s_ for t in tk_transition], dtype=torch.float).view([-1, self.dim_state])
+        tk_r = torch.tensor([t.r for t in tk_transition], dtype=torch.float).view([-1, 1])
+        tk_q = self.critic_local(tk_s, tk_a)  # not sure here use local or target
+        tk1_q = self.critic_local(tk_s_, self.actor_local(tk_s_))
+
+        diff = torch.abs(tk_q - tk_r - self.gamma * tk1_q).view([-1])
+        accuracy = diff / tk_r
+        accuracy_num = torch.sum(torch.lt(accuracy, self.c1))
+        if accuracy_num > int(self.c2 * len(diff)):
+            self.K += 1
+            # here if I let K = K + 1, then those previously sampled tk_transition will be
+            # automatically moved to Df, right?
+
 
 
 
