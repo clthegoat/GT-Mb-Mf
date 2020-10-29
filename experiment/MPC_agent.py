@@ -116,7 +116,7 @@ class MPC_agent():
             #therefore also linearize around previous saved real interaction trajecories(not planned trajectories)
             #may cause problem when model is not accurate?
             self.traj_U = self.saved_U[num_step][0:num_plan_step]
-            X_0 = state.reshape((-1,1))
+            X_0 = state.detach().numpy().reshape((-1,1))
             self.traj_X,_ = ilqr.forward_sim(X_0,self.traj_U,self.trans_model,self.reward_model,self.value_model)
 
             
@@ -144,7 +144,7 @@ class MPC_agent():
                 #therefore also linearize around previous saved real interaction trajecories(not planned trajectories)
                 #may cause problem when model is not accurate?
                 self.traj_U = self.saved_U[num_step][0:num_plan_step]
-                X_0 = state.reshape((-1,1))
+                X_0 = state.detach().numpy().reshape((-1,1))
                 self.traj_X,_ = ilqr.forward_sim(X_0,self.traj_U,self.trans_model,self.reward_model,self.value_model)
 
                 ilqr_ctrl = ilqr.ilqr_controller(self.traj_X,self.traj_U,
@@ -173,7 +173,7 @@ class MPC_agent():
         elif mode == 2:
             #random shooting:
             
-            X_0 = state.reshape((-1,1))
+            X_0 = state.detach().numpy().reshape((-1,1))
             min_c = 1000000
             for i in range(self.shooting_num):
                 U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
@@ -208,7 +208,7 @@ class MPC_agent():
             #TODO: add warm up based on last time step
             #random shooting:
             if num_step==0:
-                X_0 = state.reshape((-1,1))
+                X_0 = state.detach().numpy().reshape((-1,1))
                 min_c = 1000000
                 for i in range(self.shooting_num):
                     U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
@@ -221,7 +221,7 @@ class MPC_agent():
             else:
                 #extract the last actions from previous optimization for initialization
                 min_U = self.traj_U[1:min(num_plan_step+1,self.T),:,:]
-                X_0 = state.reshape((-1,1))
+                X_0 = state.detach().numpy().reshape((-1,1))
                 min_X, c = ilqr.forward_sim(X_0,min_U,self.trans_model,self.reward_model,self.value_model)
                 min_v = 100000
                 if num_plan_step == self.T:

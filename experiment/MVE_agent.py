@@ -89,14 +89,15 @@ class MVE_agent():
         self.max_grad_norm = 0.01
         
 
-    def select_action(self,num_step, state, mode, exploration):
+    def select_action(self, num_step, state, mode=0, exploration=True):
         """Picks an action using the actor network and then adds some noise to it to ensure exploration"""
         state = state.unsqueeze(0).to(self.device)
         self.actor_local.eval()
         with torch.no_grad():
             action = self.actor_local(state).cpu().data.numpy()
         self.actor_local.train()
-        action = self.exploration_strategy.perturb_action_for_exploration_purposes(action)
+        if exploration:
+            action = self.exploration_strategy.perturb_action_for_exploration_purposes(action)
         action = np.clip(action, self.low_U, self.up_U)
         return action.squeeze(0)
 
@@ -111,7 +112,6 @@ class MVE_agent():
             batch_size = self.batch_size
         
         transitions = self.memory.sample(batch_size)
-        print(type(transitions))
         s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
         # s = torch.tensor([t.s for t in transitions], dtype=torch.float).view(-1, self.dim_state).to(self.device)
         a = torch.tensor([t.a for t in transitions], dtype=torch.float).view(-1, self.dim_action).to(self.device)

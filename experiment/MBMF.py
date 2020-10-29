@@ -53,7 +53,7 @@ def main(conf):
             #print(agent.value_model(torch.from_numpy(init_state).float()))
         state_list.append(torch.tensor(init_state, dtype=torch.float))
         
-
+        print(state_list[0].type)
         episode_reward = 0
         for j in range(trial_len):
             # print('step {} in episode {}'.format(j,i))
@@ -61,11 +61,7 @@ def main(conf):
             if i<=agent.num_random:
                 action = env.action_space.sample()
             else:
-                if Agent_Type == "MPC":
-                    action = agent.select_action(j, state_list[j], mode=2, exploration=0)
-                elif Agent_Type == "MVE":
-                    action = agent.select_action(state_list[j])
-                
+                action = agent.select_action(j, state_list[j], mode=2, exploration=0)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
