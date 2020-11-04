@@ -18,6 +18,7 @@ data:
     dim: 1
   mem_capacity: 10000
   mem_batchsize: 128
+  mb_mem_batchsize: 64
 
 planning:
   horizon: 10

@@ -52,8 +52,7 @@ def main(conf):
         #     print(init_state)
             #print(agent.value_model(torch.from_numpy(init_state).float()))
         state_list.append(torch.tensor(init_state, dtype=torch.float))
-        
-        print(state_list[0].type)
+
         episode_reward = 0
         for j in range(trial_len):
             # print('step {} in episode {}'.format(j,i))

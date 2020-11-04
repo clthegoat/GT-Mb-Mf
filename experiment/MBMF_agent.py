@@ -32,73 +32,52 @@ class Memory():
     def all_sample(self, batch_size):
         return np.random.choice(self.memory[0:self.count], batch_size)
 
-    # def MB_sample(self, batch_size, trail_len, K):
-    #     memory = self.memory.tolist()
-    #     print(trail_len)
-    #     print(K)
-    #     # print(memory)
-    #     MB_memory = [tran for tran in memory if (tran is not None) and (tran.t < (trail_len - K))] # not sure whether < or <=
-    #     # MB_memory = np.array(MB_memory,dtype=tuple)
-    #     # print(MB_memory)
-    #     number_of_rows = len(MB_memory)
-    #     print(number_of_rows)
-    #     random_indices = np.random.choice(number_of_rows, size=batch_size)
-    #     random_MB_sample = []
-    #     for i in random_indices:
-    #         random_MB_sample.append(MB_memory[i])
-    #     print(random_MB_sample)
-    #     # return np.random.choice(MB_memory[0:self.count], batch_size)
-    #     return random_MB_sample
-
     def MB_sample(self, batch_size, trail_len, K):
         memory = self.memory.tolist()
-        print(type(memory))
-        print(trail_len)
-        print(K)
-        # print(memory)
         mb_transition = namedtuple('mb_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-        # MB_memory = np.array([tran for tran in memory if (tran is not None) and (tran.t < (trail_len - K))], dtype=object) # not sure whether < or <=
         i = 0
         MB_memory = np.empty(1000, dtype=object)
-        # MB_memory = []
         for tran in memory:
             if (tran is not None) and (tran.t < (trail_len - K)):
                 MB_memory[i] = mb_transition(tran.s, tran.a, tran.s_a, tran.s_, tran.r, tran.t, tran.done)
-                # MB_memory = np.append(MB_memory, mb_transition(tran.s, tran.a, tran.s_a, tran.s_, tran.r, tran.t, tran.done))
                 i = i + 1
         new_MB_memory = MB_memory[np.s_[:i:1]]
-        # i = 0
-        # index = []
-        # for tran in MB_memory:
-        #     if tran == None:
-        #         index.append(i)
-        #     i = i + 1
-        # new_MB_memory2 = np.delete(MB_memory, index)
-        # print(new_MB_memory==new_MB_memory2)
-        # print("yes")
         return np.random.choice(new_MB_memory[0:self.count], batch_size)
-        # return random_MB_sample
 
     def MF_sample(self, batch_size, trail_len, K):
         memory = self.memory.tolist()
-        MF_memory = [tran for tran in memory if tran.t >= trail_len - K]  # not sure whether >= or >
-        MF_memory = np.array(MF_memory)
-        return np.random.choice(MF_memory[0:self.count], batch_size)
+        mb_transition = namedtuple('mb_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+        i = 0
+        MB_memory = np.empty(1000, dtype=object)
+        for tran in memory:
+            if (tran is not None) and (tran.t >= (trail_len - K)):
+                MB_memory[i] = mb_transition(tran.s, tran.a, tran.s_a, tran.s_, tran.r, tran.t, tran.done)
+                i = i + 1
+        new_MB_memory = MB_memory[np.s_[:i:1]]
+        return np.random.choice(new_MB_memory[0:self.count], batch_size)
 
     def judge_sample(self, trail_len, K):
+        # memory = self.memory.tolist()
+        # trans_memory = [tran for tran in memory if tran.t == trail_len - K]
+        # trans_memory = np.array(trans_memory)
+        # return trans_memory
         memory = self.memory.tolist()
-        trans_memory = [tran for tran in memory if tran.t == trail_len - K]
-        trans_memory = np.array(trans_memory)
-        return trans_memory
+        mb_transition = namedtuple('mb_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+        i = 0
+        MB_memory = np.empty(1000, dtype=object)
+        for tran in memory:
+            if (tran is not None) and (tran.t == (trail_len - K)):
+                MB_memory[i] = mb_transition(tran.s, tran.a, tran.s_a, tran.s_, tran.r, tran.t, tran.done)
+                i = i + 1
+        new_MB_memory = MB_memory[np.s_[:i:1]]
+        return new_MB_memory
+        # return np.random.choice(new_MB_memory[0:self.count], batch_size)
 
 
 class MBMF_agent(MVE_agent):
 
     def __init__(self, conf):
         super().__init__(conf)
-        # self.conf = conf
-
-        # self.gamma = self.conf.train.gamma
 
         self.memory = Memory(self.conf.data.mem_capacity)
 
@@ -110,10 +89,11 @@ class MBMF_agent(MVE_agent):
         self.K = self.conf.train.K
         self.c1 = self.conf.train.c1
         self.c2 = self.conf.train.c2
+        self.mb_batchsize = self.conf.data.mb_mem_batchsize
         # self.trail_len = self.conf.trail_len # steps in each trail
         # self.batch_size = self.conf.data.mem_batchsize
 
-    def select_action(self, num_step, state, mode, exploration):
+    def mbmf_select_action(self, num_step, state, mode, exploration, relative_step):
         '''
         according to yunkao, there are two choices for selecting action
         1) select actions w.r.t step
@@ -122,12 +102,14 @@ class MBMF_agent(MVE_agent):
         '''
 
         # first choice
-        if num_step <= self.trail_len - self.K:
-            return self.mb_agent.select_action(num_step, state, mode, exploration)
+        if relative_step == 0:
+            if num_step <= self.trail_len - self.K:
+                return self.mb_agent.select_action(num_step, state, mode, exploration)
+            else:
+                return self.mf_agent.select_action(state, exploration)
         else:
-            return self.mf_agent.select_action(state)
-        # # second choice
-        # return self.mf_agent.select_action(state)
+        # second choice
+            return self.mf_agent.select_action(state, exploration)
 
     def store_transition(self, transition):
         return self.memory.update(transition)
@@ -136,11 +118,11 @@ class MBMF_agent(MVE_agent):
         if sampleType == "all":
             transitions = self.memory.all_sample(batch_size=self.batch_size)
         elif sampleType == "MB":
-            transitions = self.memory.MB_sample(batch_size=self.batch_size, trail_len=self.trail_len, K=self.K)
+            transitions = self.memory.MB_sample(batch_size=self.mb_batchsize, trail_len=self.trail_len, K=self.K)
         elif sampleType == "MF":
             transitions = self.memory.MF_sample(batch_size=self.batch_size, trail_len=self.trail_len, K=self.K)
         elif sampleType == "judge":
-            transitions = self.memory.judge_sample(batch_size=self.batch_size, trail_len=self.trail_len, K=self.K)
+            transitions = self.memory.judge_sample(trail_len=self.trail_len, K=self.K)
         else:
             raise ValueError
         s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
@@ -168,36 +150,43 @@ class MBMF_agent(MVE_agent):
 
         """ update critic and actor model, data sampled from MB memory"""
         mb_s, _, mb_s_a, _, _, mb_t = self.sample_transitions("MB")
+        mb_s, mb_s_a, mb_t = mb_s.to(self.device), mb_s_a.to(self.device), mb_t.to(self.device)
         mb_critic_loss, mb_actor_loss = self.MB_learn(mb_s, mb_s_a, mb_t)
         print("MB actor loss: {}".format(mb_actor_loss))
         print("MB critic loss: {}".format(mb_critic_loss))
 
         """ update critic and actor model, data sampled from MF memory"""
         mf_s, _, mf_s_a, mf_s_, mf_r, _ = self.sample_transitions("MF")
-        mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s,mf_s_a,mf_s_,mf_r)
+        mf_s, mf_s_a, mf_s_, mf_r = mf_s.to(self.device), mf_s_a.to(self.device), mf_s_.to(self.device), mf_r.to(self.device)
+        mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_, mf_r)
         print("MF actor loss: {}".format(mf_actor_loss))
         print("MF critic loss: {}".format(mf_critic_loss))
 
         """ automatic transformation"""
         tk_s, _, tk_s_a, tk_s_, tk_r, _ = self.sample_transitions("judge")
-        self.Auto_Transform(tk_s,tk_s_a,tk_s_,tk_r)
+        tk_s, tk_s_a, tk_s_, tk_r = tk_s.to(self.device), tk_s_a.to(self.device), tk_s_.to(self.device), tk_r.to(self.device)
+        self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r)
         
     
     def MB_learn(self,states,states_actions,time_steps):
         # q prediction and target
         q_pred = self.critic_local(states_actions)
-        q_target = torch.zeros(self.batch_size)
+        q_target = torch.zeros(self.mb_batchsize).to(self.device)
 
         # policy prediction and target
-        a_target = torch.zeros(self.batch_size)
-        a_pred = torch.zeros(self.batch_size)
+        a_target = torch.zeros(self.mb_batchsize)
+        a_pred = torch.zeros(self.mb_batchsize)
 
-        for i in range(self.batch_size):
+        for i in range(self.mb_batchsize):
             time_step = time_steps[i]
             cur_state = states[i]
             j = 0
             while time_step < self.trail_len - self.K:  # here not sure whether < or <=
-                action = torch.tensor(self.select_action(time_step, cur_state, mode=2, exploration=0), dtype=torch.float)
+                action = torch.tensor(self.mbmf_select_action(time_step,\
+                                                              cur_state,\
+                                                              relative_step=j,\
+                                                              mode=2,\
+                                                              exploration=0), dtype=torch.float).to(self.device)
                 state_action = torch.cat((cur_state, action))
                 # record action (only record target action and predicted action on first step)
                 if j==0:
@@ -209,9 +198,13 @@ class MBMF_agent(MVE_agent):
                 q_target[i:i+1] += reward * self.gamma**j
                 time_step += 1
                 j += 1
-            action_H = torch.tensor(self.select_action(time_step, cur_state, mode=2, exploration=0), dtype=torch.float)
-            state_action_H = torch.cat((cur_state, action_H))
 
+            action_H = torch.tensor(self.mbmf_select_action(time_step, \
+                                                            cur_state, \
+                                                            relative_step=j, \
+                                                            mode=2, \
+                                                            exploration=0), dtype=torch.float).to(self.device)
+            state_action_H = torch.cat((cur_state, action_H))
             with torch.no_grad():
                 q_target[i:i+1] += self.critic_target(state_action_H) * self.gamma ** j
 
@@ -258,6 +251,5 @@ class MBMF_agent(MVE_agent):
         accuracy_num = torch.sum(torch.lt(accuracy, self.c1))
         if accuracy_num > int(self.c2 * len(diff)):
             self.K += 1
-            print(K)
             # here if I let K = K + 1, then those previously sampled tk_transition will be
             # automatically moved to Df, right?

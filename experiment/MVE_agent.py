@@ -49,8 +49,8 @@ class MVE_agent():
 
     def __init__(self, conf):
         self.conf = conf
-        #self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.device = 'cpu'
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        # self.device = 'cpu'
         """ model parameters"""
         self.num_random = self.conf.train.num_random # number of first random trails
         self.tau = self.conf.MVE.target_model_update_rate
@@ -89,7 +89,7 @@ class MVE_agent():
         self.max_grad_norm = 0.01
         
 
-    def select_action(self, num_step, state, mode=0, exploration=True):
+    def select_action(self,state, exploration=True):
         """Picks an action using the actor network and then adds some noise to it to ensure exploration"""
         state = state.unsqueeze(0).to(self.device)
         self.actor_local.eval()

@@ -173,7 +173,7 @@ class MPC_agent():
         elif mode == 2:
             #random shooting:
             
-            X_0 = state.detach().numpy().reshape((-1,1))
+            X_0 = state.cpu().detach().numpy().reshape((-1,1))
             min_c = 1000000
             for i in range(self.shooting_num):
                 U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
