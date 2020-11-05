@@ -60,7 +60,7 @@ def main(conf):
             if i<=agent.num_random:
                 action = env.action_space.sample()
             else:
-                action = agent.select_action(j, state_list[j], mode=2, exploration=0)
+                action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -79,7 +79,10 @@ def main(conf):
 
         # train
         if agent.memory.count>agent.batch_size:
-            agent.update()
+            if i<=agent.num_random:
+                agent.update(0)
+            else:
+                agent.update(1)
 
         #see the trend of reward
         print('episode {}, total reward {}'.format(i,episode_reward)) 

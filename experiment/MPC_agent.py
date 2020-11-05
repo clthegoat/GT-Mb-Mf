@@ -126,7 +126,7 @@ class MPC_agent():
                                             self.trans_model,self.reward_model,self.value_model,
                                             self.ilqr_lr, self.ilqr_iter_num, 0, 0)
 
-            self.K,self.k,traj_X,traj_U = ilqr_ctrl.solve_ilqr()
+            self.K,self.k,traj_X,traj_U,_,_ = ilqr_ctrl.solve_ilqr()
             self.traj_X = traj_X
             self.traj_U = traj_U
 
@@ -153,7 +153,7 @@ class MPC_agent():
                                                 self.trans_model,self.reward_model,self.value_model,
                                                 self.ilqr_lr, self.ilqr_iter_num, 0, 0)
 
-                self.K,self.k,traj_X,traj_U = ilqr_ctrl.solve_ilqr()
+                self.K,self.k,traj_X,traj_U,_,_ = ilqr_ctrl.solve_ilqr()
                 
                 self.traj_X = traj_X
                 self.traj_U = traj_U
@@ -193,7 +193,7 @@ class MPC_agent():
                                                 self.trans_model,self.reward_model,self.value_model,
                                                 self.ilqr_lr, self.ilqr_iter_num, 0, 0)
 
-            self.K,self.k,traj_X,traj_U = ilqr_ctrl.solve_ilqr()
+            self.K,self.k,traj_X,traj_U,_,_ = ilqr_ctrl.solve_ilqr()
                 
             self.traj_X = traj_X
             self.traj_U = traj_U
@@ -250,7 +250,7 @@ class MPC_agent():
                                                 self.trans_model,self.reward_model,self.value_model,
                                                 self.ilqr_lr, self.ilqr_iter_num, 0, 0)
 
-            self.K,self.k,traj_X,traj_U = ilqr_ctrl.solve_ilqr()
+            self.K,self.k,traj_X,traj_U,_,_ = ilqr_ctrl.solve_ilqr()
                 
             self.traj_X = traj_X
             self.traj_U = traj_U

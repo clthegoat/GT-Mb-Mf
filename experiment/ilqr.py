@@ -311,8 +311,10 @@ class ilqr_controller():
 
         # linearize val
         X_T = torch.from_numpy(self.X[self.T,:,0]).float()
+        #print(X_T.size())
         self.V_T = af.hessian(self.val_f, X_T).detach().numpy()
-        self.v_T = grad(self.val_f,self.X[self.T,:,:].reshape((1,-1)))
+        self.v_T = compute_jacobian(self.val_f, X_T.view(1,-1), (1,))
+        #self.v_T = grad(self.val_f,self.X[self.T,:,:].reshape((1,-1)))
         #debug
         self.v_T = self.v_T.reshape((-1, 1))
         # print(self.V_T.shape)
@@ -322,10 +324,18 @@ class ilqr_controller():
 
     # apply ilqr
     def solve_ilqr(self):
+        '''
+        solve the defined ilqr problem
+        return: 
+        local linear policy K, k
+        last updated trajectory X, U
+        last reward sequence
+        last value function of last state
+        '''
 
         for i in range(self.iter_num):
             
-
+            R = np.zeros((self.T))
             #linearize
             self.linearize()
             
@@ -347,8 +357,9 @@ class ilqr_controller():
                 new_X[t+1,:,:] = self.dyn_f(xu).detach().numpy().reshape((self.n,1))
                 new_X[t+1,:,:] = np.clip(new_X[t+1,:,:], self.low_X, self.up_X)
                 
-                #compute sum of cost
-                total_cost+=self.cost_f(xu).detach().numpy()
+                #compute cost
+                R[t]=self.cost_f(xu).detach().numpy()
+                total_cost+=R[t]
 
             if self.print_loss:
                 print(total_cost)
@@ -357,6 +368,10 @@ class ilqr_controller():
             self.U = np.clip(new_U, self.low_U, self.up_U)
             self.XU = np.concatenate([self.X[0:self.T,:,:],self.U[:,:,:]],axis=1) 
 
+            #get value of last step (for computation of Q_target)
+            last_X = torch.from_numpy(self.X[self.T,:,:]).float()
+            
+            last_value = self.val_f(last_X[:,0]).detach().numpy()
 
             #plot trajectory
             if self.visualize:
@@ -369,7 +384,7 @@ class ilqr_controller():
 
         
 
-        return self.K, self.k, self.X, self.U
+        return self.K, self.k, self.X, self.U, R, last_value
              
 
     

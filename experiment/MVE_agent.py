@@ -49,8 +49,8 @@ class MVE_agent():
 
     def __init__(self, conf):
         self.conf = conf
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        # self.device = 'cpu'
+        #self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.device = 'cpu'
         """ model parameters"""
         self.num_random = self.conf.train.num_random # number of first random trails
         self.tau = self.conf.MVE.target_model_update_rate
@@ -141,7 +141,7 @@ class MVE_agent():
     def trans_learn(self, states_actions, next_states):
         """Runs a learning iteration for the transition model"""
         # states_pred = self.trans_model(torch.cat((states, actions), 1))
-        states_pred = self.trans_model(states_actions)
+        states_pred = self.trans_model(states_actions).to(self.device)
         trans_loss = F.mse_loss(states_pred, next_states)
         self.optimizer_t.zero_grad()
         trans_loss.backward()
@@ -151,7 +151,7 @@ class MVE_agent():
 
     def reward_learn(self, states_actions, rewards):
         """ update reward model"""
-        reward_pred = self.reward_model(states_actions)
+        reward_pred = self.reward_model(states_actions).to(self.device)
         reward_loss = F.mse_loss(reward_pred, rewards)
         self.optimizer_r.zero_grad()
         reward_loss.backward()
@@ -163,8 +163,8 @@ class MVE_agent():
         """Runs a learning iteration for the actor"""
         # if self.done: #we only update the learning rate at end of each episode
         #     self.update_learning_rate(self.hyperparameters["Actor"]["learning_rate"], self.actor_optimizer)
-        actions_pred = self.actor_local(states)
-        actor_loss = -self.critic_local(torch.cat((states, actions_pred), 1)).mean()
+        actions_pred = self.actor_local(states).to(self.device)
+        actor_loss = -self.critic_local(torch.cat((states, actions_pred), 1)).to(self.device).mean()
         self.optimizer_a.zero_grad()
         actor_loss.backward()
         nn.utils.clip_grad_norm_(self.actor_local.parameters(), self.max_grad_norm)
