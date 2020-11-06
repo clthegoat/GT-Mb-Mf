@@ -10,7 +10,9 @@ from MVE_agent import MVE_agent
 from collections import namedtuple
 
 import ilqr
+import joblib
 from joblib import Parallel, delayed
+import time
 
 class Memory():
 
@@ -37,7 +39,7 @@ class Memory():
         memory = self.memory.tolist()
         mb_transition = namedtuple('mb_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
         i = 0
-        MB_memory = np.empty(10000, dtype=object)
+        MB_memory = np.empty(20000, dtype=object)
         for tran in memory:
             if (tran is not None) and (tran.t < (trail_len - K)):
                 MB_memory[i] = mb_transition(tran.s, tran.a, tran.s_a, tran.s_, tran.r, tran.t, tran.done)
@@ -51,7 +53,7 @@ class Memory():
         memory = self.memory.tolist()
         mf_transition = namedtuple('mf_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
         i = 0
-        MF_memory = np.empty(10000, dtype=object)
+        MF_memory = np.empty(20000, dtype=object)
         for tran in memory:
             if (tran is not None) and (tran.t >= (trail_len - K)):
                 MF_memory[i] = mf_transition(tran.s, tran.a, tran.s_a, tran.s_, tran.r, tran.t, tran.done)
@@ -342,8 +344,14 @@ class MBMF_agent(MVE_agent):
         a_pred = torch.zeros(self.mb_batchsize).to(self.device)
 
         #compute batch targets
-        #a_target_list, q_target_list = Parallel(n_jobs=2)(delayed(self.MB_target_compute)(states[i],states_actions[i],time_steps[i]) for i in range(self.mb_batchsize))
-        a_q_target_list = [self.MB_target_compute(states[i],states_actions[i],time_steps[i]) for i in range(self.mb_batchsize)]
+        #print(joblib.cpu_count())
+        #time_start = time.clock()
+        a_q_target_list = Parallel(n_jobs=4,prefer="threads")(delayed(self.MB_target_compute)(states[i],states_actions[i],time_steps[i]) for i in range(self.mb_batchsize))
+        #time_1 = time.clock()
+        #a_q_target_list = [self.MB_target_compute(states[i],states_actions[i],time_steps[i]) for i in range(self.mb_batchsize)]
+        #time_2 = time.clock()
+        # print(time_1-time_start)
+        # print(time_2-time_1)
         a_target_list = [a_q_target_list[i][0] for i in range(self.mb_batchsize)]
         q_target_list = [a_q_target_list[i][1] for i in range(self.mb_batchsize)]
         a_target = torch.from_numpy(np.asarray(a_target_list)).float().to(self.device)
@@ -353,6 +361,8 @@ class MBMF_agent(MVE_agent):
 
         # update mb-critic model
         q_target, q_pred = q_target.view([-1, 1]), q_pred.view([-1, 1])
+        print(q_pred[0])
+        print(q_target[0])
         mb_critic_loss = F.mse_loss(q_target, q_pred)
         self.optimizer_c.zero_grad()
         mb_critic_loss.backward()

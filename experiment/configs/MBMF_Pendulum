@@ -16,7 +16,7 @@ data:
     dim: 3
   action:
     dim: 1
-  mem_capacity: 10000
+  mem_capacity: 20000
   mem_batchsize: 128
   mb_mem_batchsize: 16
 
@@ -27,6 +27,6 @@ planning:
   shooting_num: 30
 
 MVE:
-  horizon: 5
+  horizon: 10
   iteration_num: 1
   target_model_update_rate: 0.01
