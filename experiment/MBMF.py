@@ -1,6 +1,7 @@
 import argparse
 # from experiment.Agent import Agent
 import logging
+from numpy.lib.function_base import average
 import torch
 import gym
 import numpy as np
@@ -12,6 +13,9 @@ from MVE_agent import *
 from MBMF_agent import *
 from Pendulum import PendulumEnv
 
+import wandb
+wandb.init(project="my-project")
+wandb.config["more"] = "custom"
 
 # basic setting
 # Transition = namedtuple('Transition', ['s_a', 's_', 'r'])
@@ -85,8 +89,38 @@ def main(conf):
                 agent.update(1)
 
         #see the trend of reward
-        print('episode {}, total reward {}'.format(i,episode_reward)) 
+        print('episode {}, total reward {}'.format(i,episode_reward))
 
+        #test every 10 episodes
+        if i % 10 == 0 and i > 0:
+            test_reward_sum = 0
+            print('start test!')
+            # test
+            for num in range(10):
+                # print('test time {}'.format(num))
+                test_state_list = []
+                # init_state = env.reset()
+                # reset the state to be a single start point:
+                test_init_state = env.reset()
+                test_state_list.append(torch.tensor(test_init_state, dtype=torch.float))
+                for step_num in range(trial_len):
+                    # print('step {} in episode {}'.format(step_num,i))
+                    test_action = agent.mbmf_select_action(step_num, test_state_list[step_num], exploration=1, relative_step=1)[:,0]
+                    test_state_action = np.concatenate((test_state_list[step_num], test_action))
+
+                    # environment iteraction
+                    # print(env.state)
+                    test_gt_state, test_gt_reward, done, info = env.step(test_action)
+                    test_state_list.append(torch.tensor(test_gt_state, dtype=torch.float))
+
+                    # memory store
+                    # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+                    agent.store_transition(Ext_transition(test_state_list[step_num], test_action, test_state_action, test_gt_state, test_gt_reward, step_num, done))
+
+                    test_reward_sum += test_gt_reward
+            average_test_reward_sum = test_reward_sum / 10
+            print('average_test_reward_sum = {}'.format(average_test_reward_sum))
+            wandb.log({"average_test_reward_sum": average_test_reward_sum})
 
     print('****** done! ******')
 
@@ -100,3 +134,4 @@ if __name__ == '__main__':
     conf = OmegaConf.load(args.conf)
 
     main(conf)
+ 

@@ -222,11 +222,12 @@ class MBMF_agent(MVE_agent):
         
         # update transition model
         trans_loss = self.trans_learn(all_s_a, all_s_)
-        print("transition loss: {}".format(trans_loss))
+        # print("transition loss: {}".format(trans_loss))
+
         # update reward model
         # this should be cost model?
         reward_loss = self.reward_learn(all_s_a, all_r)
-        print("reward loss: {}".format(reward_loss))
+        # print("reward loss: {}".format(reward_loss))
 
         if(mode):
 
@@ -243,8 +244,9 @@ class MBMF_agent(MVE_agent):
         mf_s, _, mf_s_a, mf_s_, mf_r, _ = self.sample_transitions("MF")
         mf_s, mf_s_a, mf_s_, mf_r = mf_s.to(self.device), mf_s_a.to(self.device), mf_s_.to(self.device), mf_r.to(self.device)
         mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_, mf_r)
-        print("MF actor loss: {}".format(mf_actor_loss))
-        print("MF critic loss: {}".format(mf_critic_loss))
+
+        # print("MF actor loss: {}".format(mf_actor_loss))
+        # print("MF critic loss: {}".format(mf_critic_loss))
 
 
         if(mode):
@@ -361,8 +363,8 @@ class MBMF_agent(MVE_agent):
 
         # update mb-critic model
         q_target, q_pred = q_target.view([-1, 1]), q_pred.view([-1, 1])
-        print(q_pred[0])
-        print(q_target[0])
+        # print(q_pred[0])
+        # print(q_target[0])
         mb_critic_loss = F.mse_loss(q_target, q_pred)
         self.optimizer_c.zero_grad()
         mb_critic_loss.backward()
@@ -396,7 +398,7 @@ class MBMF_agent(MVE_agent):
         return mf_critic_loss, mf_actor_loss
 
     def Auto_Transform(self,states,states_actions,next_states,rewards):
-        print(self.K)
+        # print(self.K)
         q_pred = self.critic_local(states_actions)  # not sure here use local or target
         actions_pred = self.actor_local(states)
         q_target = rewards + self.gamma*self.critic_local(torch.cat((next_states, actions_pred), 1))
@@ -404,7 +406,7 @@ class MBMF_agent(MVE_agent):
         #use torch.div
         err = torch.div(diff,torch.abs(q_target))
         err_num = torch.sum(torch.lt(err, self.c1))
-        print(err_num)
+        # print(err_num)
         if err_num > int(self.c2 * diff.size(0)):
             self.K += 1
             # here if I let K = K + 1, then those previously sampled tk_transition will be
