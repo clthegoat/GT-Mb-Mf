@@ -1,0 +1,887 @@
+2020-11-10 17:54:29,013 INFO    MainThread:30565 [internal.py:wandb_internal():63] W&B internal server running at pid: 30565
+2020-11-10 17:54:29,015 INFO    WriterThread:30565 [datastore.py:open_for_write():76] open: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/run-2vzk6a94.wandb
+2020-11-10 17:54:29,016 DEBUG   SenderThread:30565 [sender.py:send():90] send: header
+2020-11-10 17:54:29,016 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: check_version
+2020-11-10 17:54:29,016 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:54:29,016 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: check_version
+2020-11-10 17:54:29,018 DEBUG   Thread-4  :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): pypi.org:443
+2020-11-10 17:54:29,077 DEBUG   Thread-4  :30565 [connectionpool.py:_make_request():437] https://pypi.org:443 "GET /pypi/wandb/json HTTP/1.1" 200 51661
+2020-11-10 17:54:29,113 DEBUG   SenderThread:30565 [sender.py:send():90] send: run
+2020-11-10 17:54:29,122 DEBUG   SenderThread:30565 [cmd.py:execute():719] Popen(['git', 'cat-file', '--batch-check'], cwd=/home/yunke/git/DL_MBMF, universal_newlines=False, shell=None, istream=<valid stream>)
+2020-11-10 17:54:29,149 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:54:29,437 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:54:29,444 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: run_start
+2020-11-10 17:54:29,445 INFO    SenderThread:30565 [dir_watcher.py:__init__():164] watching files in: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files
+2020-11-10 17:54:29,445 INFO    SenderThread:30565 [sender.py:_start_run_threads():490] run started: 2vzk6a94 with start time 1605027268
+2020-11-10 17:54:29,445 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:29,445 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:29,458 DEBUG   HandlerThread:30565 [cmd.py:execute():719] Popen(['git', 'cat-file', '--batch-check'], cwd=/home/yunke/git/DL_MBMF, universal_newlines=False, shell=None, istream=<valid stream>)
+2020-11-10 17:54:29,475 DEBUG   HandlerThread:30565 [cmd.py:execute():719] Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/yunke/git/DL_MBMF, universal_newlines=False, shell=None, istream=None)
+2020-11-10 17:54:29,510 DEBUG   SenderThread:30565 [sender.py:send():90] send: files
+2020-11-10 17:54:29,510 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-metadata.json with policy now
+2020-11-10 17:54:29,511 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:54:29,511 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:54:29,511 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:54:29,513 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:54:29,516 DEBUG   Thread-11 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:54:29,748 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:54:29,748 DEBUG   Thread-11 :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:54:29,749 DEBUG   SenderThread:30565 [sender.py:send():90] send: config
+2020-11-10 17:54:29,753 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:54:29,756 DEBUG   Thread-11 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): storage.googleapis.com:443
+2020-11-10 17:54:29,925 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:54:30,144 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:30,144 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:30,144 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:30,152 DEBUG   Thread-11 :30565 [connectionpool.py:_make_request():437] https://storage.googleapis.com:443 "PUT /wandb-production.appspot.com/toolmanchang/my-project/2vzk6a94/wandb-metadata.json?Expires=1605113669&GoogleAccessId=wandb-production%40appspot.gserviceaccount.com&Signature=DMyJvNsHX6KXhyRh7ZQmuISYFpyNNhoycMtRpCiwVQ8k2ROkE2HcppOdsFITYpmxt5A7chhVL9fOSRpWBF%2Bw99oNKBX3Jj6IgBr20nivRL%2F6yE5JSyq1auTEpMAibivctWmexmc1Vr3N40Q88HBib8X6U5Mjn7QAwhsqQiu2p15yYL8qA1iDxAgQWxiNr%2BCsOTef%2BJOJ4wwu4VDvlgjkwBJx7XoE1fJfvNbErui1%2FE67jR6rGQKQR4fz5JGIrjnRFaAG428E2thAGKOg1zhgr333Kuq1KJ1gVKUQv0TbJwxvWcqZowu%2Be2g6yy9P44qeLbLYa2IrPl1UyjDjryEIHg%3D%3D HTTP/1.1" 200 0
+2020-11-10 17:54:30,153 INFO    Thread-11 :30565 [upload_job.py:push():131] Uploaded file /tmp/tmpkhrygvl5wandb/1kpeshoe-wandb-metadata.json
+2020-11-10 17:54:30,446 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/config.yaml
+2020-11-10 17:54:30,446 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_created():212] file/dir created: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:30,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_created():212] file/dir created: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-metadata.json
+2020-11-10 17:54:30,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_created():212] file/dir created: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:30,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_created():212] file/dir created: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/requirements.txt
+2020-11-10 17:54:30,687 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:30,689 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:30,690 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:31,239 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:31,239 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:31,239 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:31,445 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:31,445 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:31,461 DEBUG   Thread-5  :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:54:31,688 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:31,798 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:31,798 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:31,799 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:32,368 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:32,369 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:32,369 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:32,445 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:32,445 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:32,862 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:54:32,949 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:32,950 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:32,950 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:33,445 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:33,445 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:33,569 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:33,569 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:33,570 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:33,941 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:34,155 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:34,155 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:34,156 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:34,445 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:34,446 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:34,752 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:34,753 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:34,753 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:35,397 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:35,398 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:35,398 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:35,446 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:35,446 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:35,886 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:36,063 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:36,064 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:36,064 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:36,446 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:36,446 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:36,698 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:36,698 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:36,698 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:37,325 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:37,325 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:37,326 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:37,332 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:54:37,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:37,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:37,832 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:38,035 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:38,035 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:38,035 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:38,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:38,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:38,699 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:38,699 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:38,700 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:39,371 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:39,371 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:39,372 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:39,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:39,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:39,880 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:40,046 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:40,046 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:40,046 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:40,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:40,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:40,680 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:40,680 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:40,681 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:41,317 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:41,317 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:41,318 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:41,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:41,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:41,797 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:54:41,825 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:42,002 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:42,002 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:42,003 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:42,447 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:42,448 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:42,641 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:42,641 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:42,642 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:43,272 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:43,272 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:43,272 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:43,448 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:43,448 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:43,874 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:43,890 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:43,890 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:43,891 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:44,448 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:44,448 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:44,530 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:44,530 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:44,530 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:44,781 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:54:44,781 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:54:44,781 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:54:44,783 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:54:44,940 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:54:45,222 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:45,223 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:45,223 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:45,448 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:45,448 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:45,816 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:45,850 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:45,850 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:45,851 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:46,256 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:54:46,449 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:46,449 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:46,454 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:46,454 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:46,455 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:47,057 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:47,057 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:47,058 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:47,449 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:47,449 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:47,685 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:47,685 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:47,687 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:48,073 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:48,349 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:48,349 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:48,350 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:48,449 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:48,449 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:48,989 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:48,989 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:48,989 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:49,449 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:49,449 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:49,621 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:49,621 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:49,622 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:49,916 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:50,253 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:50,253 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:50,254 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:50,450 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:50,450 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:50,716 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:54:50,926 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:50,926 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:50,926 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:51,450 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:51,450 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:51,665 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:51,666 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:51,666 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:51,878 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:52,450 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:52,450 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:52,469 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:52,469 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:52,470 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:53,200 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:53,200 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:53,201 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:53,450 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:53,451 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:53,890 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:53,947 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:53,947 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:53,947 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:54,451 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:54,451 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:54,661 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:54,661 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:54,661 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:55,182 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:54:55,338 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:55,338 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:55,339 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:55,451 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:55,451 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:55,958 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:56,015 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:56,015 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:56,016 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:56,451 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:56,451 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:56,660 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:56,660 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:56,660 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:57,327 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:57,327 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:57,327 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:57,451 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:57,452 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:57,923 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:54:58,039 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:58,039 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:58,040 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:58,452 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:58,452 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:58,708 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:58,708 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:58,709 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:59,383 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:54:59,383 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:54:59,384 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:54:59,452 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:54:59,452 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:54:59,646 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:54:59,943 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:54:59,943 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:54:59,943 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:54:59,944 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:54:59,947 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:00,155 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:55:00,157 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:00,157 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:00,157 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:00,452 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:00,453 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:00,758 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:00,758 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:00,758 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:01,419 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:01,419 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:01,420 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:01,453 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:01,453 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:01,935 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:02,061 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:02,061 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:02,061 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:02,453 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:02,453 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:02,735 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:02,735 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:02,735 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:03,392 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:03,392 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:03,392 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:03,453 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:03,453 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:03,925 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:04,080 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:04,081 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:04,081 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:04,120 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:04,453 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:04,454 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:04,739 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:04,739 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:04,739 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:05,415 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:05,415 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:05,416 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:05,454 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:05,454 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:05,975 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:06,070 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:06,070 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:06,071 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:06,454 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:06,454 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:06,755 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:06,762 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:06,762 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:07,379 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:07,379 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:07,379 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:07,454 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:07,454 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:08,006 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:08,006 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:08,007 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:08,041 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:08,454 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:08,455 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:08,579 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:08,658 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:08,659 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:08,659 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:09,384 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:09,384 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:09,385 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:09,455 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:09,455 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:09,987 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:10,106 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:10,106 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:10,106 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:10,455 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:10,455 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:10,773 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:10,773 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:10,773 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:11,455 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:11,455 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:11,458 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:11,458 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:11,458 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:12,035 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:12,127 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:12,127 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:12,127 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:12,455 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:12,456 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:12,820 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:12,820 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:12,821 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:13,041 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:13,456 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:13,456 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:13,490 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:13,490 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:13,491 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:14,083 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:14,157 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:14,157 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:14,158 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:14,456 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:14,456 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:14,796 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:14,796 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:14,796 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:15,158 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:55:15,158 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:55:15,158 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:55:15,160 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:55:15,414 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:55:15,456 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:15,456 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:15,470 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:15,470 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:15,470 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:16,028 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:16,132 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:16,132 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:16,133 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:16,456 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:16,457 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:16,815 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:16,816 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:16,816 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:17,457 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:17,457 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:17,495 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:17,496 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:17,496 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:17,500 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:18,076 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:18,161 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:18,161 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:18,162 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:18,457 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:18,458 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:18,828 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:18,828 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:18,828 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:19,457 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:19,457 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:19,514 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:19,514 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:19,514 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:20,022 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:20,154 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:20,154 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:20,155 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:20,458 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:20,458 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:20,808 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:20,808 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:20,809 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:21,458 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:21,458 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:21,510 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:21,510 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:21,510 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:21,963 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:22,075 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:22,229 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:22,230 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:22,230 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:22,458 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:22,458 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:22,888 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:22,888 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:22,889 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:23,458 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:23,459 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:23,552 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:23,552 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:23,552 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:24,117 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:24,225 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:24,226 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:24,226 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:24,459 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:24,459 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:24,885 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:24,886 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:24,886 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:25,459 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:25,459 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:25,582 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:25,582 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:25,582 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:26,167 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:26,252 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:26,252 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:26,252 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:26,428 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:26,459 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:26,459 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:26,914 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:26,914 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:26,914 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:27,460 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:27,460 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:27,593 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:27,593 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:27,593 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:28,111 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:28,296 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:28,296 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:28,296 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:28,460 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:28,460 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:28,950 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:28,950 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:28,951 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:29,460 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:29,460 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:29,648 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:29,648 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:29,648 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:30,322 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:30,323 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:30,323 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:30,417 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:55:30,417 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:55:30,417 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:55:30,419 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:55:30,460 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:30,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:30,574 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:55:30,883 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:31,018 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:31,018 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:31,018 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:31,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:31,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:31,734 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:31,734 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:31,734 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:32,414 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:32,414 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:32,414 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:32,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:32,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:33,087 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:33,087 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:33,088 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:33,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:33,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:33,746 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:33,746 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:33,746 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:34,397 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:34,397 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:34,397 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:34,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:34,461 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:35,101 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:35,101 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:35,101 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:35,348 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:35,462 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:35,462 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:35,743 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:55:35,743 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:55:35,743 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:55:36,462 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:55:36,462 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:38,462 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:38,557 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:39,804 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:41,463 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:44,285 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:44,464 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:45,577 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:55:45,578 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:55:45,578 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:55:45,579 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:55:45,797 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:55:46,465 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:48,465 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:48,695 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:48,752 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:51,466 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:53,212 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:53,466 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:56,467 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:55:57,668 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:55:58,730 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:55:59,468 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:00,800 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:56:00,800 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:56:00,800 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:56:00,801 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:56:00,983 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:56:01,469 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:02,128 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:03,469 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:06,470 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:06,585 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:08,470 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:10,471 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:10,921 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:56:11,050 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:13,472 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:15,506 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:15,985 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:56:15,985 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:56:15,985 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:56:15,987 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:56:16,241 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:56:16,472 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:18,473 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:19,970 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:20,473 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:23,087 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:56:23,474 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:24,428 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:25,475 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:25,513 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:56:25,513 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:56:25,514 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:56:26,475 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:56:26,475 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:28,475 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:28,890 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:31,245 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:56:31,246 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:56:31,246 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:56:31,247 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:56:31,476 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:31,499 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:56:33,360 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:33,477 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:33,546 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 17:56:36,477 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:37,819 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:38,478 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:41,478 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:42,276 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:56:43,479 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:46,480 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:46,501 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:56:46,501 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:56:46,501 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:56:46,504 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:56:47,607 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:56:48,480 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:49,616 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:56:49,616 ERROR   SenderThread:30565 [retry.py:__call__():111] Retry attempt failed:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/connection.py", line 157, in _new_conn
+    (self._dns_host, self.port), self.timeout, **extra_kw
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/util/connection.py", line 84, in create_connection
+    raise err
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/util/connection.py", line 74, in create_connection
+    sock.connect(sa)
+OSError: [Errno 101] Network is unreachable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/connectionpool.py", line 672, in urlopen
+    chunked=chunked,
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/connectionpool.py", line 376, in _make_request
+    self._validate_conn(conn)
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/connectionpool.py", line 994, in _validate_conn
+    conn.connect()
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/connection.py", line 334, in connect
+    conn = self._new_conn()
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/connection.py", line 169, in _new_conn
+    self, "Failed to establish a new connection: %s" % e
+urllib3.exceptions.NewConnectionError: <urllib3.connection.VerifiedHTTPSConnection object at 0x7f80ca55eb70>: Failed to establish a new connection: [Errno 101] Network is unreachable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/connectionpool.py", line 720, in urlopen
+    method, url, error=e, _pool=self, _stacktrace=sys.exc_info()[2]
+  File "/usr/local/lib/python3.6/dist-packages/urllib3/util/retry.py", line 436, in increment
+    raise MaxRetryError(_pool, url, error or ResponseError(cause))
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x7f80ca55eb70>: Failed to establish a new connection: [Errno 101] Network is unreachable',))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/wandb/old/retry.py", line 96, in __call__
+    result = self._call_fn(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/wandb/sdk/internal/internal_api.py", line 130, in execute
+    return self.client.execute(*args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/wandb/vendor/gql-0.2.0/gql/client.py", line 52, in execute
+    result = self._get_result(document, *args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/wandb/vendor/gql-0.2.0/gql/client.py", line 60, in _get_result
+    return self.transport.execute(document, *args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/wandb/vendor/gql-0.2.0/gql/transport/requests.py", line 38, in execute
+    request = requests.post(self.url, **post_args)
+  File "/usr/local/lib/python3.6/dist-packages/requests/api.py", line 116, in post
+    return request('post', url, data=data, json=json, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/requests/api.py", line 60, in request
+    return session.request(method=method, url=url, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/requests/sessions.py", line 533, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/requests/sessions.py", line 646, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/requests/adapters.py", line 516, in send
+    raise ConnectionError(e, request=request)
+requests.exceptions.ConnectionError: HTTPSConnectionPool(host='api.wandb.ai', port=443): Max retries exceeded with url: /graphql (Caused by NewConnectionError('<urllib3.connection.VerifiedHTTPSConnection object at 0x7f80ca55eb70>: Failed to establish a new connection: [Errno 101] Network is unreachable',))
+2020-11-10 17:56:50,481 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:53,482 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:54,328 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:56:55,482 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:56:58,483 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:00,484 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:02,741 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:57:03,484 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:06,485 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:08,486 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:11,487 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:13,487 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:16,488 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:18,488 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:21,489 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:22,224 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:57:22,495 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:57:22,497 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:22,497 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:22,497 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:22,497 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:22,498 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:22,498 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:22,498 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:22,498 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:57:22,498 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:57:22,499 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:57:22,499 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:22,499 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:23,490 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:57:23,490 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:26,490 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:26,929 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:28,491 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:31,386 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:31,492 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:33,492 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:35,855 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:36,493 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:37,498 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:57:37,498 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:57:37,498 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:57:37,500 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:57:37,644 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:57:38,494 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:40,311 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:41,494 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:43,495 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:44,495 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:44,774 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:46,496 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:48,496 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:49,232 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:51,497 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:52,647 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:57:52,647 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:57:52,647 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:57:52,649 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:57:52,800 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:57:53,497 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:53,689 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:55,498 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:57:58,148 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:57:58,498 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:00,499 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:02,499 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:02,606 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:05,029 DEBUG   SenderThread:30565 [sender.py:send():90] send: history
+2020-11-10 17:58:05,029 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:58:05,029 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:58:05,500 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:58:05,500 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:07,075 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:07,501 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:07,803 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:58:07,803 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:07,803 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:58:07,805 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:58:07,961 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:58:08,502 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:10,502 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:11,534 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:13,503 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:15,503 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:16,007 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:17,504 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:18,504 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:20,467 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:20,505 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:22,505 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:22,963 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:58:22,963 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:22,963 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:58:22,965 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:58:23,218 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:58:24,924 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:25,506 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:27,506 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:29,381 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:30,507 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:32,508 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:33,839 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:34,508 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:37,509 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:38,220 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: status
+2020-11-10 17:58:38,221 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:38,228 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: status
+2020-11-10 17:58:38,229 DEBUG   SenderThread:30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:58:38,477 DEBUG   SenderThread:30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:58:38,478 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:39,509 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:42,510 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:42,794 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:44,511 INFO    Thread-8  :30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:47,045 WARNING MainThread:30565 [internal.py:wandb_internal():117] Internal process interrupt: 1
+2020-11-10 17:58:47,139 DEBUG   SenderThread:30565 [sender.py:send():90] send: exit
+2020-11-10 17:58:47,139 INFO    SenderThread:30565 [sender.py:send_exit():168] handling exit code: 255
+2020-11-10 17:58:47,139 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: poll_exit
+2020-11-10 17:58:47,139 INFO    SenderThread:30565 [sender.py:send_exit():176] send defer
+2020-11-10 17:58:47,139 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:47,139 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: poll_exit
+2020-11-10 17:58:47,140 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: defer
+2020-11-10 17:58:47,140 INFO    HandlerThread:30565 [handler.py:handle_request_defer():69] handle defer: 0
+2020-11-10 17:58:47,140 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:47,140 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: defer
+2020-11-10 17:58:47,140 INFO    SenderThread:30565 [sender.py:send_request_defer():185] handle sender defer: 0
+2020-11-10 17:58:47,140 INFO    SenderThread:30565 [sender.py:send_request_defer():221] send defer: 1
+2020-11-10 17:58:47,140 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: defer
+2020-11-10 17:58:47,140 INFO    HandlerThread:30565 [handler.py:handle_request_defer():69] handle defer: 1
+2020-11-10 17:58:47,241 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:47,241 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: defer
+2020-11-10 17:58:47,241 INFO    SenderThread:30565 [sender.py:send_request_defer():185] handle sender defer: 1
+2020-11-10 17:58:47,241 INFO    SenderThread:30565 [sender.py:send_request_defer():221] send defer: 2
+2020-11-10 17:58:47,242 DEBUG   SenderThread:30565 [sender.py:send():90] send: stats
+2020-11-10 17:58:47,242 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: defer
+2020-11-10 17:58:47,242 INFO    HandlerThread:30565 [handler.py:handle_request_defer():69] handle defer: 2
+2020-11-10 17:58:47,242 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:47,242 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: defer
+2020-11-10 17:58:47,242 INFO    SenderThread:30565 [sender.py:send_request_defer():185] handle sender defer: 2
+2020-11-10 17:58:47,242 INFO    SenderThread:30565 [sender.py:send_request_defer():221] send defer: 3
+2020-11-10 17:58:47,243 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: defer
+2020-11-10 17:58:47,243 INFO    HandlerThread:30565 [handler.py:handle_request_defer():69] handle defer: 3
+2020-11-10 17:58:47,243 DEBUG   SenderThread:30565 [sender.py:send():90] send: summary
+2020-11-10 17:58:47,243 INFO    SenderThread:30565 [sender.py:_save_file():568] saving file wandb-summary.json with policy end
+2020-11-10 17:58:47,243 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:47,243 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: defer
+2020-11-10 17:58:47,243 INFO    SenderThread:30565 [sender.py:send_request_defer():185] handle sender defer: 3
+2020-11-10 17:58:47,243 INFO    SenderThread:30565 [sender.py:send_request_defer():221] send defer: 4
+2020-11-10 17:58:47,243 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: defer
+2020-11-10 17:58:47,243 INFO    HandlerThread:30565 [handler.py:handle_request_defer():69] handle defer: 4
+2020-11-10 17:58:47,244 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:47,244 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: defer
+2020-11-10 17:58:47,244 INFO    SenderThread:30565 [sender.py:send_request_defer():185] handle sender defer: 4
+2020-11-10 17:58:47,244 INFO    SenderThread:30565 [dir_watcher.py:finish():278] shutting down directory watcher
+2020-11-10 17:58:47,513 INFO    SenderThread:30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:58:47,513 INFO    SenderThread:30565 [dir_watcher.py:_on_file_modified():225] file/dir modified: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:47,514 INFO    SenderThread:30565 [dir_watcher.py:finish():308] scan: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files
+2020-11-10 17:58:47,514 INFO    SenderThread:30565 [dir_watcher.py:finish():314] scan save: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log output.log
+2020-11-10 17:58:47,515 INFO    SenderThread:30565 [dir_watcher.py:finish():314] scan save: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/requirements.txt requirements.txt
+2020-11-10 17:58:47,515 INFO    SenderThread:30565 [dir_watcher.py:finish():314] scan save: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json wandb-summary.json
+2020-11-10 17:58:47,516 INFO    SenderThread:30565 [dir_watcher.py:finish():314] scan save: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/config.yaml config.yaml
+2020-11-10 17:58:47,517 INFO    SenderThread:30565 [dir_watcher.py:finish():314] scan save: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-metadata.json wandb-metadata.json
+2020-11-10 17:58:47,517 INFO    SenderThread:30565 [sender.py:send_request_defer():221] send defer: 5
+2020-11-10 17:58:47,518 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: defer
+2020-11-10 17:58:47,519 INFO    HandlerThread:30565 [handler.py:handle_request_defer():69] handle defer: 5
+2020-11-10 17:58:47,519 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:47,519 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: defer
+2020-11-10 17:58:47,519 INFO    SenderThread:30565 [sender.py:send_request_defer():185] handle sender defer: 5
+2020-11-10 17:58:47,519 INFO    SenderThread:30565 [file_pusher.py:finish():169] shutting down file pusher
+2020-11-10 17:58:47,520 INFO    SenderThread:30565 [sender.py:send_request_defer():221] send defer: 6
+2020-11-10 17:58:47,545 DEBUG   Thread-12 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:58:47,548 DEBUG   Thread-14 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:58:47,552 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: defer
+2020-11-10 17:58:47,552 INFO    HandlerThread:30565 [handler.py:handle_request_defer():69] handle defer: 6
+2020-11-10 17:58:47,553 DEBUG   Thread-13 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:58:47,553 DEBUG   SenderThread:30565 [sender.py:send():90] send: request
+2020-11-10 17:58:47,553 DEBUG   SenderThread:30565 [sender.py:send_request():99] send_request: defer
+2020-11-10 17:58:47,554 INFO    SenderThread:30565 [sender.py:send_request_defer():185] handle sender defer: 6
+2020-11-10 17:58:47,558 DEBUG   Thread-15 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): api.wandb.ai:443
+2020-11-10 17:58:47,737 DEBUG   Thread-12 :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:58:47,742 DEBUG   Thread-12 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): storage.googleapis.com:443
+2020-11-10 17:58:47,743 DEBUG   Thread-15 :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:58:47,743 DEBUG   Thread-14 :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:58:47,744 DEBUG   Thread-13 :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /graphql HTTP/1.1" 200 None
+2020-11-10 17:58:47,748 DEBUG   Thread-13 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): storage.googleapis.com:443
+2020-11-10 17:58:47,751 DEBUG   Thread-15 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): storage.googleapis.com:443
+2020-11-10 17:58:47,753 DEBUG   Thread-14 :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (1): storage.googleapis.com:443
+2020-11-10 17:58:48,103 DEBUG   Thread-15 :30565 [connectionpool.py:_make_request():437] https://storage.googleapis.com:443 "PUT /wandb-production.appspot.com/toolmanchang/my-project/2vzk6a94/config.yaml?Expires=1605113927&GoogleAccessId=wandb-production%40appspot.gserviceaccount.com&Signature=f4LeYJd%2BzvV89XvyfHUJjFDbZhiZBstCt3VxTbSAfiivXgOV%2F7x%2BpGGIS0vKgM3U2aTYoLMMjesqI3di%2FW%2BwdHqRKRyEkstsHlvCwSPRTseTimovnNFaecVA%2B%2B1QzWReu7%2BkpGDlh8Dg7kn6ucBmUV%2FJWtMnL%2FL1hTnxuylUVrofK%2BS0c82IaxXPhF7a2xvfBSnFOaJX7N4YSqdsPcLKWG%2FuazFmWVj%2FXHcNP1VuNtwgwFd7FCSggFC87WulRjKIXw%2Fwty5uXnPd%2F9vhAx7o7x9stYr5T3bX9aY9vQUjyr3EBY9jgltIfKBb2nJC6wCeg7q5dWWAeSL1nHGG03jt3A%3D%3D HTTP/1.1" 200 0
+2020-11-10 17:58:48,104 DEBUG   Thread-14 :30565 [connectionpool.py:_make_request():437] https://storage.googleapis.com:443 "PUT /wandb-production.appspot.com/toolmanchang/my-project/2vzk6a94/wandb-summary.json?Expires=1605113927&GoogleAccessId=wandb-production%40appspot.gserviceaccount.com&Signature=b%2Fji5eaIISSDhVdw8BgHrgQa9mZO9xQ57G5GlLhJ%2B06TsACsnGR0NxWOxKXtY3GBQ8VfDgRh8Rd%2BL0igp9sSPkaBSB9DV9QHcSAKEb%2BeODTCHtq%2FBArTRMbwyQbwGpcAjKc5x6g7N6zhFMTUZLHf0IgeBnf7KB4iEd1CMl%2BoMv%2FAWBHFDgHTSZ%2BAmcCnsGzKyRsH%2FI62n1oVC6w3MkyHfjEwWE%2FcbvvvXSiyvXVKJcEt6gtCgnkyEd0zMf3riABee2APunocEUdLQJ4zqhvqSEhIcwkwXDwbzaHqi4QRyBml08caTN3GrfqmIBUght%2F%2BKRlPN9llmE3CyZV8CiGkrw%3D%3D HTTP/1.1" 200 0
+2020-11-10 17:58:48,105 INFO    Thread-14 :30565 [upload_job.py:push():131] Uploaded file /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/wandb-summary.json
+2020-11-10 17:58:48,106 DEBUG   Thread-12 :30565 [connectionpool.py:_make_request():437] https://storage.googleapis.com:443 "PUT /wandb-production.appspot.com/toolmanchang/my-project/2vzk6a94/output.log?Expires=1605113927&GoogleAccessId=wandb-production%40appspot.gserviceaccount.com&Signature=fCGDWNCa9SzkFxtrUwla3KbBvSsy0RDM08h%2Fpf1ETnrYEpfjuOV5vc3811gQWTYh2p5aOJAYV%2FKKkGtJDFcm02h34K9rtR9aonL%2BHkoGFBT7CZz3LpbDVjVAxI4YnPUysy5lyVuTlOt5tHo4e6kjorUT7DbLNHTIGLwAQLeKh9355wCglIkWISghnS3KS%2B5Hv3S8NQ82U5zBrnMSBKaI1ZQiUjPLCnhAvkhVzuu4Zszs9ICf0DbQcT1M5Ofxi5gP9%2B1ko6qdg%2FY%2Fpz6F3vOnOOM7HmmerAgJA7qbPo5NZt09vWhXGCNbXMKo2o43aXfy%2B2cNdkm1nd2%2FckvcxdqCdg%3D%3D HTTP/1.1" 200 0
+2020-11-10 17:58:48,107 INFO    Thread-12 :30565 [upload_job.py:push():131] Uploaded file /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/output.log
+2020-11-10 17:58:48,108 DEBUG   Thread-13 :30565 [connectionpool.py:_make_request():437] https://storage.googleapis.com:443 "PUT /wandb-production.appspot.com/toolmanchang/my-project/2vzk6a94/requirements.txt?Expires=1605113927&GoogleAccessId=wandb-production%40appspot.gserviceaccount.com&Signature=KO8ystMRr%2FkOnTPrDI6NEeFarKEtvNe69YTSjrEAS1S15YqFHbhXEW94Ld3cM6Qn%2Fa6y8fjX5kVrLVFZe4DmqvKfmfOkCHBEijqbc1Re5xkyT%2FPUFtsPXsxRlRcF%2FaXTLr%2FXKMSIUh8tS9pR70pcL%2BXHBkLGTFP2tssSvsv0bMvGuTZJPmzXT4pMocTJt9%2FDoUR7CIVNXWAXp6C4YwYVqRiclAavHYwg8jgUN9IfC1so4yBRe6%2F0wUMQQpjKE6iDl0NyUEtTjkH0c%2BNLeJoEG3MLh4ah0AU7xXM6IzngFl%2FNRNlv7LW%2B%2F%2Frieb6jeofGpM33oLiL8ZM2Wj3nW3uE9A%3D%3D HTTP/1.1" 200 0
+2020-11-10 17:58:48,109 INFO    Thread-15 :30565 [upload_job.py:push():131] Uploaded file /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/config.yaml
+2020-11-10 17:58:48,110 INFO    Thread-13 :30565 [upload_job.py:push():131] Uploaded file /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/files/requirements.txt
+2020-11-10 17:58:49,144 DEBUG   HandlerThread:30565 [handler.py:handle_request():55] handle_request: poll_exit
+2020-11-10 17:59:26,623 WARNING MainThread:30565 [internal.py:wandb_internal():117] Internal process interrupt: 2
+2020-11-10 17:59:26,624 ERROR   MainThread:30565 [internal.py:wandb_internal():120] Internal process interrupted.
+2020-11-10 17:59:27,194 INFO    HandlerThread:30565 [handler.py:finish():271] shutting down handler
+2020-11-10 17:59:27,255 INFO    WriterThread:30565 [datastore.py:close():257] close: /home/yunke/git/DL_MBMF/experiment/wandb/run-20201110_175428-2vzk6a94/run-2vzk6a94.wandb
+2020-11-10 18:12:28,484 WARNING Thread-5  :30565 [util.py:request_with_retry():691] requests_with_retry encountered retryable exception: HTTPSConnectionPool(host='api.wandb.ai', port=443): Read timed out. (read timeout=None). args: ('https://api.wandb.ai/files/toolmanchang/my-project/2vzk6a94/file_stream',), kwargs: {'json': {'files': {'output.log': {'offset': 2298, 'content': ['2020-11-10T16:56:33.343629 episode 2023, total reward -392.4615525149424\n', '2020-11-10T16:56:33.369830 automotic reduction stage 13\n', '2020-11-10T16:56:35.722247 MB actor loss: 4.257694244384766\n', '2020-11-10T16:56:35.722454 MB critic loss: 1051.2119140625\n', '2020-11-10T16:56:35.745551 episode 2024, total reward -460.00915933146\n', '2020-11-10T16:56:35.769799 automotic reduction stage 13\n', '2020-11-10T16:56:38.012140 MB actor loss: 5.527661323547363\n', '2020-11-10T16:56:38.012140 MB critic loss: 1192.5771484375\n', '2020-11-10T16:56:38.030425 episode 2025, total reward -403.40170599360437\n', '2020-11-10T16:56:38.055219 automotic reduction stage 13\n', '2020-11-10T16:56:40.635272 MB actor loss: 2.24393630027771\n', '2020-11-10T16:56:40.635272 MB critic loss: 768.5185546875\n', '2020-11-10T16:56:40.643994 episode 2026, total reward -480.76212806553673\n', '2020-11-10T16:56:40.665699 automotic reduction stage 13\n', '2020-11-10T16:56:43.019087 MB actor loss: 5.556396007537842\n', '2020-11-10T16:56:43.019087 MB critic loss: 923.4378051757812\n', '2020-11-10T16:56:43.036399 episode 2027, total reward -485.5291409699954\n', '2020-11-10T16:56:43.060028 automotic reduction stage 13\n', '2020-11-10T16:56:45.619642 MB actor loss: 1.6838701963424683\n', '2020-11-10T16:56:45.619642 MB critic loss: 1071.1356201171875\n']}, 'wandb-events.jsonl': {'offset': 27, 'content': ['{"system.gpu.0.gpu": 0.25, "system.gpu.0.memory": 3.25, "system.gpu.0.memoryAllocated": 7.5, "system.gpu.0.temp": 48.0, "system.cpu": 19.9, "system.memory": 23.42, "system.disk": 35.7, "system.proc.memory.availableMB": 12217.44, "system.proc.memory.rssMB": 77.12, "system.proc.memory.percent": 0.48, "system.proc.cpu.threads": 12.0, "system.network.sent": 953277, "system.network.recv": 683587, "_wandb": true, "_timestamp": 1605027393, "_runtime": 125}', '{"system.gpu.0.gpu": 1.25, "system.gpu.0.memory": 3.5, "system.gpu.0.memoryAllocated": 7.5, "system.gpu.0.temp": 48.0, "system.cpu": 21.7, "system.memory": 23.5, "system.disk": 35.7, "system.proc.memory.availableMB": 12209.21, "system.proc.memory.rssMB": 77.12, "system.proc.memory.percent": 0.48, "system.proc.cpu.threads": 12.0, "system.network.sent": 975359, "system.network.recv": 705890, "_wandb": true, "_timestamp": 1605027397, "_runtime": 129}', '{"system.gpu.0.gpu": 0.5, "system.gpu.0.memory": 3.75, "system.gpu.0.memoryAllocated": 7.5, "system.gpu.0.temp": 48.0, "system.cpu": 21.45, "system.memory": 23.55, "system.disk": 35.7, "system.proc.memory.availableMB": 12200.98, "system.proc.memory.rssMB": 77.12, "system.proc.memory.percent": 0.48, "system.proc.cpu.threads": 12.0, "system.network.sent": 997438, "system.network.recv": 729753, "_wandb": true, "_timestamp": 1605027402, "_runtime": 134}']}}}}
+2020-11-10 18:12:30,699 DEBUG   Thread-5  :30565 [connectionpool.py:_new_conn():959] Starting new HTTPS connection (2): api.wandb.ai:443
+2020-11-10 18:12:30,902 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 18:12:31,075 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 18:12:31,220 DEBUG   Thread-5  :30565 [connectionpool.py:_make_request():437] https://api.wandb.ai:443 "POST /files/toolmanchang/my-project/2vzk6a94/file_stream HTTP/1.1" 200 None
+2020-11-10 18:12:31,220 INFO    SenderThread:30565 [sender.py:send_request_defer():221] send defer: 7
+2020-11-10 18:12:31,220 INFO    SenderThread:30565 [sender.py:finish():630] shutting down sender
+2020-11-10 18:12:31,220 INFO    SenderThread:30565 [file_pusher.py:finish():169] shutting down file pusher
+2020-11-10 18:12:31,220 INFO    SenderThread:30565 [file_pusher.py:join():174] waiting for file pusher
+2020-11-10 18:12:31,221 INFO    MainThread:30565 [internal.py:handle_exit():138] Internal process exited

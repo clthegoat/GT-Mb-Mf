@@ -1,0 +1,107 @@
+****** begin! ******
+****** step1 ******
+/home/yunke/git/DL_MBMF/experiment/MVE_agent.py:115: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 3.283493995666504
+reward loss: 45.88290786743164
+actor loss: -0.07477129250764847
+critic loss: 1.749084234237671
+episode 1, total reward -458.1529952755774
+transition loss: 2.415311574935913
+reward loss: 53.52159881591797
+actor loss: 0.044534310698509216
+critic loss: 2.200324773788452
+episode 2, total reward -591.5580560888042
+transition loss: 1.7916240692138672
+reward loss: 56.431339263916016
+actor loss: 0.13186150789260864
+critic loss: 2.4616572856903076
+episode 3, total reward -636.4903677751615
+transition loss: 1.5656366348266602
+reward loss: 61.66558074951172
+actor loss: 0.19822394847869873
+critic loss: 2.8695175647735596
+episode 4, total reward -700.4735861745954
+transition loss: 1.763864517211914
+reward loss: 57.942848205566406
+actor loss: 0.3708512783050537
+critic loss: 2.9166131019592285
+episode 5, total reward -364.25595838925915
+transition loss: 2.286440134048462
+reward loss: 51.974430084228516
+actor loss: 0.56492680311203
+critic loss: 2.9569356441497803
+episode 6, total reward -369.8632143053564
+transition loss: 2.010991334915161
+reward loss: 41.66464614868164
+actor loss: 0.6766362190246582
+critic loss: 2.674591541290283
+episode 7, total reward -362.82047052806155
+transition loss: 2.035733222961426
+reward loss: 38.241573333740234
+actor loss: 0.7731965780258179
+critic loss: 2.8205809593200684
+episode 8, total reward -457.669113229508
+transition loss: 1.4664639234542847
+reward loss: 40.732303619384766
+actor loss: 0.8651272654533386
+critic loss: 3.203974962234497
+episode 9, total reward -679.0823352302633
+transition loss: 1.7072855234146118
+reward loss: 42.48558807373047
+actor loss: 1.1598349809646606
+critic loss: 3.9510140419006348
+episode 10, total reward -398.76979612171175
+transition loss: 1.8299263715744019
+reward loss: 40.71262741088867
+actor loss: 1.303289532661438
+critic loss: 4.386137008666992
+episode 11, total reward -363.6366044844779
+transition loss: 1.1276501417160034
+reward loss: 32.57453918457031
+actor loss: 1.3589627742767334
+critic loss: 4.1821746826171875
+episode 12, total reward -469.13851748017447
+transition loss: 1.0642606019973755
+reward loss: 33.821044921875
+actor loss: 1.4923412799835205
+critic loss: 5.068829536437988
+episode 13, total reward -527.9687715875826
+transition loss: 1.2340246438980103
+reward loss: 27.250581741333008
+actor loss: 1.7703518867492676
+critic loss: 5.625263690948486
+episode 14, total reward -357.1763742274804
+transition loss: 1.1436225175857544
+reward loss: 27.832706451416016
+actor loss: 1.9711813926696777
+critic loss: 6.772912502288818
+episode 15, total reward -365.02992071998733
+transition loss: 0.8055495619773865
+reward loss: 24.567392349243164
+actor loss: 2.0932841300964355
+critic loss: 7.708122253417969
+episode 16, total reward -507.2406974055275
+transition loss: 0.7172448039054871
+reward loss: 26.842166900634766
+actor loss: 2.293698310852051
+critic loss: 10.462624549865723
+episode 17, total reward -454.0328312526605
+transition loss: 0.7213726043701172
+reward loss: 19.346126556396484
+actor loss: 2.436915159225464
+critic loss: 10.453676223754883
+episode 18, total reward -512.0973106060648
+transition loss: 0.6361594796180725
+reward loss: 18.071033477783203
+actor loss: 2.6200618743896484
+critic loss: 12.767393112182617
+episode 19, total reward -312.1610285766288
+episode 20, total reward -350.65076695514693
+start test!
+Traceback (most recent call last):
+  File "MBMF.py", line 151, in <module>
+    main(conf)
+  File "MBMF.py", line 123, in main
+    test_action = agent.select_action(test_state_list[step_num], False)[:,0]
+IndexError: too many indices for array

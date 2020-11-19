@@ -1,0 +1,245 @@
+****** begin! ******
+****** step1 ******
+/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py:203: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 6.67749547958374
+reward loss: 53.96684265136719
+MF actor loss: -0.25069552659988403
+MF critic loss: 67.93740844726562
+episode 1, total reward -432.9460923277836
+transition loss: 5.672099590301514
+reward loss: 52.59942626953125
+MF actor loss: -0.06843742728233337
+MF critic loss: 56.38016128540039
+episode 2, total reward -463.6166185377541
+transition loss: 4.3227219581604
+reward loss: 41.908348083496094
+MF actor loss: 0.05580292269587517
+MF critic loss: 51.55386734008789
+episode 3, total reward -523.2819508505396
+transition loss: 3.2511119842529297
+reward loss: 49.486358642578125
+MF actor loss: 0.14187349379062653
+MF critic loss: 54.45096969604492
+episode 4, total reward -702.7325013405726
+transition loss: 2.876239776611328
+reward loss: 54.73503875732422
+MF actor loss: 0.24762369692325592
+MF critic loss: 53.65719985961914
+episode 5, total reward -607.8746501109714
+transition loss: 2.2961199283599854
+reward loss: 53.97035598754883
+MF actor loss: 0.3066381812095642
+MF critic loss: 59.13471603393555
+episode 6, total reward -617.6001654826397
+transition loss: 2.229646921157837
+reward loss: 53.39239501953125
+MF actor loss: 0.37912338972091675
+MF critic loss: 55.39814376831055
+episode 7, total reward -482.21456080593794
+transition loss: 2.17596697807312
+reward loss: 47.76432800292969
+MF actor loss: 0.48370638489723206
+MF critic loss: 52.75340270996094
+episode 8, total reward -576.453767620069
+transition loss: 1.9267131090164185
+reward loss: 40.30497741699219
+MF actor loss: 0.5789716243743896
+MF critic loss: 46.46393966674805
+episode 9, total reward -467.49861304000757
+transition loss: 1.7815831899642944
+reward loss: 40.696231842041016
+MF actor loss: 0.6428027153015137
+MF critic loss: 42.77058410644531
+episode 10, total reward -483.72851147855306
+transition loss: 1.851241111755371
+reward loss: 44.84503173828125
+MF actor loss: 0.775223433971405
+MF critic loss: 46.57015609741211
+episode 11, total reward -427.44934335837974
+transition loss: 1.49178946018219
+reward loss: 39.78095245361328
+MF actor loss: 0.8749217391014099
+MF critic loss: 51.960750579833984
+episode 12, total reward -634.9744622116596
+transition loss: 1.6110471487045288
+reward loss: 37.74275207519531
+MF actor loss: 0.8988167643547058
+MF critic loss: 35.67815399169922
+episode 13, total reward -252.3812268411935
+transition loss: 1.6209303140640259
+reward loss: 33.71245193481445
+MF actor loss: 0.9696864485740662
+MF critic loss: 42.29882049560547
+episode 14, total reward -589.5892905401553
+transition loss: 1.4464935064315796
+reward loss: 37.15541458129883
+MF actor loss: 1.1133222579956055
+MF critic loss: 42.18169021606445
+episode 15, total reward -696.9784723419548
+transition loss: 0.88749760389328
+reward loss: 35.279422760009766
+MF actor loss: 1.1632730960845947
+MF critic loss: 38.25833511352539
+episode 16, total reward -621.3885422599182
+transition loss: 1.2449712753295898
+reward loss: 33.97295379638672
+MF actor loss: 1.2806769609451294
+MF critic loss: 42.72133255004883
+episode 17, total reward -377.2656563330104
+transition loss: 0.9438120722770691
+reward loss: 33.44767761230469
+MF actor loss: 1.3607276678085327
+MF critic loss: 42.171852111816406
+episode 18, total reward -649.9374230924936
+transition loss: 0.8748912215232849
+reward loss: 28.828388214111328
+MF actor loss: 1.5094417333602905
+MF critic loss: 41.66872024536133
+episode 19, total reward -698.9028362138554
+transition loss: 0.6772451400756836
+reward loss: 30.898954391479492
+MF actor loss: 1.7154582738876343
+MF critic loss: 40.11876678466797
+episode 20, total reward -374.2439133437007
+start test!
+average_test_reward_sum = -401.28763276489
+transition loss: 0.8492186665534973
+reward loss: 21.68061065673828
+MF actor loss: 2.2656314373016357
+MF critic loss: 33.33535385131836
+episode 21, total reward -533.9630057987379
+transition loss: 0.6829931735992432
+reward loss: 26.13063621520996
+MF actor loss: 2.389098644256592
+MF critic loss: 26.78097915649414
+episode 22, total reward -591.6612648372978
+transition loss: 0.8271653652191162
+reward loss: 22.901853561401367
+MF actor loss: 2.5230188369750977
+MF critic loss: 30.559112548828125
+episode 23, total reward -289.92379094799895
+transition loss: 0.5856184363365173
+reward loss: 20.302595138549805
+MF actor loss: 2.6499216556549072
+MF critic loss: 30.540470123291016
+episode 24, total reward -369.65986875920606
+transition loss: 0.5141544342041016
+reward loss: 16.402618408203125
+MF actor loss: 2.817878484725952
+MF critic loss: 25.575851440429688
+episode 25, total reward -253.10068131500898
+transition loss: 0.417820543050766
+reward loss: 15.477128982543945
+MF actor loss: 2.943413019180298
+MF critic loss: 21.452816009521484
+episode 26, total reward -536.9517794304039
+transition loss: 0.37997886538505554
+reward loss: 13.321682929992676
+MF actor loss: 2.9902634620666504
+MF critic loss: 25.444189071655273
+episode 27, total reward -633.5884181448282
+transition loss: 0.3090444505214691
+reward loss: 16.977190017700195
+MF actor loss: 3.2691426277160645
+MF critic loss: 21.102384567260742
+episode 28, total reward -431.0539332618057
+transition loss: 0.2339293211698532
+reward loss: 16.161680221557617
+MF actor loss: 3.3957958221435547
+MF critic loss: 23.367141723632812
+episode 29, total reward -364.495297031754
+transition loss: 0.2911480665206909
+reward loss: 12.877277374267578
+MF actor loss: 3.4792122840881348
+MF critic loss: 19.324251174926758
+episode 30, total reward -470.47156022318717
+transition loss: 0.27362027764320374
+reward loss: 13.457006454467773
+MF actor loss: 3.832498073577881
+MF critic loss: 16.368053436279297
+episode 31, total reward -361.93372483578776
+transition loss: 0.2526165544986725
+reward loss: 10.28709888458252
+MF actor loss: 3.896695613861084
+MF critic loss: 18.152118682861328
+episode 32, total reward -362.42408972166527
+transition loss: 0.2502457797527313
+reward loss: 12.54116153717041
+MF actor loss: 3.9992127418518066
+MF critic loss: 14.241716384887695
+episode 33, total reward -592.872840260548
+transition loss: 0.27546173334121704
+reward loss: 11.027351379394531
+MF actor loss: 4.112983703613281
+MF critic loss: 15.428918838500977
+episode 34, total reward -388.31139343609067
+transition loss: 0.2656542956829071
+reward loss: 13.308700561523438
+MF actor loss: 4.622894763946533
+MF critic loss: 14.285083770751953
+episode 35, total reward -463.29171877509407
+transition loss: 0.25793489813804626
+reward loss: 11.58971881866455
+MF actor loss: 4.996928691864014
+MF critic loss: 12.882981300354004
+episode 36, total reward -469.4632647496526
+transition loss: 0.27940633893013
+reward loss: 9.43022632598877
+MF actor loss: 5.150875568389893
+MF critic loss: 13.793014526367188
+episode 37, total reward -503.9338285962576
+transition loss: 0.2729274332523346
+reward loss: 9.964204788208008
+MF actor loss: 5.7937774658203125
+MF critic loss: 13.83871078491211
+episode 38, total reward -389.4124504818631
+transition loss: 0.22440212965011597
+reward loss: 9.822271347045898
+MF actor loss: 5.596826076507568
+MF critic loss: 12.031376838684082
+episode 39, total reward -383.20949690761984
+transition loss: 0.25106093287467957
+reward loss: 10.317279815673828
+MF actor loss: 4.991981506347656
+MF critic loss: 12.399820327758789
+episode 40, total reward -247.8245283227081
+start test!
+average_test_reward_sum = -462.66018501890085
+transition loss: 0.1960800290107727
+reward loss: 10.152782440185547
+MF actor loss: 4.709110736846924
+MF critic loss: 12.951440811157227
+episode 41, total reward -653.1233382904903
+transition loss: 0.18889951705932617
+reward loss: 9.664612770080566
+MF actor loss: 5.7106218338012695
+MF critic loss: 10.915925979614258
+episode 42, total reward -593.5087132111042
+transition loss: 0.16073091328144073
+reward loss: 9.674774169921875
+MF actor loss: 5.106424331665039
+MF critic loss: 12.254307746887207
+episode 43, total reward -669.9220906627321
+transition loss: 0.1585804522037506
+reward loss: 11.241300582885742
+MF actor loss: 5.62290620803833
+MF critic loss: 10.711540222167969
+episode 44, total reward -472.3713469838502
+transition loss: 0.1312398612499237
+reward loss: 11.184236526489258
+MF actor loss: 5.6790924072265625
+MF critic loss: 10.281511306762695
+episode 45, total reward -504.98346839811154
+transition loss: 0.1391904503107071
+reward loss: 9.960938453674316
+Traceback (most recent call last):
+  File "MBMF.py", line 146, in <module>
+    main(conf)
+  File "MBMF.py", line 91, in main
+    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(0)
+  File "/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py", line 248, in update
+    mf_s, _, mf_s_a, mf_s_, mf_r, _ = self.sample_transitions("MF")
+  File "/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py", line 207, in sample_transitions
+    s_ = torch.tensor([t.s_ for t in transitions], dtype=torch.float).view(-1, self.dim_state).to(self.device)
+KeyboardInterrupt

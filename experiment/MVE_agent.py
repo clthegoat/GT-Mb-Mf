@@ -89,7 +89,7 @@ class MVE_agent():
         self.max_grad_norm = 0.01
         
 
-    def select_action(self,state, exploration=True):
+    def select_action(self, state, exploration=True):
         """Picks an action using the actor network and then adds some noise to it to ensure exploration"""
         state = state.unsqueeze(0).to(self.device)
         self.actor_local.eval()
@@ -136,6 +136,8 @@ class MVE_agent():
             print("reward loss: {}".format(reward_loss))
             print("actor loss: {}".format(actor_loss))
             print("critic loss: {}".format(critic_loss))
+
+        return trans_loss, reward_loss, actor_loss, critic_loss
         
 
     def trans_learn(self, states_actions, next_states):

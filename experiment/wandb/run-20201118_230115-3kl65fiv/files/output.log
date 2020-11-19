@@ -1,0 +1,107 @@
+****** begin! ******
+****** step1 ******
+/home/yunke/git/DL_MBMF/experiment/MVE_agent.py:115: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 5.906897068023682
+reward loss: 46.26917266845703
+actor loss: 0.09665390849113464
+critic loss: 1.666650414466858
+episode 1, total reward -387.46061293978056
+transition loss: 4.048189640045166
+reward loss: 45.67444610595703
+actor loss: 0.20028527081012726
+critic loss: 1.7446343898773193
+episode 2, total reward -560.1410867296618
+transition loss: 3.1539831161499023
+reward loss: 54.99105453491211
+actor loss: 0.26898521184921265
+critic loss: 2.21763014793396
+episode 3, total reward -665.3799931787958
+transition loss: 2.417964220046997
+reward loss: 57.81791687011719
+actor loss: 0.34482789039611816
+critic loss: 2.4031600952148438
+episode 4, total reward -610.651499616328
+transition loss: 2.1341700553894043
+reward loss: 54.58190155029297
+actor loss: 0.4402148127555847
+critic loss: 2.3283026218414307
+episode 5, total reward -540.2057626842152
+transition loss: 2.1931350231170654
+reward loss: 49.354312896728516
+actor loss: 0.5744209289550781
+critic loss: 2.268294095993042
+episode 6, total reward -369.31832190934404
+transition loss: 2.814486265182495
+reward loss: 49.23994827270508
+actor loss: 0.7744314670562744
+critic loss: 2.333681106567383
+episode 7, total reward -364.9255660751366
+transition loss: 2.7592709064483643
+reward loss: 45.26681137084961
+actor loss: 0.9090626835823059
+critic loss: 2.3000943660736084
+episode 8, total reward -362.42234076583094
+transition loss: 2.9568474292755127
+reward loss: 45.38295364379883
+actor loss: 1.1377363204956055
+critic loss: 2.5046467781066895
+episode 9, total reward -480.9007869142245
+transition loss: 2.5892879962921143
+reward loss: 40.022560119628906
+actor loss: 1.2774370908737183
+critic loss: 2.3328754901885986
+episode 10, total reward -476.9522932190382
+transition loss: 2.194563627243042
+reward loss: 39.09950637817383
+actor loss: 1.333683967590332
+critic loss: 2.3848814964294434
+episode 11, total reward -558.52629911059
+transition loss: 1.6861556768417358
+reward loss: 37.19011306762695
+actor loss: 1.5063772201538086
+critic loss: 2.6815502643585205
+episode 12, total reward -473.540195932512
+transition loss: 1.6572681665420532
+reward loss: 42.714603424072266
+actor loss: 1.6536718606948853
+critic loss: 3.21307373046875
+episode 13, total reward -691.5398338913778
+transition loss: 1.4505268335342407
+reward loss: 36.43951416015625
+actor loss: 1.759055256843567
+critic loss: 3.1797022819519043
+episode 14, total reward -361.5917047427673
+transition loss: 1.6891108751296997
+reward loss: 37.806053161621094
+actor loss: 1.959964632987976
+critic loss: 3.3798394203186035
+episode 15, total reward -465.45354411042234
+transition loss: 1.1875616312026978
+reward loss: 35.400672912597656
+actor loss: 2.084831714630127
+critic loss: 3.576143741607666
+episode 16, total reward -678.2115249111648
+transition loss: 1.445386290550232
+reward loss: 33.44443130493164
+actor loss: 2.3462975025177
+critic loss: 4.139977931976318
+episode 17, total reward -477.8079805494457
+transition loss: 1.3311158418655396
+reward loss: 35.39364242553711
+actor loss: 2.521446704864502
+critic loss: 4.500049591064453
+episode 18, total reward -268.64103621397544
+transition loss: 1.1140722036361694
+reward loss: 27.9642276763916
+actor loss: 2.6735572814941406
+critic loss: 5.281980514526367
+episode 19, total reward -382.58744402946587
+episode 20, total reward -378.25428193507975
+Traceback (most recent call last):
+start test!
+  File "MBMF.py", line 150, in <module>
+    main(conf)
+  File "MBMF.py", line 122, in main
+    test_action = agent.mbmf_select_action(step_num, test_state_list[step_num], exploration=1, relative_step=1)[:,0]
+AttributeError: 'MVE_agent' object has no attribute 'mbmf_select_action'

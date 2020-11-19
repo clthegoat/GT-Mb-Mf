@@ -1,0 +1,107 @@
+****** begin! ******
+****** step1 ******
+/home/yunke/git/DL_MBMF/experiment/MVE_agent.py:115: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 2.8500490188598633
+reward loss: 52.38288116455078
+actor loss: -0.1874784380197525
+critic loss: 2.7745630741119385
+episode 1, total reward -473.29163902865946
+transition loss: 3.99165940284729
+reward loss: 49.91120529174805
+actor loss: -0.07112583518028259
+critic loss: 2.8741180896759033
+episode 2, total reward -339.1012928566082
+transition loss: 3.1664514541625977
+reward loss: 47.09013366699219
+actor loss: 0.006283862050622702
+critic loss: 2.9517486095428467
+episode 3, total reward -564.4649996795041
+transition loss: 3.3362197875976562
+reward loss: 43.522003173828125
+actor loss: 0.12247259169816971
+critic loss: 2.983893394470215
+episode 4, total reward -373.8571647320851
+transition loss: 3.274564027786255
+reward loss: 40.72135543823242
+actor loss: 0.2583628296852112
+critic loss: 3.116302967071533
+episode 5, total reward -489.6216913167219
+transition loss: 2.7480123043060303
+reward loss: 36.01759719848633
+actor loss: 0.3511629104614258
+critic loss: 3.0616118907928467
+episode 6, total reward -378.81237926948063
+transition loss: 2.0778744220733643
+reward loss: 37.37378692626953
+actor loss: 0.44035303592681885
+critic loss: 3.330540895462036
+episode 7, total reward -678.9444555006651
+transition loss: 2.0858230590820312
+reward loss: 36.340145111083984
+actor loss: 0.5953739881515503
+critic loss: 3.6735737323760986
+episode 8, total reward -563.4424186563028
+transition loss: 1.884256362915039
+reward loss: 36.01162338256836
+actor loss: 0.6928942203521729
+critic loss: 4.038620948791504
+episode 9, total reward -521.7289624134277
+transition loss: 1.7335224151611328
+reward loss: 38.64824676513672
+actor loss: 0.8065990805625916
+critic loss: 4.703633785247803
+episode 10, total reward -438.1718713230959
+transition loss: 1.5721689462661743
+reward loss: 35.08546447753906
+actor loss: 1.0203769207000732
+critic loss: 5.10908842086792
+episode 11, total reward -466.6982063244351
+transition loss: 1.3373531103134155
+reward loss: 35.497066497802734
+actor loss: 1.0362879037857056
+critic loss: 5.677877902984619
+episode 12, total reward -651.594703584702
+transition loss: 1.209541916847229
+reward loss: 35.92073059082031
+actor loss: 1.2312957048416138
+critic loss: 6.658434867858887
+episode 13, total reward -549.035715722706
+transition loss: 0.9133183360099792
+reward loss: 26.990802764892578
+actor loss: 1.2289804220199585
+critic loss: 6.236812591552734
+episode 14, total reward -492.74989387980145
+transition loss: 1.0287607908248901
+reward loss: 26.817068099975586
+actor loss: 1.470438838005066
+critic loss: 7.953914642333984
+episode 15, total reward -460.50545866240816
+transition loss: 0.7539119720458984
+reward loss: 23.554658889770508
+actor loss: 1.6185358762741089
+critic loss: 8.852544784545898
+episode 16, total reward -246.12968321366574
+transition loss: 0.9855496287345886
+reward loss: 25.21493911743164
+actor loss: 1.9114065170288086
+critic loss: 11.566550254821777
+episode 17, total reward -423.88264127301125
+transition loss: 0.8834512829780579
+reward loss: 19.830093383789062
+actor loss: 2.094888687133789
+critic loss: 13.754806518554688
+episode 18, total reward -339.79748886161906
+transition loss: 0.6907468438148499
+reward loss: 18.909481048583984
+actor loss: 1.9462614059448242
+critic loss: 12.738639831542969
+episode 19, total reward -572.6411952422116
+episode 20, total reward -630.4843343763494
+start test!
+Traceback (most recent call last):
+  File "MBMF.py", line 151, in <module>
+    main(conf)
+  File "MBMF.py", line 123, in main
+    test_action = agent.select_action(j, test_state_list[j], exploration=False)[:,0]
+IndexError: list index out of range

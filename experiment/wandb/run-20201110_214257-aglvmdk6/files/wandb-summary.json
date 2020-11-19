@@ -1,0 +1,1 @@
+{"trans_loss": 0.00034213648177683353, "_step": 12195, "_runtime": 407, "_timestamp": 1605041384, "reward_loss": 0.0060893273912370205, "mb_actor_loss": 0.0, "mb_critic_loss": 0.0, "mf_actor_loss": 82.26692199707031, "mf_critic_loss": 2.6402409076690674, "average_test_reward_sum": -294.3344358348948}
