@@ -11,10 +11,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.distributions import Normal
+from experiment.models.model_based import actor_model, critic_model
+import wandb
+wandb.init(project="my-project")
+wandb.config["more"] = "custom"
 
 parser = argparse.ArgumentParser(description='Solve the Pendulum-v0 with DDPG')
 parser.add_argument(
-    '--gamma', type=float, default=0.9, metavar='G', help='discount factor (default: 0.9)')
+    '--gamma', type=float, default=0.99, metavar='G', help='discount factor (default: 0.9)')
 
 parser.add_argument('--seed', type=int, default=0, metavar='N', help='random seed (default: 0)')
 parser.add_argument('--render', action='store_true', help='render the environment')
@@ -31,7 +35,8 @@ np.random.seed(args.seed)
 
 TrainingRecord = namedtuple('TrainingRecord', ['ep', 'reward'])
 Transition = namedtuple('Transition', ['s', 'a', 'r', 's_'])
-
+num_random = 1000
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 class ActorNet(nn.Module):
 
@@ -86,16 +91,18 @@ class Agent():
     def __init__(self):
         self.training_step = 0
         self.var = 1.
-        self.eval_cnet, self.target_cnet = CriticNet().float(), CriticNet().float()
-        self.eval_anet, self.target_anet = ActorNet().float(), ActorNet().float()
-        self.memory = Memory(2000)
+        self.eval_cnet, self.target_cnet = critic_model(3, 1).float().to(device), critic_model(3, 1).float().to(device)
+        self.eval_anet, self.target_anet = actor_model(3, 1).float().to(device), actor_model(3, 1).float().to(device)
+        self.memory = Memory(20000)
         self.optimizer_c = optim.Adam(self.eval_cnet.parameters(), lr=1e-3)
-        self.optimizer_a = optim.Adam(self.eval_anet.parameters(), lr=3e-4)
+        self.optimizer_a = optim.Adam(self.eval_anet.parameters(), lr=2e-3)
 
     def select_action(self, state):
-        state = torch.from_numpy(state).float().unsqueeze(0)
+        state = torch.from_numpy(state).float().unsqueeze(0).to(device)
+        # self.eval_anet.eval()
+        # with torch.no_grad():
         mu = self.eval_anet(state)
-        dist = Normal(mu, torch.tensor(self.var, dtype=torch.float))
+        dist = Normal(mu, torch.tensor(self.var, dtype=torch.float).to(device))
         action = dist.sample()
         action.clamp(-2.0, 2.0)
         return (action.item(),)
@@ -110,15 +117,16 @@ class Agent():
     def update(self):
         self.training_step += 1
 
-        transitions = self.memory.sample(32)
-        s = torch.tensor([t.s for t in transitions], dtype=torch.float)
-        a = torch.tensor([t.a for t in transitions], dtype=torch.float).view(-1, 1)
-        r = torch.tensor([t.r for t in transitions], dtype=torch.float).view(-1, 1)
-        s_ = torch.tensor([t.s_ for t in transitions], dtype=torch.float)
-
+        transitions = self.memory.sample(128)
+        s = torch.tensor([t.s for t in transitions], dtype=torch.float).to(device)
+        a = torch.tensor([t.a for t in transitions], dtype=torch.float).view(-1, 1).to(device)
+        r = torch.tensor([t.r for t in transitions], dtype=torch.float).view(-1, 1).to(device)
+        s_ = torch.tensor([t.s_ for t in transitions], dtype=torch.float).to(device)
+        # print('s:', s_.shape)
+        # print('act:', self.target_anet(s_).shape)
         with torch.no_grad():
-            q_target = r + args.gamma * self.target_cnet(s_, self.target_anet(s_))
-        q_eval = self.eval_cnet(s, a)
+            q_target = r + args.gamma * self.target_cnet(torch.cat([s_, self.target_anet(s_)], dim=-1))
+        q_eval = self.eval_cnet(torch.cat([s, a], dim=-1))
 
         # update critic net
         self.optimizer_c.zero_grad()
@@ -129,7 +137,7 @@ class Agent():
 
         # update actor net
         self.optimizer_a.zero_grad()
-        a_loss = -self.eval_cnet(s, self.eval_anet(s)).mean()
+        a_loss = -self.eval_cnet(torch.cat([s, self.eval_anet(s)], dim=-1)).mean()
         a_loss.backward()
         nn.utils.clip_grad_norm_(self.eval_anet.parameters(), self.max_grad_norm)
         self.optimizer_a.step()
@@ -152,21 +160,52 @@ def main():
 
     training_records = []
     running_reward, running_q = -1000, 0
-    for i_ep in range(1000):
+    for i_ep in range(20000):
         score = 0
         state = env.reset()
 
-        for t in range(200):
-            action = agent.select_action(state)
+        for t in range(75):
+            if i_ep <= num_random:
+                action = env.action_space.sample()
+            else:
+                action = agent.select_action(state)
             state_, reward, done, _ = env.step(action)
             score += reward
             if args.render:
                 env.render()
-            agent.store_transition(Transition(state, action, (reward + 8) / 8, state_))
+            agent.store_transition(Transition(state, action, reward, state_))
             state = state_
-            if agent.memory.isfull:
-                q = agent.update()
-                running_q = 0.99 * running_q + 0.01 * q
+        if agent.memory.isfull:
+            q = agent.update()
+            running_q = 0.99 * running_q + 0.01 * q
+
+        if i_ep % 10 == 0 and i_ep > 0:
+            test_reward_sum = 0
+            for num in range(10):
+                # print('test time {}'.format(num))
+                test_state_list = []
+                # init_state = env.reset()
+                # reset the state to be a single start point:
+                test_init_state = env.reset()
+                test_state_list.append(test_init_state)
+                for step_num in range(75):
+                    # print('step {} in episode {}'.format(step_num,i))
+                    test_action = agent.select_action(test_state_list[step_num])
+                    test_state_action = np.concatenate((test_state_list[step_num], test_action))
+
+                    # environment iteraction
+                    # print(env.state)
+                    test_gt_state, test_gt_reward, done, info = env.step(test_action)
+                    test_state_list.append(test_gt_state)
+
+                    # memory store
+                    # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+                    agent.store_transition(Transition(state, test_action, test_gt_reward, test_gt_state))
+
+                    test_reward_sum += test_gt_reward
+            average_test_reward_sum = test_reward_sum / 10
+            print('average_test_reward_sum = {}'.format(average_test_reward_sum))
+            wandb.log({"average_test_reward_sum": average_test_reward_sum})
 
         running_reward = running_reward * 0.9 + score * 0.1
         training_records.append(TrainingRecord(i_ep, running_reward))
