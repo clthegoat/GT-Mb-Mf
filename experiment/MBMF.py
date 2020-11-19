@@ -22,12 +22,51 @@ wandb.config["more"] = "custom"
 # Ext_transition = namedtuple('Ext_transition', ['state', 'action', 'state_action', 'next state', 'reward', 'done'])
 # Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_', 'r', 'done'])
 # MBMF_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+Ext_transition = namedtuple('MBMF_transition',
+                            ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+
 
 def main(conf):
     print('****** begin! ******')
     env = PendulumEnv()
     Agent_Type = conf.train.Agent_Type
+
+    # parser = argparse.ArgumentParser()
+
+    # train params
+    args.num_trials = conf.train.num_trials
+    args.trail_len = conf.train.trail_len
+    args.num_random = conf.train.num_random
+    args.action_noise = conf.train.action_noise
+    args.gamma = conf.train.gamma
+    args.target_update_num = conf.train.target_update_num
+    args.Agent_Type = conf.train.Agent_Type
+    args.K = conf.train.K
+    args.c1 = conf.train.c1
+    args.c2 = conf.train.c2
+
+    # data params
+    args.name = conf.data.name
+    args.state_dim = conf.data.state.dim
+    args.action_dim = conf.data.action.dim
+    args.mem_capacity = conf.data.mem_capacity
+    args.mem_batchsize = conf.data.mem_batchsize
+    args.mb_mem_batchsize = conf.data.mb_mem_batchsize
+
+    # planning params
+    args.planning_horizon = conf.planning.horizon
+    args.ilqr_learning_rate = conf.planning.ilqr_learning_rate
+    args.ilqr_iteration_num = conf.planning.ilqr_iteration_num
+    args.shooting_num = conf.planning.shooting_num
+
+    # MVE params
+    args.MVE_horizon = conf.MVE.horizon
+    args.iteration_num = conf.MVE.iteration_num
+    args.target_model_update_rate = conf.MVE.target_model_update_rate
+    # args = parser.parse_args()
+
+    wandb.config.update(args)  # adds all of the arguments as config variables
+
     if Agent_Type == "MPC":
         agent = MPC_agent(conf)
     elif Agent_Type == "MVE":
@@ -47,24 +86,27 @@ def main(conf):
         state_list = []
         #init_state = env.reset()
         #reset the state to be a single start point:
-        
+
         init_state = env.reset()
         # if i>agent.num_random:
         #     env.state = np.asarray([0.,0.])
         #     init_state = env._get_obs()
         #     env.last_u = None
         #     print(init_state)
-            #print(agent.value_model(torch.from_numpy(init_state).float()))
+        #print(agent.value_model(torch.from_numpy(init_state).float()))
         state_list.append(torch.tensor(init_state, dtype=torch.float))
 
         episode_reward = 0
         for j in range(trial_len):
             # print('step {} in episode {}'.format(j,i))
             # here should be replace with action solved by LQR
-            if i<=agent.num_random:
+            if i <= agent.num_random:
                 action = env.action_space.sample()
             else:
-                action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
+                action = agent.mbmf_select_action(j,
+                                                  state_list[j],
+                                                  exploration=1,
+                                                  relative_step=1)[:, 0]
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -74,7 +116,9 @@ def main(conf):
 
             # memory store
             # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-            agent.store_transition(Ext_transition(state_list[j], action, state_action, gt_state, gt_reward, j, done))
+            agent.store_transition(
+                Ext_transition(state_list[j], action, state_action, gt_state,
+                               gt_reward, j, done))
 
             episode_reward += gt_reward
             #render
@@ -82,14 +126,14 @@ def main(conf):
                 env.render()
 
         # train
-        if agent.memory.count>agent.batch_size:
-            if i<=agent.num_random:
+        if agent.memory.count > agent.batch_size:
+            if i <= agent.num_random:
                 agent.update(0)
             else:
                 agent.update(1)
 
         #see the trend of reward
-        print('episode {}, total reward {}'.format(i,episode_reward))
+        print('episode {}, total reward {}'.format(i, episode_reward))
 
         #test every 10 episodes
         if i % 10 == 0 and i > 0:
@@ -102,24 +146,36 @@ def main(conf):
                 # init_state = env.reset()
                 # reset the state to be a single start point:
                 test_init_state = env.reset()
-                test_state_list.append(torch.tensor(test_init_state, dtype=torch.float))
+                test_state_list.append(
+                    torch.tensor(test_init_state, dtype=torch.float))
                 for step_num in range(trial_len):
                     # print('step {} in episode {}'.format(step_num,i))
-                    test_action = agent.mbmf_select_action(step_num, test_state_list[step_num], exploration=1, relative_step=1)[:,0]
-                    test_state_action = np.concatenate((test_state_list[step_num], test_action))
+                    test_action = agent.mbmf_select_action(
+                        step_num,
+                        test_state_list[step_num],
+                        exploration=1,
+                        relative_step=1)[:, 0]
+                    test_state_action = np.concatenate(
+                        (test_state_list[step_num], test_action))
 
                     # environment iteraction
                     # print(env.state)
-                    test_gt_state, test_gt_reward, done, info = env.step(test_action)
-                    test_state_list.append(torch.tensor(test_gt_state, dtype=torch.float))
+                    test_gt_state, test_gt_reward, done, info = env.step(
+                        test_action)
+                    test_state_list.append(
+                        torch.tensor(test_gt_state, dtype=torch.float))
 
                     # memory store
                     # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-                    agent.store_transition(Ext_transition(test_state_list[step_num], test_action, test_state_action, test_gt_state, test_gt_reward, step_num, done))
+                    agent.store_transition(
+                        Ext_transition(test_state_list[step_num], test_action,
+                                       test_state_action, test_gt_state,
+                                       test_gt_reward, step_num, done))
 
                     test_reward_sum += test_gt_reward
             average_test_reward_sum = test_reward_sum / 10
-            print('average_test_reward_sum = {}'.format(average_test_reward_sum))
+            print(
+                'average_test_reward_sum = {}'.format(average_test_reward_sum))
             wandb.log({"average_test_reward_sum": average_test_reward_sum})
 
     print('****** done! ******')
@@ -134,4 +190,3 @@ if __name__ == '__main__':
     conf = OmegaConf.load(args.conf)
 
     main(conf)
- 
