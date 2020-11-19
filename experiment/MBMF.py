@@ -34,35 +34,35 @@ def main(conf):
     # parser = argparse.ArgumentParser()
 
     # train params
-    args.num_trials = conf.train.num_trials
-    args.trail_len = conf.train.trail_len
-    args.num_random = conf.train.num_random
-    args.action_noise = conf.train.action_noise
-    args.gamma = conf.train.gamma
-    args.target_update_num = conf.train.target_update_num
-    args.Agent_Type = conf.train.Agent_Type
-    args.K = conf.train.K
-    args.c1 = conf.train.c1
-    args.c2 = conf.train.c2
+    args.train_num_trials = conf.train.num_trials
+    args.train_trail_len = conf.train.trail_len
+    args.train_num_random = conf.train.num_random
+    args.train_action_noise = conf.train.action_noise
+    args.train_gamma = conf.train.gamma
+    args.train_target_update_num = conf.train.target_update_num
+    args.train_agent_Type = conf.train.Agent_Type
+    args.train_K = conf.train.K
+    args.train_c1 = conf.train.c1
+    args.train_c2 = conf.train.c2
 
     # data params
-    args.name = conf.data.name
-    args.state_dim = conf.data.state.dim
-    args.action_dim = conf.data.action.dim
-    args.mem_capacity = conf.data.mem_capacity
-    args.mem_batchsize = conf.data.mem_batchsize
-    args.mb_mem_batchsize = conf.data.mb_mem_batchsize
+    args.data_name = conf.data.name
+    args.data_state_dim = conf.data.state.dim
+    args.data_action_dim = conf.data.action.dim
+    args.data_mem_capacity = conf.data.mem_capacity
+    args.data_mem_batchsize = conf.data.mem_batchsize
+    args.data_mb_mem_batchsize = conf.data.mb_mem_batchsize
 
     # planning params
     args.planning_horizon = conf.planning.horizon
-    args.ilqr_learning_rate = conf.planning.ilqr_learning_rate
-    args.ilqr_iteration_num = conf.planning.ilqr_iteration_num
-    args.shooting_num = conf.planning.shooting_num
+    args.planning_ilqr_learning_rate = conf.planning.ilqr_learning_rate
+    args.planning_ilqr_iteration_num = conf.planning.ilqr_iteration_num
+    args.planning_shooting_num = conf.planning.shooting_num
 
     # MVE params
-    args.MVE_horizon = conf.MVE.horizon
-    args.iteration_num = conf.MVE.iteration_num
-    args.target_model_update_rate = conf.MVE.target_model_update_rate
+    args.mve_horizon = conf.MVE.horizon
+    args.mve_iteration_num = conf.MVE.iteration_num
+    args.mve_target_model_update_rate = conf.MVE.target_model_update_rate
     # args = parser.parse_args()
 
     wandb.config.update(args)  # adds all of the arguments as config variables
