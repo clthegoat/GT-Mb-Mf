@@ -1,0 +1,2542 @@
+****** begin! ******
+****** step1 ******
+episode 0, total reward -444.3598298980317
+/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py:201: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+episode 1, total reward -368.1331918406629
+episode 2, total reward -382.956224308998
+episode 3, total reward -460.96740030734446
+episode 4, total reward -296.9050475253487
+episode 5, total reward -272.01596369514874
+episode 6, total reward -370.14405264227986
+episode 7, total reward -365.5844595216943
+episode 8, total reward -367.83641149074896
+episode 9, total reward -369.3248453106933
+episode 10, total reward -462.4861284558019
+episode 11, total reward -459.74189428657735
+episode 12, total reward -475.5706259918072
+episode 13, total reward -411.4998262279415
+episode 14, total reward -466.59514408493743
+episode 15, total reward -486.77968965507563
+episode 16, total reward -450.43441188642373
+episode 17, total reward -263.959283048385
+episode 18, total reward -486.91465017146925
+episode 19, total reward -458.0664729001673
+episode 20, total reward -472.24158622060594
+start test!
+average_test_reward_sum = -472.68468356383727
+episode 21, total reward -363.958943615485
+episode 22, total reward -454.00261906702804
+episode 23, total reward -548.1099653421991
+episode 24, total reward -479.52194287431587
+episode 25, total reward -467.27559700445937
+episode 26, total reward -470.2477408485358
+episode 27, total reward -460.0837979077384
+episode 28, total reward -616.2466894883103
+episode 29, total reward -469.32914198647734
+episode 30, total reward -679.9202973030905
+episode 31, total reward -468.33136536110294
+episode 32, total reward -433.25364364103496
+episode 33, total reward -366.7240681489538
+episode 34, total reward -429.23285325280204
+episode 35, total reward -479.68540428839293
+episode 36, total reward -548.4678655746102
+episode 37, total reward -352.88861369010965
+episode 38, total reward -381.0200553342493
+episode 39, total reward -678.2519052788667
+episode 40, total reward -262.1398895419064
+start test!
+average_test_reward_sum = -498.0066639615804
+episode 41, total reward -376.66923155433904
+episode 42, total reward -379.975842063499
+episode 43, total reward -456.5478937559119
+episode 44, total reward -374.59552040181404
+episode 45, total reward -381.23870284811096
+episode 46, total reward -366.86913785928425
+episode 47, total reward -474.8718168549768
+episode 48, total reward -570.2300872520573
+episode 49, total reward -660.9706641816916
+episode 50, total reward -428.83316776687263
+episode 51, total reward -466.6685572670002
+episode 52, total reward -591.8639322659448
+episode 53, total reward -643.8416494846595
+episode 54, total reward -595.3887039248444
+episode 55, total reward -568.3390011753884
+episode 56, total reward -498.2368190926321
+episode 57, total reward -521.3359556384726
+episode 58, total reward -564.4108801234187
+episode 59, total reward -475.37065879526233
+episode 60, total reward -456.7123425666387
+start test!
+average_test_reward_sum = -558.7962618575427
+episode 61, total reward -493.9536975925812
+episode 62, total reward -346.28622576515056
+episode 63, total reward -507.9877023562486
+episode 64, total reward -326.14730089432084
+episode 65, total reward -245.36511938857672
+episode 66, total reward -501.0323771964967
+episode 67, total reward -433.4919277929651
+episode 68, total reward -456.09589877109846
+episode 69, total reward -701.312216711887
+episode 70, total reward -542.9592665802417
+episode 71, total reward -556.6733250433153
+episode 72, total reward -548.6295652122465
+episode 73, total reward -458.5887463285971
+episode 74, total reward -519.3725945857253
+episode 75, total reward -364.610069450756
+episode 76, total reward -407.615400540385
+episode 77, total reward -631.3890478404072
+episode 78, total reward -357.16475813216937
+episode 79, total reward -536.6075416228261
+episode 80, total reward -359.5379791157749
+start test!
+average_test_reward_sum = -552.6251195007563
+episode 81, total reward -371.30095224032186
+episode 82, total reward -481.9124902688404
+episode 83, total reward -477.9659470539394
+episode 84, total reward -459.7896993962071
+episode 85, total reward -378.60705576758414
+episode 86, total reward -376.01771248705325
+episode 87, total reward -582.1262902425308
+episode 88, total reward -546.3814915292647
+episode 89, total reward -378.8132631080265
+episode 90, total reward -606.3855299794938
+episode 91, total reward -271.55970709813744
+episode 92, total reward -458.2251067666684
+episode 93, total reward -366.6770707062214
+episode 94, total reward -377.2091356192126
+episode 95, total reward -462.0210457557779
+episode 96, total reward -471.27785938288974
+episode 97, total reward -396.30589908666053
+episode 98, total reward -538.6705371557714
+episode 99, total reward -486.9356863924999
+episode 100, total reward -557.3143696581251
+start test!
+average_test_reward_sum = -519.0876738428169
+episode 101, total reward -488.7537606445337
+episode 102, total reward -475.2448241322856
+episode 103, total reward -381.3125972935801
+episode 104, total reward -366.1161722666274
+episode 105, total reward -254.7664583890015
+episode 106, total reward -340.1346923788441
+episode 107, total reward -663.2528351538399
+episode 108, total reward -650.2232288550833
+episode 109, total reward -654.5989667646858
+episode 110, total reward -470.31251346223536
+episode 111, total reward -644.7583328638364
+episode 112, total reward -377.2551531812136
+episode 113, total reward -464.4355537474353
+episode 114, total reward -363.8046048779441
+episode 115, total reward -689.1306627969996
+episode 116, total reward -338.03399228102865
+episode 117, total reward -534.6708355793423
+episode 118, total reward -510.630482176172
+episode 119, total reward -416.64491897499653
+episode 120, total reward -365.9347200911384
+start test!
+average_test_reward_sum = -537.0376280395503
+episode 121, total reward -246.29701609778724
+episode 122, total reward -364.11979690199735
+episode 123, total reward -352.3040771259069
+episode 124, total reward -691.4814260275688
+episode 125, total reward -358.6563449199716
+episode 126, total reward -642.4861088401854
+episode 127, total reward -357.0470812228714
+episode 128, total reward -431.4396991734766
+episode 129, total reward -416.69412905189665
+episode 130, total reward -466.3295295135773
+episode 131, total reward -618.6388936267276
+episode 132, total reward -390.9193624029649
+episode 133, total reward -371.24240634692194
+episode 134, total reward -445.5183736974196
+episode 135, total reward -450.4222608669287
+episode 136, total reward -673.3554192534481
+episode 137, total reward -568.3600981543855
+episode 138, total reward -252.9914718766454
+episode 139, total reward -437.4317995523818
+episode 140, total reward -511.8508200108736
+start test!
+average_test_reward_sum = -524.7588183809092
+episode 141, total reward -491.06371990634045
+episode 142, total reward -506.1285374452479
+episode 143, total reward -374.2028141997831
+episode 144, total reward -669.2729090723775
+episode 145, total reward -284.6384061654611
+episode 146, total reward -362.94115047295844
+episode 147, total reward -387.82255580945133
+episode 148, total reward -627.7787243649726
+episode 149, total reward -446.86920773489345
+episode 150, total reward -440.5153478469687
+episode 151, total reward -364.55815089349323
+episode 152, total reward -591.8138386078798
+episode 153, total reward -388.0496015547185
+episode 154, total reward -474.10317597357914
+episode 155, total reward -579.8715962508796
+episode 156, total reward -252.53600666946713
+episode 157, total reward -477.440658111867
+episode 158, total reward -500.46639221014465
+episode 159, total reward -411.7569004729356
+episode 160, total reward -473.1464346559317
+start test!
+average_test_reward_sum = -503.24375249111847
+episode 161, total reward -365.6416308452851
+episode 162, total reward -339.75256521894767
+episode 163, total reward -457.1618574152528
+episode 164, total reward -268.37346394692304
+episode 165, total reward -361.66701265530565
+episode 166, total reward -370.5505303256558
+episode 167, total reward -363.65724334600463
+episode 168, total reward -295.3519582741679
+episode 169, total reward -651.019445946765
+episode 170, total reward -287.0188450237547
+episode 171, total reward -534.6995947619853
+episode 172, total reward -250.80728507081886
+episode 173, total reward -379.1001685268802
+episode 174, total reward -576.1902188131806
+episode 175, total reward -565.8884709892758
+episode 176, total reward -364.8437873923559
+episode 177, total reward -455.83105144763124
+episode 178, total reward -365.7242815970969
+episode 179, total reward -318.0134018885878
+episode 180, total reward -485.24624454614104
+start test!
+average_test_reward_sum = -521.9984101370673
+episode 181, total reward -478.6222865753807
+episode 182, total reward -245.546932410354
+episode 183, total reward -363.9486977134246
+episode 184, total reward -361.20783649377876
+episode 185, total reward -371.31603854197033
+episode 186, total reward -519.3237947415021
+episode 187, total reward -606.7269300806596
+episode 188, total reward -513.9319257235836
+episode 189, total reward -449.61586438459994
+episode 190, total reward -335.4105267404348
+episode 191, total reward -650.9076425237537
+episode 192, total reward -644.5570670864369
+episode 193, total reward -660.3039638723636
+episode 194, total reward -490.046786808406
+episode 195, total reward -488.90708855024275
+episode 196, total reward -477.24992102119324
+episode 197, total reward -486.0488043477397
+episode 198, total reward -459.54652948300287
+episode 199, total reward -461.1038496792218
+episode 200, total reward -367.7285309347504
+start test!
+average_test_reward_sum = -561.9676684419467
+episode 201, total reward -471.6517907181742
+episode 202, total reward -256.962829819405
+episode 203, total reward -481.3883062131574
+episode 204, total reward -589.7606998376547
+episode 205, total reward -541.6821633836413
+episode 206, total reward -483.5210811550999
+episode 207, total reward -615.7203412532456
+episode 208, total reward -343.1506320230426
+episode 209, total reward -475.38312884551533
+episode 210, total reward -681.1372240421381
+episode 211, total reward -659.6567070262147
+episode 212, total reward -535.9808509595765
+episode 213, total reward -502.4801802943159
+episode 214, total reward -313.2275537409119
+episode 215, total reward -588.174712242249
+episode 216, total reward -460.52081987660614
+episode 217, total reward -667.146195773973
+episode 218, total reward -359.0035973297761
+episode 219, total reward -364.1485358924327
+episode 220, total reward -512.261476208342
+start test!
+average_test_reward_sum = -573.1696541897755
+episode 221, total reward -464.68335587940794
+episode 222, total reward -666.4818934937957
+episode 223, total reward -689.3401088683128
+episode 224, total reward -576.5662659601179
+episode 225, total reward -251.03597615342485
+episode 226, total reward -392.57343611360955
+episode 227, total reward -525.1073919020921
+episode 228, total reward -251.5970159030757
+episode 229, total reward -381.31604984214937
+episode 230, total reward -440.71365256618896
+episode 231, total reward -598.1793756991519
+episode 232, total reward -471.841106067232
+episode 233, total reward -651.3403126993117
+episode 234, total reward -363.99069534756245
+episode 235, total reward -364.62307557357576
+episode 236, total reward -521.0622931509441
+episode 237, total reward -253.12998279786558
+episode 238, total reward -365.06734509297905
+episode 239, total reward -579.0793269524085
+episode 240, total reward -680.9824364354699
+start test!
+average_test_reward_sum = -555.9371331449399
+episode 241, total reward -517.7124840939856
+episode 242, total reward -364.4764171165538
+episode 243, total reward -360.60984180614855
+episode 244, total reward -383.29944515363286
+episode 245, total reward -492.54275253682204
+episode 246, total reward -361.3159546285103
+episode 247, total reward -469.8351208756457
+episode 248, total reward -249.75819826531975
+episode 249, total reward -661.1212815094592
+episode 250, total reward -399.05368370130816
+episode 251, total reward -424.0959157265684
+episode 252, total reward -491.25029662405484
+episode 253, total reward -369.8028187936752
+episode 254, total reward -432.04573373459294
+episode 255, total reward -334.5228180059925
+episode 256, total reward -504.23296771849755
+episode 257, total reward -623.2616580516459
+episode 258, total reward -510.1695423181876
+episode 259, total reward -531.4615003627349
+episode 260, total reward -363.50009879931105
+start test!
+average_test_reward_sum = -592.332925678078
+episode 261, total reward -482.0717166691937
+episode 262, total reward -368.2689592782898
+episode 263, total reward -471.620858066871
+episode 264, total reward -385.79880583490393
+episode 265, total reward -379.71176360396635
+episode 266, total reward -300.6442567629405
+episode 267, total reward -440.35270853973475
+episode 268, total reward -363.312202997358
+episode 269, total reward -657.8791812380604
+episode 270, total reward -537.2581666649905
+episode 271, total reward -363.9642779547808
+episode 272, total reward -417.0994829385988
+episode 273, total reward -552.6170196368179
+episode 274, total reward -459.33489844681674
+episode 275, total reward -360.5877497736369
+episode 276, total reward -607.1635784590937
+episode 277, total reward -704.5024186925839
+episode 278, total reward -362.352047560645
+episode 279, total reward -643.1403152173234
+episode 280, total reward -465.347264196347
+start test!
+average_test_reward_sum = -583.9224487289255
+episode 281, total reward -622.2016614677788
+episode 282, total reward -530.2125428760952
+episode 283, total reward -575.2463982123546
+episode 284, total reward -459.73833102079925
+episode 285, total reward -650.9925966740992
+episode 286, total reward -479.3316004247958
+episode 287, total reward -641.2846773865905
+episode 288, total reward -642.3836600472955
+episode 289, total reward -520.7350398527989
+episode 290, total reward -458.30017654180364
+episode 291, total reward -394.9808776211551
+episode 292, total reward -372.96287757517155
+episode 293, total reward -565.4993531761176
+episode 294, total reward -603.2523759478794
+episode 295, total reward -364.28161865017626
+episode 296, total reward -343.4326915650346
+episode 297, total reward -423.6127741950325
+episode 298, total reward -574.2977689604005
+episode 299, total reward -683.5500489879884
+episode 300, total reward -479.121081488434
+start test!
+average_test_reward_sum = -579.2959075912864
+episode 301, total reward -617.696680078096
+episode 302, total reward -639.709084018565
+episode 303, total reward -495.9932687820867
+episode 304, total reward -293.86464039090026
+episode 305, total reward -377.77235605137014
+episode 306, total reward -471.6035613122007
+episode 307, total reward -266.04865321882943
+episode 308, total reward -610.0040564651888
+episode 309, total reward -467.95397444073376
+episode 310, total reward -478.81937836621523
+episode 311, total reward -354.19225862153894
+episode 312, total reward -501.3276193091144
+episode 313, total reward -613.7545688931357
+episode 314, total reward -421.42031433393566
+episode 315, total reward -456.15532453875437
+episode 316, total reward -329.478496966506
+episode 317, total reward -636.1666936778853
+episode 318, total reward -364.2924992286781
+episode 319, total reward -354.7452188888866
+episode 320, total reward -279.3323658159555
+start test!
+average_test_reward_sum = -559.466162339017
+episode 321, total reward -635.7559304629531
+episode 322, total reward -518.8655184702856
+episode 323, total reward -325.6917058110246
+episode 324, total reward -692.268808157564
+episode 325, total reward -382.3145130692617
+episode 326, total reward -439.96586681577685
+episode 327, total reward -356.7895853661613
+episode 328, total reward -512.3051438731916
+episode 329, total reward -246.7424957588083
+episode 330, total reward -533.104315378066
+episode 331, total reward -271.72856423809975
+episode 332, total reward -401.9399167769344
+episode 333, total reward -586.2311370536754
+episode 334, total reward -272.7046538696499
+episode 335, total reward -516.9510576985382
+episode 336, total reward -552.3275217383051
+episode 337, total reward -510.30281302271607
+episode 338, total reward -361.8272386304705
+episode 339, total reward -376.47360812241567
+episode 340, total reward -709.1315409512003
+start test!
+average_test_reward_sum = -586.7389597572561
+episode 341, total reward -589.0668803906512
+episode 342, total reward -595.6359126555298
+episode 343, total reward -591.7540218269858
+episode 344, total reward -483.7104981193038
+episode 345, total reward -465.852899322971
+episode 346, total reward -530.8208137034826
+episode 347, total reward -528.9656771434596
+episode 348, total reward -256.8885788686574
+episode 349, total reward -331.3159696937249
+episode 350, total reward -572.343067143566
+episode 351, total reward -669.5041530367688
+episode 352, total reward -378.88719443501145
+episode 353, total reward -540.0366041812919
+episode 354, total reward -266.79158944137623
+episode 355, total reward -282.79722026145225
+episode 356, total reward -378.25254703730894
+episode 357, total reward -499.79086841351614
+episode 358, total reward -589.809619376854
+episode 359, total reward -476.6773469998704
+episode 360, total reward -582.3884897527477
+start test!
+average_test_reward_sum = -526.4752196529595
+episode 361, total reward -596.2745641526449
+episode 362, total reward -316.08230640579205
+episode 363, total reward -670.9211698586437
+episode 364, total reward -520.7187711806431
+episode 365, total reward -385.20449579168496
+episode 366, total reward -370.418819341235
+episode 367, total reward -417.2730326629431
+episode 368, total reward -507.61513946111165
+episode 369, total reward -364.82902338092885
+episode 370, total reward -644.9979665543331
+episode 371, total reward -365.42858839564747
+episode 372, total reward -367.5197607266631
+episode 373, total reward -359.843945976246
+episode 374, total reward -508.4120665304225
+episode 375, total reward -461.24018547380643
+episode 376, total reward -477.49778219156525
+episode 377, total reward -482.5176530083437
+episode 378, total reward -380.6146871030828
+episode 379, total reward -556.1786826068437
+episode 380, total reward -467.0654740784573
+start test!
+average_test_reward_sum = -570.7016960659681
+episode 381, total reward -574.1338943605768
+episode 382, total reward -621.8930434544803
+episode 383, total reward -630.1568321204487
+episode 384, total reward -488.221672631035
+episode 385, total reward -628.2624713158468
+episode 386, total reward -504.5549089149923
+episode 387, total reward -558.7871440508951
+episode 388, total reward -629.0737640518645
+episode 389, total reward -466.7666989785316
+episode 390, total reward -560.3377474836515
+episode 391, total reward -705.9983944243922
+episode 392, total reward -324.1241570552232
+episode 393, total reward -446.4559512119846
+episode 394, total reward -491.456518643981
+episode 395, total reward -382.17209489266594
+episode 396, total reward -363.0046719089859
+episode 397, total reward -314.8962893045661
+episode 398, total reward -471.5055173739272
+episode 399, total reward -369.33957786021375
+episode 400, total reward -440.0394909952673
+start test!
+average_test_reward_sum = -575.407680703464
+episode 401, total reward -251.23469718257962
+episode 402, total reward -685.4919522416047
+episode 403, total reward -338.1424672856145
+episode 404, total reward -474.44731328507464
+episode 405, total reward -360.7466625531628
+episode 406, total reward -262.4990391391818
+episode 407, total reward -465.43315269103033
+episode 408, total reward -395.7416075329773
+episode 409, total reward -498.79930996638075
+episode 410, total reward -379.16403541322416
+episode 411, total reward -363.6665343412519
+episode 412, total reward -594.2732850243441
+episode 413, total reward -633.1993654381367
+episode 414, total reward -493.4032972586507
+episode 415, total reward -371.08519151937406
+episode 416, total reward -360.5653737040674
+episode 417, total reward -389.0307523700025
+episode 418, total reward -469.2248856626791
+episode 419, total reward -537.21629235917
+episode 420, total reward -479.8660019842971
+start test!
+average_test_reward_sum = -555.8364181304677
+episode 421, total reward -539.6664189957804
+episode 422, total reward -654.311931595743
+episode 423, total reward -699.0064248769955
+episode 424, total reward -351.1045299114132
+episode 425, total reward -250.44705013466907
+episode 426, total reward -386.8894888869854
+episode 427, total reward -367.5800060470678
+episode 428, total reward -362.28705276952127
+episode 429, total reward -579.3711914238824
+episode 430, total reward -482.0715140091875
+episode 431, total reward -450.0552563849609
+episode 432, total reward -359.5193641873771
+episode 433, total reward -250.34400146281317
+episode 434, total reward -464.90582432030783
+episode 435, total reward -602.3141433849734
+episode 436, total reward -367.6018875614614
+episode 437, total reward -288.87099092513955
+episode 438, total reward -411.6189048827375
+episode 439, total reward -554.6883098617931
+episode 440, total reward -570.8385441280436
+start test!
+average_test_reward_sum = -530.1389989205284
+episode 441, total reward -677.2546749200584
+episode 442, total reward -390.13030353210036
+episode 443, total reward -482.48003893018307
+episode 444, total reward -442.9470998860419
+episode 445, total reward -359.463355946523
+episode 446, total reward -377.9225804060892
+episode 447, total reward -450.6392915515921
+episode 448, total reward -483.0329329777164
+episode 449, total reward -460.34202015931623
+episode 450, total reward -620.933182018157
+episode 451, total reward -267.1664254390023
+episode 452, total reward -375.84302946861413
+episode 453, total reward -669.6863831925044
+episode 454, total reward -655.0810579141664
+episode 455, total reward -571.877151411771
+episode 456, total reward -323.84527161588176
+episode 457, total reward -372.18751500866483
+episode 458, total reward -364.6378459733334
+episode 459, total reward -373.7566681790826
+episode 460, total reward -593.2950823645313
+start test!
+average_test_reward_sum = -516.5218942990914
+episode 461, total reward -461.3195213287152
+episode 462, total reward -345.22323036779454
+episode 463, total reward -661.5552887551746
+episode 464, total reward -334.741801533825
+episode 465, total reward -267.7664814141833
+episode 466, total reward -253.58163433650705
+episode 467, total reward -529.4214659006044
+episode 468, total reward -463.9597843281688
+episode 469, total reward -598.3683729142662
+episode 470, total reward -356.5031273441689
+episode 471, total reward -464.0907478558241
+episode 472, total reward -272.64516595455336
+episode 473, total reward -254.04787162648051
+episode 474, total reward -279.18178517191836
+episode 475, total reward -648.239975607566
+episode 476, total reward -468.1615975421902
+episode 477, total reward -367.7779859969543
+episode 478, total reward -567.7628871797463
+episode 479, total reward -556.489674823681
+episode 480, total reward -686.834415375372
+start test!
+average_test_reward_sum = -537.8437581556275
+episode 481, total reward -578.5640426270533
+episode 482, total reward -471.9539251747249
+episode 483, total reward -252.3557476366967
+episode 484, total reward -257.07010196544525
+episode 485, total reward -456.5305943994153
+episode 486, total reward -603.1235689766132
+episode 487, total reward -288.59203357058067
+episode 488, total reward -365.3284760973321
+episode 489, total reward -257.4385938071808
+episode 490, total reward -374.2065592317665
+episode 491, total reward -699.2135967091806
+episode 492, total reward -548.0297836973704
+episode 493, total reward -496.6332591803346
+episode 494, total reward -302.8946631538331
+episode 495, total reward -361.7546676179418
+episode 496, total reward -249.7432035869069
+episode 497, total reward -482.1337642583286
+episode 498, total reward -323.37878898281605
+episode 499, total reward -494.0454368184169
+episode 500, total reward -362.9731791692703
+start test!
+average_test_reward_sum = -463.76490958003694
+episode 501, total reward -377.0715798713489
+episode 502, total reward -364.28810966366444
+episode 503, total reward -437.1139069855452
+episode 504, total reward -667.5527463751686
+episode 505, total reward -708.4487800142783
+episode 506, total reward -483.31253100942394
+episode 507, total reward -431.6301536689151
+episode 508, total reward -362.9833682058197
+episode 509, total reward -382.17750714818607
+episode 510, total reward -519.8728843778457
+episode 511, total reward -272.18634513039734
+episode 512, total reward -602.4684557084659
+episode 513, total reward -465.2397897353013
+episode 514, total reward -345.3363694249324
+episode 515, total reward -604.6943881250414
+episode 516, total reward -532.9421051789881
+episode 517, total reward -459.55781122467283
+episode 518, total reward -265.3316487918468
+episode 519, total reward -478.9885948821524
+episode 520, total reward -361.02052979552866
+start test!
+average_test_reward_sum = -523.2717158259416
+episode 521, total reward -445.5480114450713
+episode 522, total reward -361.27686584394155
+episode 523, total reward -566.0535501375504
+episode 524, total reward -365.29114202515484
+episode 525, total reward -287.8305806177213
+episode 526, total reward -364.1527253522046
+episode 527, total reward -433.4237163240246
+episode 528, total reward -252.71738890022223
+episode 529, total reward -311.6422445353104
+episode 530, total reward -278.21456761143816
+episode 531, total reward -363.91872268854826
+episode 532, total reward -609.1733863091714
+episode 533, total reward -358.77918857944957
+episode 534, total reward -247.09002749489858
+episode 535, total reward -369.43844911485905
+episode 536, total reward -318.66428624873936
+episode 537, total reward -254.65317774013758
+episode 538, total reward -644.522763183245
+episode 539, total reward -403.74064511325787
+episode 540, total reward -437.18152735705974
+start test!
+average_test_reward_sum = -466.0782539673264
+episode 541, total reward -634.2093196237505
+episode 542, total reward -364.1061205880869
+episode 543, total reward -365.18549786822206
+episode 544, total reward -609.4661319567078
+episode 545, total reward -377.19128416833735
+episode 546, total reward -705.210852183545
+episode 547, total reward -477.6162422521616
+episode 548, total reward -509.22683390984935
+episode 549, total reward -496.9374314622562
+episode 550, total reward -578.1555091782371
+episode 551, total reward -653.3460324010669
+episode 552, total reward -663.1079045028288
+episode 553, total reward -531.0397633835688
+episode 554, total reward -504.6504816753813
+episode 555, total reward -402.5973423829057
+episode 556, total reward -455.92901662237
+episode 557, total reward -477.75450781082213
+episode 558, total reward -470.01072834976617
+episode 559, total reward -611.1808091384225
+episode 560, total reward -335.53006423300434
+start test!
+average_test_reward_sum = -527.0350076523321
+episode 561, total reward -637.6430903413165
+episode 562, total reward -255.04912433833124
+episode 563, total reward -631.2393545950749
+episode 564, total reward -488.1184511653112
+episode 565, total reward -481.4619637741945
+episode 566, total reward -288.9706757861025
+episode 567, total reward -552.6628934042543
+episode 568, total reward -652.4824682688504
+episode 569, total reward -532.669442260753
+episode 570, total reward -370.2865309753742
+episode 571, total reward -484.7425322155712
+episode 572, total reward -487.33228102210444
+episode 573, total reward -304.6477482196755
+episode 574, total reward -361.5941098493313
+episode 575, total reward -469.86176889682775
+episode 576, total reward -444.9387122063121
+episode 577, total reward -579.3604491317568
+episode 578, total reward -372.509201816724
+episode 579, total reward -361.45192828339134
+episode 580, total reward -461.4715071668585
+start test!
+average_test_reward_sum = -530.6562852309867
+episode 581, total reward -251.11028754302743
+episode 582, total reward -636.7393640410622
+episode 583, total reward -370.4293790443321
+episode 584, total reward -419.0161089801045
+episode 585, total reward -608.056924368297
+episode 586, total reward -600.1476419832574
+episode 587, total reward -464.51947080474525
+episode 588, total reward -364.6417882297624
+episode 589, total reward -689.1735634377966
+episode 590, total reward -622.4528789490312
+episode 591, total reward -455.743968752224
+episode 592, total reward -315.4169719898579
+episode 593, total reward -492.25367785252996
+episode 594, total reward -368.1656553932344
+episode 595, total reward -445.9923040805916
+episode 596, total reward -344.05330972474013
+episode 597, total reward -583.5794434612303
+episode 598, total reward -524.3969623228887
+episode 599, total reward -608.9698228541741
+episode 600, total reward -458.82773871157724
+start test!
+average_test_reward_sum = -496.3102450717157
+episode 601, total reward -504.07684259256615
+episode 602, total reward -489.6225578873062
+episode 603, total reward -251.83192901336605
+episode 604, total reward -397.74381431159344
+episode 605, total reward -622.6004317256517
+episode 606, total reward -593.3108240650654
+episode 607, total reward -564.5096981820221
+episode 608, total reward -296.9018544832055
+episode 609, total reward -442.8845048578941
+episode 610, total reward -626.499001812406
+episode 611, total reward -379.211687934556
+episode 612, total reward -361.08494968235965
+episode 613, total reward -542.892923196463
+episode 614, total reward -642.6018107453604
+episode 615, total reward -455.79291608500387
+episode 616, total reward -532.3425170322423
+episode 617, total reward -459.74388343427864
+episode 618, total reward -373.2945083270377
+episode 619, total reward -506.63637362054
+episode 620, total reward -360.3565856856657
+start test!
+average_test_reward_sum = -517.1184649782904
+episode 621, total reward -294.14228959455994
+episode 622, total reward -267.02239343721527
+episode 623, total reward -407.37919745990166
+episode 624, total reward -539.5068332306337
+episode 625, total reward -464.7078705294252
+episode 626, total reward -687.2558175870389
+episode 627, total reward -340.298304563452
+episode 628, total reward -475.57254536909744
+episode 629, total reward -396.8098326209185
+episode 630, total reward -555.0432654002983
+episode 631, total reward -458.18612063220866
+episode 632, total reward -518.5801526241212
+episode 633, total reward -462.1977192801931
+episode 634, total reward -372.3302068656996
+episode 635, total reward -365.98148012812453
+episode 636, total reward -583.3547489329704
+episode 637, total reward -361.8843666914957
+episode 638, total reward -531.956071478724
+episode 639, total reward -548.5245155395862
+episode 640, total reward -635.9318556824344
+start test!
+average_test_reward_sum = -470.9725951356286
+episode 641, total reward -360.9807477621579
+episode 642, total reward -587.3684257703784
+episode 643, total reward -570.8135962767094
+episode 644, total reward -446.29607147846076
+episode 645, total reward -557.0984798713906
+episode 646, total reward -250.68472388810923
+episode 647, total reward -469.0001513437926
+episode 648, total reward -484.3575848167199
+episode 649, total reward -260.33999036869267
+episode 650, total reward -483.86605570799037
+episode 651, total reward -314.4407911999457
+episode 652, total reward -541.4378468053861
+episode 653, total reward -377.9787607972957
+episode 654, total reward -251.86924203278258
+episode 655, total reward -363.015171075762
+episode 656, total reward -447.0646676407076
+episode 657, total reward -554.468771008505
+episode 658, total reward -555.7263494847856
+episode 659, total reward -625.426347813228
+episode 660, total reward -293.4996289321368
+start test!
+average_test_reward_sum = -511.6034188592729
+episode 661, total reward -439.60627960367987
+episode 662, total reward -253.86979146997584
+episode 663, total reward -534.34793913829
+episode 664, total reward -490.9989170575609
+episode 665, total reward -448.3029838314706
+episode 666, total reward -549.4527916677216
+episode 667, total reward -369.2500738186337
+episode 668, total reward -666.9822330385
+episode 669, total reward -596.4983627496604
+episode 670, total reward -364.33277677875714
+episode 671, total reward -675.3315577131835
+episode 672, total reward -468.4611124629166
+episode 673, total reward -660.7951593219183
+episode 674, total reward -512.1892457452426
+episode 675, total reward -383.5200231793524
+episode 676, total reward -367.651258776674
+episode 677, total reward -645.0903772439077
+episode 678, total reward -393.2349325630946
+episode 679, total reward -613.647752970992
+episode 680, total reward -257.84607698008267
+start test!
+average_test_reward_sum = -530.954708336626
+episode 681, total reward -363.7672876037541
+episode 682, total reward -363.0741600853347
+episode 683, total reward -499.73486536405346
+episode 684, total reward -377.62900460703463
+episode 685, total reward -297.5263892116085
+episode 686, total reward -264.1431987302811
+episode 687, total reward -368.3787145247191
+episode 688, total reward -455.2099930936436
+episode 689, total reward -367.3930518511345
+episode 690, total reward -470.9284128772271
+episode 691, total reward -572.7603645377959
+episode 692, total reward -449.25904739579636
+episode 693, total reward -388.5629762564804
+episode 694, total reward -273.2430193601125
+episode 695, total reward -373.3806738338672
+episode 696, total reward -271.0005833062798
+episode 697, total reward -358.28405316348733
+episode 698, total reward -497.53807035563693
+episode 699, total reward -559.4389892835779
+episode 700, total reward -460.1531383874114
+start test!
+average_test_reward_sum = -503.9414455737865
+episode 701, total reward -668.2136654107213
+episode 702, total reward -363.05707960603513
+episode 703, total reward -538.9646815281616
+episode 704, total reward -640.6901426295653
+episode 705, total reward -461.43223371828566
+episode 706, total reward -363.40444035231917
+episode 707, total reward -403.76028273541067
+episode 708, total reward -358.83435942913036
+episode 709, total reward -271.6716919670064
+episode 710, total reward -260.1480345603673
+episode 711, total reward -649.4803865718947
+episode 712, total reward -532.3783525913059
+episode 713, total reward -367.7906063598291
+episode 714, total reward -363.547637111713
+episode 715, total reward -446.46435220038035
+episode 716, total reward -598.6178663903186
+episode 717, total reward -443.77344012654413
+episode 718, total reward -264.285435753972
+episode 719, total reward -526.1816631965384
+episode 720, total reward -389.4622871364304
+start test!
+average_test_reward_sum = -481.58592956513866
+episode 721, total reward -492.7757586119617
+episode 722, total reward -372.54193902457166
+episode 723, total reward -534.7135740139489
+episode 724, total reward -581.1248747301277
+episode 725, total reward -356.4223665964365
+episode 726, total reward -543.5177995809199
+episode 727, total reward -574.9509119918656
+episode 728, total reward -514.9601719334943
+episode 729, total reward -590.0692430068306
+episode 730, total reward -530.8464368801623
+episode 731, total reward -588.8854777639931
+episode 732, total reward -565.6232226397312
+episode 733, total reward -430.4042426974648
+episode 734, total reward -466.8987454032742
+episode 735, total reward -439.27818224496446
+episode 736, total reward -362.2827861464827
+episode 737, total reward -462.28885812166885
+episode 738, total reward -622.4930649128121
+episode 739, total reward -466.56160661068304
+episode 740, total reward -575.0094425728354
+start test!
+average_test_reward_sum = -463.533476288245
+episode 741, total reward -506.19037122904757
+episode 742, total reward -380.0745022519971
+episode 743, total reward -352.39503877677674
+episode 744, total reward -346.7827989417752
+episode 745, total reward -363.4359193804074
+episode 746, total reward -374.0879840650692
+episode 747, total reward -365.00475688112107
+episode 748, total reward -367.86396285297707
+episode 749, total reward -625.3855902064996
+episode 750, total reward -483.98735380199105
+episode 751, total reward -670.1280564480264
+episode 752, total reward -269.7777084938063
+episode 753, total reward -469.83085498261926
+episode 754, total reward -356.6562578491249
+episode 755, total reward -436.6746034188773
+episode 756, total reward -358.917989313989
+episode 757, total reward -377.9802231071317
+episode 758, total reward -455.7265467589933
+episode 759, total reward -245.2463059585622
+episode 760, total reward -123.13648284135655
+start test!
+average_test_reward_sum = -509.47404631976633
+episode 761, total reward -640.864657687041
+episode 762, total reward -456.3185273627625
+episode 763, total reward -441.8079366050978
+episode 764, total reward -316.14677255147484
+episode 765, total reward -465.87825526821484
+episode 766, total reward -462.1545336702555
+episode 767, total reward -682.829194903621
+episode 768, total reward -497.8299094644957
+episode 769, total reward -605.0710362487861
+episode 770, total reward -547.5999288336992
+episode 771, total reward -467.68376602747907
+episode 772, total reward -469.19272639668094
+episode 773, total reward -501.41112096561204
+episode 774, total reward -461.0379884664536
+episode 775, total reward -537.7254759098217
+episode 776, total reward -452.89743569226397
+episode 777, total reward -461.5456418156684
+episode 778, total reward -472.8653899338523
+episode 779, total reward -698.3580461646984
+episode 780, total reward -668.9963171587234
+start test!
+average_test_reward_sum = -376.1646772248232
+episode 781, total reward -474.5797796494106
+episode 782, total reward -565.8905750382328
+episode 783, total reward -496.2580917095804
+episode 784, total reward -369.9796490818636
+episode 785, total reward -362.2034374412721
+episode 786, total reward -323.4232247188092
+episode 787, total reward -381.26413478622794
+episode 788, total reward -554.001150368867
+episode 789, total reward -626.3346154226049
+episode 790, total reward -617.0727887840508
+episode 791, total reward -441.8119002842103
+episode 792, total reward -575.4404370857012
+episode 793, total reward -581.0848084288176
+episode 794, total reward -367.2428539055224
+episode 795, total reward -259.098822364724
+episode 796, total reward -362.3425017662815
+episode 797, total reward -537.0930524736767
+episode 798, total reward -379.1118662102229
+episode 799, total reward -335.88346869310504
+episode 800, total reward -694.7563696000769
+start test!
+average_test_reward_sum = -465.1345323525492
+episode 801, total reward -362.80886149265217
+episode 802, total reward -385.90261572964965
+episode 803, total reward -359.7813593197359
+episode 804, total reward -452.12483812122673
+episode 805, total reward -272.2055676185982
+episode 806, total reward -548.4587718295011
+episode 807, total reward -360.6760154260393
+episode 808, total reward -496.3037244673036
+episode 809, total reward -579.0961593427386
+episode 810, total reward -363.2773851820486
+episode 811, total reward -676.7155021873164
+episode 812, total reward -353.00547244751056
+episode 813, total reward -365.7199012420419
+episode 814, total reward -623.8055630548234
+episode 815, total reward -488.5559427844046
+episode 816, total reward -472.29839440220604
+episode 817, total reward -359.7175274703621
+episode 818, total reward -250.69625381078598
+episode 819, total reward -348.80990347859284
+episode 820, total reward -504.65811919575054
+start test!
+average_test_reward_sum = -481.67199765493876
+episode 821, total reward -404.75917519141416
+episode 822, total reward -473.8876943625467
+episode 823, total reward -381.0875462529924
+episode 824, total reward -550.2714535260377
+episode 825, total reward -537.5578528922664
+episode 826, total reward -508.05257079301214
+episode 827, total reward -505.29020116322727
+episode 828, total reward -567.7474966233558
+episode 829, total reward -470.13394695640653
+episode 830, total reward -549.1477835812104
+episode 831, total reward -655.8513850297709
+episode 832, total reward -601.6443177835404
+episode 833, total reward -569.401199285697
+episode 834, total reward -485.037063991157
+episode 835, total reward -254.83056415528958
+episode 836, total reward -263.9033646050424
+episode 837, total reward -364.393230149051
+episode 838, total reward -552.1272290106793
+episode 839, total reward -452.9383469782157
+episode 840, total reward -541.414292524734
+start test!
+average_test_reward_sum = -420.04956285535627
+episode 841, total reward -637.8944741368812
+episode 842, total reward -606.9992331703978
+episode 843, total reward -689.3429031315416
+episode 844, total reward -472.3238382038628
+episode 845, total reward -358.1634529581782
+episode 846, total reward -552.9403827447786
+episode 847, total reward -459.8381486316045
+episode 848, total reward -572.2308506152843
+episode 849, total reward -380.6520297690522
+episode 850, total reward -374.0711108162521
+episode 851, total reward -271.36974388452114
+episode 852, total reward -458.9619715926928
+episode 853, total reward -582.1882699399898
+episode 854, total reward -660.3640485437192
+episode 855, total reward -269.9356663654765
+episode 856, total reward -455.7265573993124
+episode 857, total reward -564.9179453783107
+episode 858, total reward -362.42160985175417
+episode 859, total reward -514.7980892154076
+episode 860, total reward -363.98828367103084
+start test!
+average_test_reward_sum = -444.1276653157564
+episode 861, total reward -382.1187080041962
+episode 862, total reward -433.65731822445105
+episode 863, total reward -455.9645049373229
+episode 864, total reward -590.2312361770498
+episode 865, total reward -466.34334848654936
+episode 866, total reward -577.0472059123605
+episode 867, total reward -461.8336184650883
+episode 868, total reward -367.39064944363395
+episode 869, total reward -418.2875039633246
+episode 870, total reward -475.9633941047571
+episode 871, total reward -682.3548315226147
+episode 872, total reward -362.4472340688862
+episode 873, total reward -363.9584981845944
+episode 874, total reward -538.9816717373524
+episode 875, total reward -375.0076141038324
+episode 876, total reward -364.68571886042935
+episode 877, total reward -358.33298247898034
+episode 878, total reward -665.3042958377655
+episode 879, total reward -361.5503231398694
+episode 880, total reward -432.5347301312663
+start test!
+average_test_reward_sum = -425.8342825532465
+episode 881, total reward -684.7558282893474
+episode 882, total reward -492.21522460601653
+episode 883, total reward -483.49703045702125
+episode 884, total reward -388.89428202919197
+episode 885, total reward -248.60958401806343
+episode 886, total reward -490.1242833541
+episode 887, total reward -474.36959149015786
+episode 888, total reward -456.4089645354577
+episode 889, total reward -442.82128687670183
+episode 890, total reward -350.00806559227055
+episode 891, total reward -409.1193027782693
+episode 892, total reward -382.6452431585061
+episode 893, total reward -693.4521952865855
+episode 894, total reward -691.4334238738454
+episode 895, total reward -415.86671991331093
+episode 896, total reward -610.64798633887
+episode 897, total reward -677.2838970815812
+episode 898, total reward -459.7124040167175
+episode 899, total reward -487.23753270767645
+episode 900, total reward -541.6750158767793
+start test!
+average_test_reward_sum = -415.5763021945515
+episode 901, total reward -428.13258473008756
+episode 902, total reward -619.7378037357734
+episode 903, total reward -647.9877911061736
+episode 904, total reward -561.5107154377381
+episode 905, total reward -379.3868670993408
+episode 906, total reward -530.2180586181153
+episode 907, total reward -382.65120601062114
+episode 908, total reward -374.49794991359914
+episode 909, total reward -675.9473998307968
+episode 910, total reward -507.533947193237
+episode 911, total reward -662.7157219922268
+episode 912, total reward -482.6334300310375
+episode 913, total reward -261.2395114076548
+episode 914, total reward -511.4055450974939
+episode 915, total reward -557.7456813824529
+episode 916, total reward -471.45017961389334
+episode 917, total reward -384.2850979311694
+episode 918, total reward -363.65443015105865
+episode 919, total reward -365.9396288567794
+episode 920, total reward -451.7623562521819
+start test!
+average_test_reward_sum = -378.6348453084102
+episode 921, total reward -626.9364356110033
+episode 922, total reward -429.9165438775482
+episode 923, total reward -318.53941560873596
+episode 924, total reward -364.43415242714315
+episode 925, total reward -268.65751893396066
+episode 926, total reward -553.2522641369102
+episode 927, total reward -541.1382777890447
+episode 928, total reward -597.508001913597
+episode 929, total reward -475.7757755128408
+episode 930, total reward -657.4369312009047
+episode 931, total reward -589.2607686686886
+episode 932, total reward -395.02773076809893
+episode 933, total reward -523.9535386054351
+episode 934, total reward -240.27660020453655
+episode 935, total reward -345.51634756199263
+episode 936, total reward -458.86554594118803
+episode 937, total reward -309.54446536667496
+episode 938, total reward -567.3337521923823
+episode 939, total reward -661.8808864013366
+episode 940, total reward -458.16405447134093
+start test!
+average_test_reward_sum = -461.56722551241256
+episode 941, total reward -574.6065933531821
+episode 942, total reward -362.9555598791388
+episode 943, total reward -600.4480828160275
+episode 944, total reward -462.39926828729415
+episode 945, total reward -609.6450345163086
+episode 946, total reward -250.3942828709728
+episode 947, total reward -323.0128939568016
+episode 948, total reward -625.8065885268832
+episode 949, total reward -683.1333295712103
+episode 950, total reward -510.344243510756
+episode 951, total reward -532.7413565466383
+episode 952, total reward -309.1569325998362
+episode 953, total reward -447.0585782992069
+episode 954, total reward -380.1601970847648
+episode 955, total reward -433.7514684695346
+episode 956, total reward -471.1906597498313
+episode 957, total reward -487.1286294686035
+episode 958, total reward -604.1385598153372
+episode 959, total reward -368.5170523281932
+episode 960, total reward -256.60288810593937
+start test!
+average_test_reward_sum = -450.8439907647422
+episode 961, total reward -388.98456094687526
+episode 962, total reward -520.265120285017
+episode 963, total reward -504.8016144924011
+episode 964, total reward -266.64865120450656
+episode 965, total reward -484.0298610316269
+episode 966, total reward -447.58977529332486
+episode 967, total reward -440.96571758809466
+episode 968, total reward -337.0476802510518
+episode 969, total reward -488.96770801964635
+episode 970, total reward -701.095350367566
+episode 971, total reward -398.1495023743556
+episode 972, total reward -674.2167553933498
+episode 973, total reward -388.09122722599545
+episode 974, total reward -362.37752088799976
+episode 975, total reward -493.8573366179189
+episode 976, total reward -458.6480633456567
+episode 977, total reward -363.7104920803755
+episode 978, total reward -604.815370316631
+episode 979, total reward -527.0697929240475
+episode 980, total reward -589.1856104248005
+start test!
+average_test_reward_sum = -359.27995746242334
+episode 981, total reward -504.2281536983549
+episode 982, total reward -520.1810523936539
+episode 983, total reward -541.954818039108
+episode 984, total reward -620.3333928072516
+episode 985, total reward -655.6945941636396
+episode 986, total reward -468.4978009448839
+episode 987, total reward -383.5073804580302
+episode 988, total reward -414.04070331116833
+episode 989, total reward -611.0439527669258
+episode 990, total reward -552.7297080077252
+episode 991, total reward -608.5833710083854
+episode 992, total reward -638.9493040822123
+episode 993, total reward -509.9965127786087
+episode 994, total reward -432.72242346787993
+episode 995, total reward -446.4038674989732
+episode 996, total reward -660.8778730535983
+episode 997, total reward -658.6071719941949
+episode 998, total reward -411.31811675273485
+episode 999, total reward -317.77732903416324
+episode 1000, total reward -354.8572457038079
+start test!
+average_test_reward_sum = -352.86484083440115
+episode 1001, total reward -366.0984479973991
+episode 1002, total reward -539.3634310846048
+episode 1003, total reward -251.82583655589104
+episode 1004, total reward -460.71543890978234
+episode 1005, total reward -478.6936083731281
+episode 1006, total reward -479.2559787212866
+episode 1007, total reward -611.0359907759113
+episode 1008, total reward -367.5729787131743
+episode 1009, total reward -554.9360662662091
+episode 1010, total reward -633.2736347627559
+episode 1011, total reward -657.9531016459238
+episode 1012, total reward -415.71154019896466
+episode 1013, total reward -448.4976936926502
+episode 1014, total reward -587.8609871316241
+episode 1015, total reward -385.6122942711666
+episode 1016, total reward -484.79617636954583
+episode 1017, total reward -446.78814129819716
+episode 1018, total reward -356.8880383942817
+episode 1019, total reward -578.9292935583338
+episode 1020, total reward -479.49154311228756
+start test!
+average_test_reward_sum = -337.9185311053932
+episode 1021, total reward -355.4571768256867
+episode 1022, total reward -252.13772899159457
+episode 1023, total reward -487.2905435703518
+episode 1024, total reward -653.0132962774935
+episode 1025, total reward -367.8213680894471
+episode 1026, total reward -574.0914350689477
+episode 1027, total reward -366.25186645599683
+episode 1028, total reward -565.1273811002599
+episode 1029, total reward -370.14091752735663
+episode 1030, total reward -643.7900169663202
+episode 1031, total reward -493.6011323325301
+episode 1032, total reward -581.8241719342069
+episode 1033, total reward -361.5474198319824
+episode 1034, total reward -638.2640096284559
+episode 1035, total reward -354.77585065420084
+episode 1036, total reward -473.76474853753706
+episode 1037, total reward -470.29642531346803
+episode 1038, total reward -445.0127781166605
+episode 1039, total reward -365.99527952488506
+episode 1040, total reward -600.1967564518055
+start test!
+average_test_reward_sum = -391.9041300773091
+episode 1041, total reward -369.71833721225084
+episode 1042, total reward -461.3593319194203
+episode 1043, total reward -499.5741648495765
+episode 1044, total reward -363.3081427108566
+episode 1045, total reward -537.219267815602
+episode 1046, total reward -555.5629379775661
+episode 1047, total reward -388.98923148686833
+episode 1048, total reward -453.15933960532203
+episode 1049, total reward -594.4874540723697
+episode 1050, total reward -375.34460264882756
+episode 1051, total reward -531.1495341484836
+episode 1052, total reward -546.6251173296484
+episode 1053, total reward -547.691611683869
+episode 1054, total reward -457.8233303880221
+episode 1055, total reward -537.572432005758
+episode 1056, total reward -467.07246300756543
+episode 1057, total reward -587.8279994054918
+episode 1058, total reward -253.00926698598408
+episode 1059, total reward -627.6279741786944
+episode 1060, total reward -371.20888091567707
+start test!
+average_test_reward_sum = -320.0430657652962
+episode 1061, total reward -636.3416237870501
+episode 1062, total reward -448.3617036080677
+episode 1063, total reward -370.3750658958512
+episode 1064, total reward -252.3807267389042
+episode 1065, total reward -387.31536777793065
+episode 1066, total reward -667.8341264501598
+episode 1067, total reward -460.5382777415875
+episode 1068, total reward -330.41917540488384
+episode 1069, total reward -485.00424663667735
+episode 1070, total reward -250.92130215832336
+episode 1071, total reward -586.4239904410807
+episode 1072, total reward -551.7753193000028
+episode 1073, total reward -460.5507408771284
+episode 1074, total reward -341.6804402114576
+episode 1075, total reward -536.1563998966773
+episode 1076, total reward -555.3955639578907
+episode 1077, total reward -363.9114278979448
+episode 1078, total reward -345.79673227750135
+episode 1079, total reward -476.43666634271176
+episode 1080, total reward -593.5660054466741
+start test!
+average_test_reward_sum = -338.5659433412849
+episode 1081, total reward -389.4118724269754
+episode 1082, total reward -575.543885929124
+episode 1083, total reward -370.3933312027098
+episode 1084, total reward -370.479087465908
+episode 1085, total reward -443.0507969660315
+episode 1086, total reward -330.9079439955826
+episode 1087, total reward -471.4946686335532
+episode 1088, total reward -255.74624615276903
+episode 1089, total reward -390.2388051182304
+episode 1090, total reward -370.93081116455335
+episode 1091, total reward -536.0815004773145
+episode 1092, total reward -607.0591171805978
+episode 1093, total reward -371.8395220599463
+episode 1094, total reward -463.6238898915759
+episode 1095, total reward -359.0275754680839
+episode 1096, total reward -423.517548840585
+episode 1097, total reward -687.0110872383749
+episode 1098, total reward -363.64671924418604
+episode 1099, total reward -514.0913808998114
+episode 1100, total reward -469.20675544654324
+start test!
+average_test_reward_sum = -329.6973994984886
+episode 1101, total reward -362.135505236016
+episode 1102, total reward -467.6020436285564
+episode 1103, total reward -390.07266458269675
+episode 1104, total reward -461.94989903781675
+episode 1105, total reward -558.701603503851
+episode 1106, total reward -512.6037439601819
+episode 1107, total reward -637.3126988074802
+episode 1108, total reward -361.75065409917244
+episode 1109, total reward -489.9097708774043
+episode 1110, total reward -322.4168295915827
+episode 1111, total reward -609.1866720455255
+episode 1112, total reward -488.46595290137174
+episode 1113, total reward -458.6448912785447
+episode 1114, total reward -361.41616362317075
+episode 1115, total reward -247.0882204007609
+episode 1116, total reward -625.1700677924753
+episode 1117, total reward -601.5856398746554
+episode 1118, total reward -518.6683009151695
+episode 1119, total reward -533.8025331767844
+episode 1120, total reward -654.8910790618577
+start test!
+average_test_reward_sum = -280.1316384450448
+episode 1121, total reward -445.994652558361
+episode 1122, total reward -336.3767128302413
+episode 1123, total reward -269.5104369441829
+episode 1124, total reward -539.387397279092
+episode 1125, total reward -290.66556088873557
+episode 1126, total reward -460.7587434728592
+episode 1127, total reward -645.6486000665482
+episode 1128, total reward -516.2922455297809
+episode 1129, total reward -591.7404703872768
+episode 1130, total reward -353.2671352362853
+episode 1131, total reward -673.5210198837938
+episode 1132, total reward -663.0441478348447
+episode 1133, total reward -645.3596600574737
+episode 1134, total reward -388.4946134592058
+episode 1135, total reward -531.6534291993413
+episode 1136, total reward -545.8203673823009
+episode 1137, total reward -257.98823689366606
+episode 1138, total reward -647.1502793892734
+episode 1139, total reward -427.67794925739076
+episode 1140, total reward -369.2237723226101
+start test!
+average_test_reward_sum = -267.27173432155297
+episode 1141, total reward -372.431215635061
+episode 1142, total reward -617.8873761202257
+episode 1143, total reward -659.7260558523517
+episode 1144, total reward -525.0379663016914
+episode 1145, total reward -673.3724308125638
+episode 1146, total reward -441.0519277084732
+episode 1147, total reward -480.4986382753686
+episode 1148, total reward -375.3090405250696
+episode 1149, total reward -608.56318330329
+episode 1150, total reward -370.2426488991521
+episode 1151, total reward -575.2228425782907
+episode 1152, total reward -506.5427226396527
+episode 1153, total reward -572.7417792416884
+episode 1154, total reward -460.346302052219
+episode 1155, total reward -471.99705305459827
+episode 1156, total reward -641.0743009568691
+episode 1157, total reward -315.3665363913354
+episode 1158, total reward -447.5460447501808
+episode 1159, total reward -478.26817110833827
+episode 1160, total reward -663.8928661179605
+start test!
+average_test_reward_sum = -327.66986027086057
+episode 1161, total reward -620.0881971339885
+episode 1162, total reward -377.19459555415256
+episode 1163, total reward -660.9044928806886
+episode 1164, total reward -461.4887127962245
+episode 1165, total reward -446.4801131634406
+episode 1166, total reward -464.45373167968177
+episode 1167, total reward -310.46368617155287
+episode 1168, total reward -689.7380296942182
+episode 1169, total reward -268.83374246912956
+episode 1170, total reward -370.56393826618876
+episode 1171, total reward -472.8154088442899
+episode 1172, total reward -282.1004999308645
+episode 1173, total reward -399.03328572085957
+episode 1174, total reward -269.7125623380739
+episode 1175, total reward -506.84543527260934
+episode 1176, total reward -359.6992455410447
+episode 1177, total reward -461.1560146499825
+episode 1178, total reward -542.6303613413456
+episode 1179, total reward -668.5630887273857
+episode 1180, total reward -289.166384398675
+start test!
+average_test_reward_sum = -235.03036867530903
+episode 1181, total reward -372.30651577920736
+episode 1182, total reward -456.49254716787186
+episode 1183, total reward -644.5647953224426
+episode 1184, total reward -315.5471886537231
+episode 1185, total reward -631.8311928119152
+episode 1186, total reward -472.5252400851439
+episode 1187, total reward -362.9981071665032
+episode 1188, total reward -342.9661285579316
+episode 1189, total reward -378.9366807865109
+episode 1190, total reward -282.3472368650095
+episode 1191, total reward -381.4045188514237
+episode 1192, total reward -361.68555857182434
+episode 1193, total reward -481.80845474300406
+episode 1194, total reward -357.09603218737
+episode 1195, total reward -488.2872330043311
+episode 1196, total reward -635.2024466004864
+episode 1197, total reward -485.87810224277524
+episode 1198, total reward -249.03561230699094
+episode 1199, total reward -366.9884006227873
+episode 1200, total reward -475.91633930093025
+start test!
+average_test_reward_sum = -270.81613326561495
+episode 1201, total reward -366.3484531153082
+episode 1202, total reward -365.0946416494935
+episode 1203, total reward -453.44430418143
+episode 1204, total reward -705.7976508487848
+episode 1205, total reward -453.0415326740987
+episode 1206, total reward -457.9326045872291
+episode 1207, total reward -366.20058208259024
+episode 1208, total reward -441.1437660965455
+episode 1209, total reward -364.5915212920321
+episode 1210, total reward -449.9209078428595
+episode 1211, total reward -698.3557136502816
+episode 1212, total reward -455.3192287295766
+episode 1213, total reward -464.2080313800062
+episode 1214, total reward -373.2899632165291
+episode 1215, total reward -289.20584738302733
+episode 1216, total reward -362.5475553089728
+episode 1217, total reward -359.9235146391977
+episode 1218, total reward -463.3365051594796
+episode 1219, total reward -620.4430549089216
+episode 1220, total reward -284.33555124441864
+start test!
+average_test_reward_sum = -338.8938118618076
+episode 1221, total reward -265.56814658706065
+episode 1222, total reward -305.66195260175033
+episode 1223, total reward -364.7919226144251
+episode 1224, total reward -256.91172310640144
+episode 1225, total reward -471.76807034382836
+episode 1226, total reward -285.37134569652795
+episode 1227, total reward -488.50720966399075
+episode 1228, total reward -387.9580600638155
+episode 1229, total reward -259.4193661808513
+episode 1230, total reward -650.0376743707639
+episode 1231, total reward -498.63200167984337
+episode 1232, total reward -564.2742504483563
+episode 1233, total reward -375.5741429803403
+episode 1234, total reward -363.17425265848107
+episode 1235, total reward -262.52220785411885
+episode 1236, total reward -657.294057408264
+episode 1237, total reward -650.6393872971378
+episode 1238, total reward -253.63132589207967
+episode 1239, total reward -330.13955940095707
+episode 1240, total reward -624.6673576364124
+start test!
+average_test_reward_sum = -279.484889415925
+episode 1241, total reward -276.29924489421495
+episode 1242, total reward -507.0107990633122
+episode 1243, total reward -376.53674266982483
+episode 1244, total reward -629.3920231904079
+episode 1245, total reward -667.6604470565891
+episode 1246, total reward -641.326576674341
+episode 1247, total reward -291.8375491116613
+episode 1248, total reward -669.0524640565138
+episode 1249, total reward -539.1620900855124
+episode 1250, total reward -670.6773660969689
+episode 1251, total reward -460.93668751228995
+episode 1252, total reward -328.70389338232076
+episode 1253, total reward -552.1843053627715
+episode 1254, total reward -459.38942022355945
+episode 1255, total reward -471.2136319860685
+episode 1256, total reward -649.7712562306731
+episode 1257, total reward -338.73412752378204
+episode 1258, total reward -435.34135521135386
+episode 1259, total reward -604.6943289021482
+episode 1260, total reward -593.7169822934711
+start test!
+average_test_reward_sum = -312.13803064769854
+episode 1261, total reward -583.0563503525932
+episode 1262, total reward -464.3599883116801
+episode 1263, total reward -348.6294056935775
+episode 1264, total reward -455.5755791465267
+episode 1265, total reward -606.6095720596027
+episode 1266, total reward -331.49312049809515
+episode 1267, total reward -461.12122935648705
+episode 1268, total reward -487.97128730086854
+episode 1269, total reward -261.6346790943071
+episode 1270, total reward -463.6865433474891
+episode 1271, total reward -473.28674787942475
+episode 1272, total reward -530.4951117814345
+episode 1273, total reward -440.53038471599393
+episode 1274, total reward -471.0357940437495
+episode 1275, total reward -295.33662855396835
+episode 1276, total reward -416.4279369007261
+episode 1277, total reward -705.6339856384902
+episode 1278, total reward -479.6580945036806
+episode 1279, total reward -367.6294699094243
+episode 1280, total reward -454.2706818786731
+start test!
+average_test_reward_sum = -265.5682626672365
+episode 1281, total reward -501.09085312978334
+episode 1282, total reward -459.075417513698
+episode 1283, total reward -366.1064463182811
+episode 1284, total reward -362.1514610870218
+episode 1285, total reward -433.7886072847848
+episode 1286, total reward -311.3097848263374
+episode 1287, total reward -363.3786835371476
+episode 1288, total reward -363.4272334943855
+episode 1289, total reward -562.7572759192143
+episode 1290, total reward -360.0033797574275
+episode 1291, total reward -255.25441749298696
+episode 1292, total reward -508.0082501966793
+episode 1293, total reward -376.2108466868429
+episode 1294, total reward -557.5598125771216
+episode 1295, total reward -439.40186517008345
+episode 1296, total reward -394.7536195584281
+episode 1297, total reward -365.494252846116
+episode 1298, total reward -441.0231846525568
+episode 1299, total reward -359.516186022003
+episode 1300, total reward -401.44675715619354
+start test!
+average_test_reward_sum = -329.48505035293374
+episode 1301, total reward -651.7431785390902
+episode 1302, total reward -291.044141108863
+episode 1303, total reward -451.4444502968506
+episode 1304, total reward -461.0297422537614
+episode 1305, total reward -475.6197413131418
+episode 1306, total reward -354.65764602223766
+episode 1307, total reward -367.9004525230401
+episode 1308, total reward -464.6978962027349
+episode 1309, total reward -557.8802496911421
+episode 1310, total reward -255.33823364826478
+episode 1311, total reward -613.0855736271062
+episode 1312, total reward -601.0953736962048
+episode 1313, total reward -523.8584747548083
+episode 1314, total reward -463.05970637600166
+episode 1315, total reward -447.8106057833108
+episode 1316, total reward -471.6481637993984
+episode 1317, total reward -535.0783166456658
+episode 1318, total reward -243.30370627207347
+episode 1319, total reward -467.57662780804645
+episode 1320, total reward -534.2532268159654
+start test!
+average_test_reward_sum = -287.81764509633445
+episode 1321, total reward -458.9244137703788
+episode 1322, total reward -467.6947000586283
+episode 1323, total reward -621.9777104600277
+episode 1324, total reward -618.235627542492
+episode 1325, total reward -648.5688911128296
+episode 1326, total reward -362.9610897550766
+episode 1327, total reward -670.6860467606552
+episode 1328, total reward -322.3053215017023
+episode 1329, total reward -471.60513885066854
+episode 1330, total reward -319.12614526712343
+episode 1331, total reward -365.4675139813214
+episode 1332, total reward -597.2259401102426
+episode 1333, total reward -453.887432741964
+episode 1334, total reward -462.9259997229969
+episode 1335, total reward -497.33637924701236
+episode 1336, total reward -464.48550529490484
+episode 1337, total reward -340.7837069826896
+episode 1338, total reward -468.3085345615327
+episode 1339, total reward -280.7274489557838
+episode 1340, total reward -466.20057222353904
+start test!
+average_test_reward_sum = -249.0644080279002
+episode 1341, total reward -365.87895317002204
+episode 1342, total reward -668.1891968256693
+episode 1343, total reward -355.7577578736949
+episode 1344, total reward -365.7610146199819
+episode 1345, total reward -602.4421283307851
+episode 1346, total reward -382.3106509430268
+episode 1347, total reward -451.85874300732814
+episode 1348, total reward -354.59189175725686
+episode 1349, total reward -449.4950215363641
+episode 1350, total reward -573.1205779908917
+episode 1351, total reward -372.4428421840696
+episode 1352, total reward -359.2914290198793
+episode 1353, total reward -572.3799152057856
+episode 1354, total reward -448.6296971096486
+episode 1355, total reward -364.1162083273981
+episode 1356, total reward -256.5824220630676
+episode 1357, total reward -541.5348036546651
+episode 1358, total reward -679.9773477736004
+episode 1359, total reward -474.8799863591787
+episode 1360, total reward -378.4746909873968
+start test!
+average_test_reward_sum = -249.70350702582203
+episode 1361, total reward -270.56111941135424
+episode 1362, total reward -263.45234855860815
+episode 1363, total reward -311.31374441818195
+episode 1364, total reward -590.0480259950455
+episode 1365, total reward -364.79184637655055
+episode 1366, total reward -356.6756109290379
+episode 1367, total reward -385.51399577349923
+episode 1368, total reward -496.33266696520434
+episode 1369, total reward -603.8904440137679
+episode 1370, total reward -443.10309612375545
+episode 1371, total reward -253.68869458622842
+episode 1372, total reward -280.34972284067396
+episode 1373, total reward -565.7964963609024
+episode 1374, total reward -363.1972419594712
+episode 1375, total reward -503.6383939327194
+episode 1376, total reward -503.8742640242715
+episode 1377, total reward -460.90445923564675
+episode 1378, total reward -649.4419074892298
+episode 1379, total reward -364.6205275103646
+episode 1380, total reward -654.3234007219638
+start test!
+average_test_reward_sum = -246.44822946660102
+episode 1381, total reward -467.07593909897264
+episode 1382, total reward -365.2751555259702
+episode 1383, total reward -570.7531202608017
+episode 1384, total reward -369.89691816372334
+episode 1385, total reward -686.6421159479858
+episode 1386, total reward -600.119557030495
+episode 1387, total reward -379.2320370880655
+episode 1388, total reward -454.3703501856526
+episode 1389, total reward -355.1181007641502
+episode 1390, total reward -271.6283978468594
+episode 1391, total reward -363.106173968173
+episode 1392, total reward -435.9611813150456
+episode 1393, total reward -364.1067509347294
+episode 1394, total reward -365.42580150897527
+episode 1395, total reward -381.50896821350165
+episode 1396, total reward -589.594522063099
+episode 1397, total reward -251.81816339307431
+episode 1398, total reward -441.0274638220133
+episode 1399, total reward -493.7775678558507
+episode 1400, total reward -256.1422663810148
+start test!
+average_test_reward_sum = -256.7146371214486
+episode 1401, total reward -512.7570412736641
+episode 1402, total reward -361.11333510819736
+episode 1403, total reward -437.79294150033013
+episode 1404, total reward -706.6767682857603
+episode 1405, total reward -461.84278392309994
+episode 1406, total reward -533.0239540366915
+episode 1407, total reward -292.0725897870563
+episode 1408, total reward -645.7010036431353
+episode 1409, total reward -457.7000164728917
+episode 1410, total reward -571.3943870717194
+episode 1411, total reward -451.4811073660965
+episode 1412, total reward -352.08681205426393
+episode 1413, total reward -610.1983689193785
+episode 1414, total reward -508.49321315953716
+episode 1415, total reward -388.1666028826729
+episode 1416, total reward -455.04869616904045
+episode 1417, total reward -481.79731227323913
+episode 1418, total reward -608.9117539954135
+episode 1419, total reward -462.471408815979
+episode 1420, total reward -553.7933797170483
+start test!
+average_test_reward_sum = -239.9088717861718
+episode 1421, total reward -379.8593415822034
+episode 1422, total reward -321.88684514411807
+episode 1423, total reward -628.8932248299168
+episode 1424, total reward -257.69535742900575
+episode 1425, total reward -264.80132940597593
+episode 1426, total reward -350.53142889271584
+episode 1427, total reward -373.45878094146053
+episode 1428, total reward -312.4204375914256
+episode 1429, total reward -361.0881150149659
+episode 1430, total reward -526.1899611868237
+episode 1431, total reward -391.51679196146296
+episode 1432, total reward -418.9737053620058
+episode 1433, total reward -623.7775439544642
+episode 1434, total reward -385.66899521554336
+episode 1435, total reward -385.328351713254
+episode 1436, total reward -403.5095617751262
+episode 1437, total reward -558.200585402867
+episode 1438, total reward -510.6282419590482
+episode 1439, total reward -249.3901922494006
+episode 1440, total reward -362.7320038014127
+start test!
+average_test_reward_sum = -207.42240835992257
+episode 1441, total reward -411.47751901104357
+episode 1442, total reward -482.587598376677
+episode 1443, total reward -358.5340993360278
+episode 1444, total reward -672.8176496727198
+episode 1445, total reward -290.85731501460396
+episode 1446, total reward -368.3357352546682
+episode 1447, total reward -506.3598397378667
+episode 1448, total reward -675.0709653207974
+episode 1449, total reward -485.13668717945455
+episode 1450, total reward -375.70899535221497
+episode 1451, total reward -468.19935897948176
+episode 1452, total reward -596.0429410567303
+episode 1453, total reward -364.2326108316443
+episode 1454, total reward -364.47704936442415
+episode 1455, total reward -563.790544354746
+episode 1456, total reward -675.9418536002876
+episode 1457, total reward -627.2961182555273
+episode 1458, total reward -640.8644799090184
+episode 1459, total reward -350.9114881950795
+episode 1460, total reward -364.85979926892105
+start test!
+average_test_reward_sum = -247.67750172880469
+episode 1461, total reward -690.3860490419731
+episode 1462, total reward -686.8585666504347
+episode 1463, total reward -662.1464928984337
+episode 1464, total reward -504.11640916463193
+episode 1465, total reward -250.40353973041238
+episode 1466, total reward -363.3889141647579
+episode 1467, total reward -358.9143367490264
+episode 1468, total reward -382.480995465675
+episode 1469, total reward -645.83775259885
+episode 1470, total reward -540.8083959672223
+episode 1471, total reward -542.9306034183512
+episode 1472, total reward -369.02513951727934
+episode 1473, total reward -361.8670135951139
+episode 1474, total reward -380.0436628828307
+episode 1475, total reward -362.4422121355546
+episode 1476, total reward -358.5452888968013
+episode 1477, total reward -348.19168531301165
+episode 1478, total reward -436.00079916994366
+episode 1479, total reward -255.9368907993863
+episode 1480, total reward -265.6376067823058
+start test!
+average_test_reward_sum = -302.9355487226788
+episode 1481, total reward -365.9222715734556
+episode 1482, total reward -329.99556410495467
+episode 1483, total reward -497.6463323720006
+episode 1484, total reward -485.3322009483153
+episode 1485, total reward -509.5779159126949
+episode 1486, total reward -355.21783774458817
+episode 1487, total reward -249.87899732487955
+episode 1488, total reward -464.06009252105196
+episode 1489, total reward -372.5402559381573
+episode 1490, total reward -463.37653847477384
+episode 1491, total reward -364.398683547115
+episode 1492, total reward -603.4488343481794
+episode 1493, total reward -676.2986536739024
+episode 1494, total reward -381.28072176575074
+episode 1495, total reward -249.18380106176647
+episode 1496, total reward -342.2123123705191
+episode 1497, total reward -353.9111642315107
+episode 1498, total reward -259.1403334962758
+episode 1499, total reward -541.0268694208679
+episode 1500, total reward -522.5336571074665
+start test!
+average_test_reward_sum = -234.0187614652973
+episode 1501, total reward -580.5507798802469
+episode 1502, total reward -364.224864019583
+episode 1503, total reward -374.740087401348
+episode 1504, total reward -410.6161241980696
+episode 1505, total reward -510.93236871528114
+episode 1506, total reward -371.9353393516737
+episode 1507, total reward -438.22234296878145
+episode 1508, total reward -484.8871960550602
+episode 1509, total reward -512.2853035015535
+episode 1510, total reward -264.12451371386663
+episode 1511, total reward -600.2725066955078
+episode 1512, total reward -390.927322545643
+episode 1513, total reward -491.9186861533702
+episode 1514, total reward -249.81383220681198
+episode 1515, total reward -260.7745777342331
+episode 1516, total reward -572.9344631075401
+episode 1517, total reward -571.6666287875424
+episode 1518, total reward -430.8501849777676
+episode 1519, total reward -372.9690372571445
+episode 1520, total reward -537.758866303838
+start test!
+average_test_reward_sum = -278.8346106220921
+episode 1521, total reward -361.795293309436
+episode 1522, total reward -470.56069887117263
+episode 1523, total reward -452.86314083936475
+episode 1524, total reward -515.5308410766496
+episode 1525, total reward -490.55900923488974
+episode 1526, total reward -680.8415141973024
+episode 1527, total reward -260.3285594108493
+episode 1528, total reward -575.5030616627449
+episode 1529, total reward -650.2072284941171
+episode 1530, total reward -372.5182692874665
+episode 1531, total reward -458.7311820864958
+episode 1532, total reward -483.0234218635978
+episode 1533, total reward -447.503867423107
+episode 1534, total reward -437.3595627381974
+episode 1535, total reward -492.2480405173759
+episode 1536, total reward -504.76264821930965
+episode 1537, total reward -339.13552646439337
+episode 1538, total reward -607.1785429325035
+episode 1539, total reward -286.30176875088205
+episode 1540, total reward -455.68863374509294
+start test!
+average_test_reward_sum = -163.14577089880183
+episode 1541, total reward -307.2846976230485
+episode 1542, total reward -377.5930001196252
+episode 1543, total reward -668.3471530559528
+episode 1544, total reward -451.32202612275506
+episode 1545, total reward -600.9663761948518
+episode 1546, total reward -460.28122415976134
+episode 1547, total reward -501.69400325810864
+episode 1548, total reward -362.93891064435184
+episode 1549, total reward -543.4340909284265
+episode 1550, total reward -609.1873741457982
+episode 1551, total reward -425.5675535051845
+episode 1552, total reward -587.4283583911773
+episode 1553, total reward -367.90614827940107
+episode 1554, total reward -648.6695898214134
+episode 1555, total reward -600.845352709196
+episode 1556, total reward -625.4964989492398
+episode 1557, total reward -479.3835398075827
+episode 1558, total reward -690.0810022702696
+episode 1559, total reward -474.7550799936853
+episode 1560, total reward -512.3046707916023
+start test!
+average_test_reward_sum = -194.64707449868467
+episode 1561, total reward -433.2214620656433
+episode 1562, total reward -555.602738717716
+episode 1563, total reward -251.59036197528505
+episode 1564, total reward -520.9543517076214
+episode 1565, total reward -361.8317227821188
+episode 1566, total reward -653.8982153046172
+episode 1567, total reward -365.18505934676773
+episode 1568, total reward -555.4282231195541
+episode 1569, total reward -379.06238632831025
+episode 1570, total reward -438.4881717507305
+episode 1571, total reward -352.1318482488591
+episode 1572, total reward -490.7318542221906
+episode 1573, total reward -612.3057349214848
+episode 1574, total reward -662.9996236895485
+episode 1575, total reward -297.9253734404508
+episode 1576, total reward -500.38231031020223
+episode 1577, total reward -270.54867604179356
+episode 1578, total reward -447.23930768395917
+episode 1579, total reward -268.13278353137264
+episode 1580, total reward -527.5718416358358
+start test!
+average_test_reward_sum = -239.621827605757
+episode 1581, total reward -665.8417567600609
+episode 1582, total reward -376.89519154408856
+episode 1583, total reward -518.7276246131792
+episode 1584, total reward -396.7421304303489
+episode 1585, total reward -529.2129515904666
+episode 1586, total reward -373.3745135107274
+episode 1587, total reward -655.5317618611409
+episode 1588, total reward -437.45059179894304
+episode 1589, total reward -609.3617200286686
+episode 1590, total reward -267.40993975133
+episode 1591, total reward -490.28793490927075
+episode 1592, total reward -285.6714103294549
+episode 1593, total reward -330.34414213820367
+episode 1594, total reward -564.67856176777
+episode 1595, total reward -338.1502905049611
+episode 1596, total reward -364.39861209117817
+episode 1597, total reward -463.47396632968184
+episode 1598, total reward -344.0857667426936
+episode 1599, total reward -455.1453328427474
+episode 1600, total reward -567.156498693563
+start test!
+average_test_reward_sum = -371.0620086326587
+episode 1601, total reward -259.26322509397227
+episode 1602, total reward -526.7144455654093
+episode 1603, total reward -283.2920360601069
+episode 1604, total reward -531.4339825817009
+episode 1605, total reward -638.3406755867561
+episode 1606, total reward -366.5319294541973
+episode 1607, total reward -451.7371453348805
+episode 1608, total reward -372.07008447403706
+episode 1609, total reward -355.3546760779386
+episode 1610, total reward -370.6596149317561
+episode 1611, total reward -416.6569010827792
+episode 1612, total reward -467.49323173726833
+episode 1613, total reward -500.21708734344975
+episode 1614, total reward -365.5132034549183
+episode 1615, total reward -253.80244157980098
+episode 1616, total reward -683.9755925980869
+episode 1617, total reward -379.491663125162
+episode 1618, total reward -477.72113424447815
+episode 1619, total reward -471.3287335591638
+episode 1620, total reward -637.0318779935525
+start test!
+average_test_reward_sum = -287.4750837125869
+episode 1621, total reward -279.00368463422575
+episode 1622, total reward -591.1916175066673
+episode 1623, total reward -429.46920931805
+episode 1624, total reward -456.27248504374745
+episode 1625, total reward -249.68591373935413
+episode 1626, total reward -473.4155552634185
+episode 1627, total reward -625.6934226040249
+episode 1628, total reward -464.4930215720855
+episode 1629, total reward -558.5931511229464
+episode 1630, total reward -684.8519046400038
+episode 1631, total reward -470.93221596345467
+episode 1632, total reward -472.93375353894015
+episode 1633, total reward -456.5251746527194
+episode 1634, total reward -648.5059755515912
+episode 1635, total reward -367.06260922432557
+episode 1636, total reward -476.76421363881195
+episode 1637, total reward -477.27789951694956
+episode 1638, total reward -363.8021224302326
+episode 1639, total reward -544.8172607984387
+episode 1640, total reward -364.4045285217025
+start test!
+average_test_reward_sum = -252.65345359821367
+episode 1641, total reward -460.07940735270427
+episode 1642, total reward -461.5252409675048
+episode 1643, total reward -389.30655491116227
+episode 1644, total reward -586.887822337019
+episode 1645, total reward -391.6259539084434
+episode 1646, total reward -472.1301574937621
+episode 1647, total reward -450.6692973527129
+episode 1648, total reward -250.16977017221532
+episode 1649, total reward -369.0191155821322
+episode 1650, total reward -431.16728767327254
+episode 1651, total reward -470.58003168223047
+episode 1652, total reward -540.6276889699413
+episode 1653, total reward -431.869546606533
+episode 1654, total reward -365.03136232370053
+episode 1655, total reward -496.8531543490074
+episode 1656, total reward -252.63395632757118
+episode 1657, total reward -650.9328568811965
+episode 1658, total reward -625.6203856437475
+episode 1659, total reward -517.7725108886181
+episode 1660, total reward -644.6612203378709
+start test!
+average_test_reward_sum = -342.8753616092009
+episode 1661, total reward -361.3088470322576
+episode 1662, total reward -363.689333840875
+episode 1663, total reward -464.57104901018454
+episode 1664, total reward -380.36522628228755
+episode 1665, total reward -459.3098464099291
+episode 1666, total reward -552.7061983087692
+episode 1667, total reward -328.0587402298723
+episode 1668, total reward -560.2688490197738
+episode 1669, total reward -363.92601121937435
+episode 1670, total reward -547.1139737601357
+episode 1671, total reward -365.6437817999655
+episode 1672, total reward -366.23366065867344
+episode 1673, total reward -681.9801915158276
+episode 1674, total reward -608.3554680631623
+episode 1675, total reward -552.256404939352
+episode 1676, total reward -353.37049204307505
+episode 1677, total reward -592.1529128417782
+episode 1678, total reward -252.649988656009
+episode 1679, total reward -239.38502954438528
+episode 1680, total reward -522.4133155840631
+start test!
+average_test_reward_sum = -295.72795357032135
+episode 1681, total reward -474.8953333799044
+episode 1682, total reward -674.2248238995483
+episode 1683, total reward -595.8876323137666
+episode 1684, total reward -465.9903886301456
+episode 1685, total reward -353.07531405662587
+episode 1686, total reward -288.55257003417506
+episode 1687, total reward -358.9590298138684
+episode 1688, total reward -403.03664040574347
+episode 1689, total reward -686.0530583980673
+episode 1690, total reward -457.28133542713283
+episode 1691, total reward -383.26801101808474
+episode 1692, total reward -528.8521277244031
+episode 1693, total reward -570.0476411451219
+episode 1694, total reward -363.18274216453887
+episode 1695, total reward -253.40836119337112
+episode 1696, total reward -490.639085096071
+episode 1697, total reward -439.765301269131
+episode 1698, total reward -448.7211149586253
+episode 1699, total reward -513.3584307286677
+episode 1700, total reward -497.4851233712185
+start test!
+average_test_reward_sum = -323.5386320787348
+episode 1701, total reward -360.47982731982944
+episode 1702, total reward -316.4078701540416
+episode 1703, total reward -464.0148978294013
+episode 1704, total reward -660.0772381007044
+episode 1705, total reward -363.413986514437
+episode 1706, total reward -411.60851997547843
+episode 1707, total reward -648.1149714618507
+episode 1708, total reward -402.51647929616354
+episode 1709, total reward -437.3502306807178
+episode 1710, total reward -245.03570287972917
+episode 1711, total reward -354.1388614219459
+episode 1712, total reward -450.3403702287902
+episode 1713, total reward -456.6836864652427
+episode 1714, total reward -506.59099431885335
+episode 1715, total reward -400.876843358157
+episode 1716, total reward -529.2179116058018
+episode 1717, total reward -463.4896102509176
+episode 1718, total reward -492.14562691557995
+episode 1719, total reward -431.896014247773
+episode 1720, total reward -436.132212183212
+start test!
+average_test_reward_sum = -355.1985663423205
+episode 1721, total reward -481.9251946037576
+episode 1722, total reward -300.48119986038716
+episode 1723, total reward -410.4108441708879
+episode 1724, total reward -365.24568332345757
+episode 1725, total reward -586.9767788427391
+episode 1726, total reward -530.4672886570096
+episode 1727, total reward -673.0351326620382
+episode 1728, total reward -250.22491749160287
+episode 1729, total reward -252.7826299844219
+episode 1730, total reward -437.7452380770263
+episode 1731, total reward -370.0572871167433
+episode 1732, total reward -513.6313144804146
+episode 1733, total reward -381.5997167532235
+episode 1734, total reward -384.197124642923
+episode 1735, total reward -461.03729878494977
+episode 1736, total reward -699.0905961173045
+episode 1737, total reward -609.2373703886592
+episode 1738, total reward -486.6025080692679
+episode 1739, total reward -577.6232330176658
+episode 1740, total reward -374.1597936589748
+start test!
+average_test_reward_sum = -400.9488849133939
+episode 1741, total reward -267.12487691050194
+episode 1742, total reward -537.9153300029899
+episode 1743, total reward -450.5238616450363
+episode 1744, total reward -455.56302776093855
+episode 1745, total reward -390.19101753084215
+episode 1746, total reward -688.6621187473306
+episode 1747, total reward -512.1748895499668
+episode 1748, total reward -364.2469513738859
+episode 1749, total reward -623.7901364002645
+episode 1750, total reward -694.2927629199295
+episode 1751, total reward -365.39612189939953
+episode 1752, total reward -381.5561943392486
+episode 1753, total reward -364.1782416316607
+episode 1754, total reward -470.28661015542144
+episode 1755, total reward -491.9892328738124
+episode 1756, total reward -685.6170910121326
+episode 1757, total reward -374.36658883035517
+episode 1758, total reward -436.0207656770769
+episode 1759, total reward -566.6306116873329
+episode 1760, total reward -520.448402896126
+start test!
+average_test_reward_sum = -401.31155994772996
+episode 1761, total reward -586.8786934596892
+episode 1762, total reward -455.3164914746106
+episode 1763, total reward -646.6319334215663
+episode 1764, total reward -500.41613267930666
+episode 1765, total reward -387.0687729721776
+episode 1766, total reward -606.9520350779251
+episode 1767, total reward -493.9151537942027
+episode 1768, total reward -306.3682080514324
+episode 1769, total reward -461.78468134997144
+episode 1770, total reward -340.1561659639273
+episode 1771, total reward -517.0740245892075
+episode 1772, total reward -482.7131647631673
+episode 1773, total reward -386.9662865744731
+episode 1774, total reward -522.0923203252727
+episode 1775, total reward -495.21816249208115
+episode 1776, total reward -461.41646249111875
+episode 1777, total reward -472.2974035414409
+episode 1778, total reward -577.5160020585859
+episode 1779, total reward -419.6979835527666
+episode 1780, total reward -371.53709308607694
+start test!
+average_test_reward_sum = -431.3203307560183
+episode 1781, total reward -441.748387230731
+episode 1782, total reward -374.372548372474
+episode 1783, total reward -681.5107342784133
+episode 1784, total reward -693.7695195180494
+episode 1785, total reward -386.02143706395105
+episode 1786, total reward -604.9183395660123
+episode 1787, total reward -330.79293833719936
+episode 1788, total reward -491.1422668443737
+episode 1789, total reward -651.5157502167974
+episode 1790, total reward -378.2104834030597
+episode 1791, total reward -624.9243456609519
+episode 1792, total reward -490.7213649125766
+episode 1793, total reward -608.6501799104731
+episode 1794, total reward -640.1532952969748
+episode 1795, total reward -252.80942074455479
+episode 1796, total reward -510.8659433794329
+episode 1797, total reward -376.863759397852
+episode 1798, total reward -359.76799213568785
+episode 1799, total reward -379.33403389235025
+episode 1800, total reward -254.21004722462558
+start test!
+average_test_reward_sum = -286.62206224826093
+episode 1801, total reward -412.0960474967502
+episode 1802, total reward -599.9498308242819
+episode 1803, total reward -263.13638922549336
+episode 1804, total reward -354.4664945102026
+episode 1805, total reward -596.0827893333436
+episode 1806, total reward -601.054066292885
+episode 1807, total reward -453.12049682987254
+episode 1808, total reward -347.90007957079723
+episode 1809, total reward -658.7266737173434
+episode 1810, total reward -253.89465079299745
+episode 1811, total reward -467.0347967958728
+episode 1812, total reward -361.56027336130165
+episode 1813, total reward -629.3794412022321
+episode 1814, total reward -422.4196197535156
+episode 1815, total reward -443.68238284029763
+episode 1816, total reward -466.6120917898688
+episode 1817, total reward -475.64336199481977
+episode 1818, total reward -391.1511623868916
+episode 1819, total reward -366.2987811296734
+episode 1820, total reward -661.549789253819
+start test!
+average_test_reward_sum = -338.06232082458916
+episode 1821, total reward -262.92574171909376
+episode 1822, total reward -464.4152764071615
+episode 1823, total reward -352.78602123909405
+episode 1824, total reward -644.8024611227279
+episode 1825, total reward -378.4270009855679
+episode 1826, total reward -388.93718056556605
+episode 1827, total reward -529.3063141270444
+episode 1828, total reward -495.23961838326267
+episode 1829, total reward -362.3210538990797
+episode 1830, total reward -370.125609962298
+episode 1831, total reward -447.94026785554894
+episode 1832, total reward -530.8285761513819
+episode 1833, total reward -677.4815320149754
+episode 1834, total reward -670.4440015985541
+episode 1835, total reward -580.2798870538232
+episode 1836, total reward -454.5735269649248
+episode 1837, total reward -604.6829125036182
+episode 1838, total reward -263.91252952232577
+episode 1839, total reward -499.75508902774794
+episode 1840, total reward -439.4284751352003
+start test!
+average_test_reward_sum = -327.0765353538824
+episode 1841, total reward -350.87976133825305
+episode 1842, total reward -461.84901310198285
+episode 1843, total reward -362.94122963617986
+episode 1844, total reward -656.927379841565
+episode 1845, total reward -459.8325349510885
+episode 1846, total reward -295.72604685812433
+episode 1847, total reward -459.3493365432171
+episode 1848, total reward -253.86451760879336
+episode 1849, total reward -259.27644454454503
+episode 1850, total reward -364.68827501456553
+episode 1851, total reward -513.5445663175019
+episode 1852, total reward -626.3253194337701
+episode 1853, total reward -450.2721187457165
+episode 1854, total reward -365.7903195773329
+episode 1855, total reward -369.13171005503006
+episode 1856, total reward -360.15561847181374
+episode 1857, total reward -652.3491463205376
+episode 1858, total reward -462.84857550422527
+episode 1859, total reward -476.8739224165811
+episode 1860, total reward -434.378693126903
+start test!
+average_test_reward_sum = -245.81704174387647
+episode 1861, total reward -362.2319801352813
+episode 1862, total reward -359.4410204389297
+episode 1863, total reward -458.0012303779935
+episode 1864, total reward -254.41992211693713
+episode 1865, total reward -521.739880252514
+episode 1866, total reward -363.1354362237141
+episode 1867, total reward -457.49570731523573
+episode 1868, total reward -460.3880023057276
+episode 1869, total reward -368.63626735232816
+episode 1870, total reward -663.9384099941828
+episode 1871, total reward -551.6357968203678
+episode 1872, total reward -251.11458154581481
+episode 1873, total reward -631.0490283189855
+episode 1874, total reward -509.7196419546548
+episode 1875, total reward -329.553902367056
+episode 1876, total reward -683.4152342700612
+episode 1877, total reward -505.59978683593835
+episode 1878, total reward -364.92080497824395
+episode 1879, total reward -328.83303007631145
+episode 1880, total reward -513.7269671717384
+start test!
+average_test_reward_sum = -288.00308026003916
+episode 1881, total reward -363.94759606461946
+episode 1882, total reward -447.38140327636796
+episode 1883, total reward -655.4848358928768
+episode 1884, total reward -474.92793906046927
+episode 1885, total reward -471.3371595022738
+episode 1886, total reward -481.3354956378375
+episode 1887, total reward -504.50016748712255
+episode 1888, total reward -564.3179023443829
+episode 1889, total reward -355.9620703068998
+episode 1890, total reward -449.1330485432544
+episode 1891, total reward -374.64023697387023
+episode 1892, total reward -363.09410059972424
+episode 1893, total reward -598.5013898665717
+episode 1894, total reward -316.8023190009464
+episode 1895, total reward -358.95005101304156
+episode 1896, total reward -395.56412039260414
+episode 1897, total reward -469.32264839888364
+episode 1898, total reward -252.46151814593128
+episode 1899, total reward -691.3256015451863
+episode 1900, total reward -525.0017758140098
+start test!
+average_test_reward_sum = -297.4539453655323
+episode 1901, total reward -397.7899604186307
+episode 1902, total reward -458.7292799822537
+episode 1903, total reward -444.54990603524874
+episode 1904, total reward -488.4905062862836
+episode 1905, total reward -595.6231001563008
+episode 1906, total reward -679.066083679241
+episode 1907, total reward -257.54318893462624
+episode 1908, total reward -459.46675506920366
+episode 1909, total reward -387.127669814402
+episode 1910, total reward -395.64883738917064
+episode 1911, total reward -670.4695919790138
+episode 1912, total reward -363.426233999942
+episode 1913, total reward -429.3001640630433
+episode 1914, total reward -374.67085338941405
+episode 1915, total reward -629.9487575772595
+episode 1916, total reward -646.7956346242503
+episode 1917, total reward -563.1435120717529
+episode 1918, total reward -261.2877221081934
+episode 1919, total reward -483.4502540539437
+episode 1920, total reward -460.3665044258072
+start test!
+average_test_reward_sum = -291.4433108215992
+episode 1921, total reward -453.94697003941974
+episode 1922, total reward -482.93094895809264
+episode 1923, total reward -468.0160898921458
+episode 1924, total reward -451.4319532567545
+episode 1925, total reward -460.16960537157235
+episode 1926, total reward -603.3461704148375
+episode 1927, total reward -450.9060325312448
+episode 1928, total reward -259.6184127045836
+episode 1929, total reward -623.8566417797831
+episode 1930, total reward -468.7955314725258
+episode 1931, total reward -481.2631619083817
+episode 1932, total reward -603.3077437321786
+episode 1933, total reward -545.8920343859297
+episode 1934, total reward -568.9534076268221
+episode 1935, total reward -363.64393310134324
+episode 1936, total reward -375.21766840396486
+episode 1937, total reward -634.4844521330621
+episode 1938, total reward -360.8190411483117
+episode 1939, total reward -390.28465374602126
+episode 1940, total reward -456.71375539450116
+start test!
+average_test_reward_sum = -305.7473258894613
+episode 1941, total reward -364.81458259792777
+episode 1942, total reward -251.42479741596108
+episode 1943, total reward -652.691015808154
+episode 1944, total reward -631.5887442127608
+episode 1945, total reward -288.5308015237699
+episode 1946, total reward -565.5327828967321
+episode 1947, total reward -367.08185094474675
+episode 1948, total reward -574.9316106477696
+episode 1949, total reward -458.6516752565166
+episode 1950, total reward -338.93851302746486
+episode 1951, total reward -363.90043224497816
+episode 1952, total reward -449.5176798631403
+episode 1953, total reward -484.56986945583975
+episode 1954, total reward -365.6377587770426
+episode 1955, total reward -365.52918775059396
+episode 1956, total reward -462.95540431420227
+episode 1957, total reward -474.4263316880182
+episode 1958, total reward -410.11926388600807
+episode 1959, total reward -707.6898566534677
+episode 1960, total reward -554.8732952636421
+start test!
+average_test_reward_sum = -354.6631429239541
+episode 1961, total reward -579.2242692148249
+episode 1962, total reward -435.7168641508543
+episode 1963, total reward -492.8696908778881
+episode 1964, total reward -569.5190796248899
+episode 1965, total reward -346.6726901061363
+episode 1966, total reward -575.562644817324
+episode 1967, total reward -675.8838891928889
+episode 1968, total reward -462.55256536861543
+episode 1969, total reward -608.3087982505956
+episode 1970, total reward -633.6035684479798
+episode 1971, total reward -388.7373553353112
+episode 1972, total reward -466.4239839124783
+episode 1973, total reward -618.8316513075621
+episode 1974, total reward -254.49563624063106
+episode 1975, total reward -495.48096662428577
+episode 1976, total reward -249.68913073755238
+episode 1977, total reward -375.7911025341771
+episode 1978, total reward -363.0660209841488
+episode 1979, total reward -317.970459004346
+episode 1980, total reward -371.85882438102317
+start test!
+average_test_reward_sum = -348.7846361726104
+episode 1981, total reward -364.7664923022809
+episode 1982, total reward -548.2060423621448
+episode 1983, total reward -382.14437076254904
+episode 1984, total reward -373.1352104239821
+episode 1985, total reward -424.9477744982547
+episode 1986, total reward -269.7683559749822
+episode 1987, total reward -518.4285453680861
+episode 1988, total reward -361.00498597813794
+episode 1989, total reward -473.2012416654045
+episode 1990, total reward -409.08391096860817
+episode 1991, total reward -571.591270288976
+episode 1992, total reward -361.4723611517764
+episode 1993, total reward -645.4266592339758
+episode 1994, total reward -364.6521470815503
+episode 1995, total reward -492.92870248265615
+episode 1996, total reward -380.7567088116285
+episode 1997, total reward -506.48596202968355
+episode 1998, total reward -363.67126781047136
+episode 1999, total reward -370.6143970781818
+episode 2000, total reward -429.42563012218676
+start test!
+average_test_reward_sum = -333.8815248247927
+automotic reduction stage 10
+MB actor loss: 3.2820169925689697
+MB critic loss: 3602.3369140625
+episode 2001, total reward -383.9593499352336
+automotic reduction stage 10
+MB actor loss: 6.678379535675049
+MB critic loss: 2219.228759765625
+episode 2002, total reward -265.6902705152049
+automotic reduction stage 10
+MB actor loss: 3.1191189289093018
+MB critic loss: 743.7332153320312
+episode 2003, total reward -253.30396241442747
+automotic reduction stage 10
+MB actor loss: 4.118127822875977
+MB critic loss: 1138.7041015625
+episode 2004, total reward -492.70152883014936
+automotic reduction stage 10
+MB actor loss: 4.461559295654297
+MB critic loss: 1972.2701416015625
+episode 2005, total reward -538.71414798033
+automotic reduction stage 10
+MB actor loss: 7.076522350311279
+MB critic loss: 1492.1158447265625
+episode 2006, total reward -132.96602192210392
+automotic reduction stage 10
+MB actor loss: 7.760025978088379
+MB critic loss: 884.610595703125
+episode 2007, total reward -130.8729371162073
+automotic reduction stage 11
+MB actor loss: 5.60744571685791
+MB critic loss: 1393.7559814453125
+episode 2008, total reward -537.2074433287357
+automotic reduction stage 12
+MB actor loss: 6.867255687713623
+MB critic loss: 2214.790283203125
+episode 2009, total reward -435.2515901956041
+automotic reduction stage 13
+MB actor loss: 3.0487475395202637
+MB critic loss: 1557.7672119140625
+episode 2010, total reward -464.80714536939064
+automotic reduction stage 13
+MB actor loss: 5.319148063659668
+MB critic loss: 1028.83447265625
+episode 2011, total reward -474.85127032273516
+automotic reduction stage 13
+MB actor loss: 5.6279215812683105
+MB critic loss: 846.8385009765625
+episode 2012, total reward -397.2498903228148
+automotic reduction stage 13
+MB actor loss: 5.889486312866211
+MB critic loss: 1337.24951171875
+episode 2013, total reward -478.18472220020016
+automotic reduction stage 13
+MB actor loss: 6.549707889556885
+MB critic loss: 868.6243286132812
+episode 2014, total reward -522.4068636300689
+automotic reduction stage 13
+MB actor loss: 3.7571215629577637
+MB critic loss: 1670.788330078125
+episode 2015, total reward -513.7188165184921
+automotic reduction stage 13
+MB actor loss: 4.4760565757751465
+MB critic loss: 1096.5438232421875
+episode 2016, total reward -490.182070777685
+automotic reduction stage 13
+MB actor loss: 6.584970951080322
+MB critic loss: 2555.476318359375
+episode 2017, total reward -255.45651384246935
+automotic reduction stage 13
+MB actor loss: 5.45729923248291
+MB critic loss: 1927.70458984375
+episode 2018, total reward -485.85432783044837
+automotic reduction stage 13
+MB actor loss: 3.212325096130371
+MB critic loss: 1462.5924072265625
+episode 2019, total reward -125.26718330797591
+automotic reduction stage 13
+MB actor loss: 4.874574661254883
+MB critic loss: 1416.0264892578125
+episode 2020, total reward -134.6933645810211
+start test!
+average_test_reward_sum = -446.2384753907474
+automotic reduction stage 13
+MB actor loss: 4.228137969970703
+MB critic loss: 1444.3387451171875
+episode 2021, total reward -400.3721617086406
+automotic reduction stage 13
+MB actor loss: 6.736865520477295
+MB critic loss: 2021.1168212890625
+episode 2022, total reward -534.6662907239555
+automotic reduction stage 13
+MB actor loss: 5.798439025878906
+MB critic loss: 855.6802978515625
+episode 2023, total reward -392.4615525149424
+automotic reduction stage 13
+MB actor loss: 4.257694244384766
+MB critic loss: 1051.2119140625
+episode 2024, total reward -460.00915933146
+automotic reduction stage 13
+MB actor loss: 5.527661323547363
+MB critic loss: 1192.5771484375
+episode 2025, total reward -403.40170599360437
+automotic reduction stage 13
+MB actor loss: 2.24393630027771
+MB critic loss: 768.5185546875
+episode 2026, total reward -480.76212806553673
+automotic reduction stage 13
+MB actor loss: 5.556396007537842
+MB critic loss: 923.4378051757812
+episode 2027, total reward -485.5291409699954
+automotic reduction stage 13
+MB actor loss: 1.6838701963424683
+MB critic loss: 1071.1356201171875
+episode 2028, total reward -378.5253175544623
+automotic reduction stage 13
+MB actor loss: 5.21349573135376
+MB critic loss: 945.849853515625
+episode 2029, total reward -395.1471996312642
+automotic reduction stage 13
+MB actor loss: 3.0090298652648926
+MB critic loss: 2585.7744140625
+episode 2030, total reward -371.1891060310569
+automotic reduction stage 13
+MB actor loss: 6.1096062660217285
+MB critic loss: 2766.636474609375
+episode 2031, total reward -449.82861572144924
+automotic reduction stage 13
+MB actor loss: 4.130392074584961
+MB critic loss: 973.1055908203125
+episode 2032, total reward -439.7664557619286
+automotic reduction stage 13
+MB actor loss: 4.344006538391113
+MB critic loss: 1164.9808349609375
+episode 2033, total reward -494.07469506166177
+automotic reduction stage 13
+MB actor loss: 5.446415901184082
+MB critic loss: 2201.47509765625
+episode 2034, total reward -366.66436419274584
+automotic reduction stage 14
+MB actor loss: 4.9654340744018555
+MB critic loss: 1077.359375
+episode 2035, total reward -437.5066809594754
+automotic reduction stage 14
+MB actor loss: 3.118596315383911
+MB critic loss: 1902.0821533203125
+episode 2036, total reward -416.06960540132764
+automotic reduction stage 14
+MB actor loss: 5.660464286804199
+MB critic loss: 1749.1124267578125
+episode 2037, total reward -523.627058229362
+automotic reduction stage 14
+MB actor loss: 3.9773247241973877
+MB critic loss: 1961.1600341796875
+episode 2038, total reward -474.8621557668022
+automotic reduction stage 14
+MB actor loss: 5.372801780700684
+MB critic loss: 912.3125
+episode 2039, total reward -316.7497570423037
+automotic reduction stage 14
+MB actor loss: 3.3779428005218506
+MB critic loss: 1152.3931884765625
+episode 2040, total reward -252.87290225762678
+start test!
+average_test_reward_sum = -305.98540611585696
+automotic reduction stage 14
+MB actor loss: 3.664605140686035
+MB critic loss: 1498.02294921875
+episode 2041, total reward -466.69636273616493
+automotic reduction stage 14
+MB actor loss: 4.33954381942749
+MB critic loss: 1400.93408203125
+episode 2042, total reward -517.0328465253448
+automotic reduction stage 14
+MB actor loss: 2.5731942653656006
+MB critic loss: 854.90087890625
+episode 2043, total reward -491.539990216552
+automotic reduction stage 14
+MB actor loss: 3.2846083641052246
+MB critic loss: 791.3973999023438
+episode 2044, total reward -532.151250368946
+automotic reduction stage 14
+MB actor loss: 3.1096065044403076
+MB critic loss: 769.139892578125
+episode 2045, total reward -463.94479119241004
+automotic reduction stage 14
+MB actor loss: 5.197155475616455
+MB critic loss: 1385.176513671875
+episode 2046, total reward -455.4491453139161
+automotic reduction stage 14
+MB actor loss: 6.024088382720947
+MB critic loss: 1190.12548828125
+episode 2047, total reward -344.80397722319276
+automotic reduction stage 14
+MB actor loss: 5.483511447906494
+MB critic loss: 983.7530517578125
+episode 2048, total reward -385.63553877953194
+automotic reduction stage 14
+MB actor loss: 4.6665849685668945
+MB critic loss: 1263.4034423828125
+episode 2049, total reward -445.04208044028394
+automotic reduction stage 14
+MB actor loss: 3.099968433380127
+MB critic loss: 544.2103881835938
+episode 2050, total reward -449.7477789941249
+automotic reduction stage 14
+MB actor loss: 1.0662583112716675
+MB critic loss: 1829.0269775390625
+episode 2051, total reward -475.00221947479264
+automotic reduction stage 14
+MB actor loss: 3.8348073959350586
+MB critic loss: 1574.341064453125
+episode 2052, total reward -332.43648593188834
+automotic reduction stage 14
+MB actor loss: 1.181618332862854
+MB critic loss: 609.7177124023438
+episode 2053, total reward -418.693243259104
+automotic reduction stage 14
+MB actor loss: 1.8116626739501953
+MB critic loss: 686.0394897460938
+episode 2054, total reward -461.4711219295613
+automotic reduction stage 14
+MB actor loss: 1.597682237625122
+MB critic loss: 1836.8157958984375
+episode 2055, total reward -414.7730428895433
+automotic reduction stage 14
+MB actor loss: 1.3076530694961548
+MB critic loss: 972.6881713867188
+episode 2056, total reward -241.13767283971734
+automotic reduction stage 14
+MB actor loss: 3.465261936187744
+MB critic loss: 933.554443359375
+episode 2057, total reward -482.8285607105404
+automotic reduction stage 14
+MB actor loss: 5.418269634246826
+MB critic loss: 1250.1337890625
+episode 2058, total reward -401.75947090542513
+automotic reduction stage 14
+MB actor loss: 4.871645927429199
+MB critic loss: 1675.87255859375
+episode 2059, total reward -399.2195972787941
+automotic reduction stage 14
+MB actor loss: 4.663980960845947
+MB critic loss: 2155.849853515625
+episode 2060, total reward -148.3576910570048
+start test!
+average_test_reward_sum = -430.4921389701943
+automotic reduction stage 14
+MB actor loss: 4.413205146789551
+MB critic loss: 1752.093017578125
+episode 2061, total reward -395.55166631223767
+automotic reduction stage 14
+MB actor loss: 5.903719425201416
+MB critic loss: 760.6632690429688
+episode 2062, total reward -485.94404876590994
+automotic reduction stage 14
+MB actor loss: 6.83061408996582
+MB critic loss: 1200.2818603515625
+episode 2063, total reward -468.9385532468665
+automotic reduction stage 14
+MB actor loss: 1.9296547174453735
+MB critic loss: 1528.1456298828125
+episode 2064, total reward -400.3528323070856
+automotic reduction stage 14
+MB actor loss: 4.1109113693237305
+MB critic loss: 1117.984130859375
+episode 2065, total reward -406.21745061102877
+automotic reduction stage 14
+MB actor loss: 2.6056413650512695
+MB critic loss: 1129.6336669921875
+episode 2066, total reward -434.2822949121986
+automotic reduction stage 14
+MB actor loss: 3.2115280628204346
+MB critic loss: 812.8758544921875
+episode 2067, total reward -402.5696101263852
+automotic reduction stage 14
+MB actor loss: 4.701600074768066
+MB critic loss: 754.880126953125
+episode 2068, total reward -497.37052868266693
+automotic reduction stage 14
+MB actor loss: 4.03995418548584
+MB critic loss: 1293.1739501953125
+episode 2069, total reward -455.501413306694
+automotic reduction stage 14
+MB actor loss: 5.668857574462891
+MB critic loss: 1068.048828125
+episode 2070, total reward -249.0747282384339
+automotic reduction stage 14
+MB actor loss: 5.474682331085205
+MB critic loss: 1014.0944213867188
+episode 2071, total reward -272.4641188551444
+automotic reduction stage 14
+MB actor loss: 4.949831962585449
+MB critic loss: 751.74658203125
+episode 2072, total reward -380.4588983748108
+automotic reduction stage 14
+MB actor loss: 5.556098461151123
+MB critic loss: 431.7392272949219
+episode 2073, total reward -473.25009366132264
+automotic reduction stage 14
+MB actor loss: 2.0858874320983887
+MB critic loss: 1546.793701171875
+episode 2074, total reward -351.2947618338274
+automotic reduction stage 14
+MB actor loss: 3.4736037254333496
+MB critic loss: 1284.47998046875
+episode 2075, total reward -425.8243084292611
+automotic reduction stage 14
+MB actor loss: 5.73730993270874
+MB critic loss: 1106.9525146484375
+episode 2076, total reward -420.51243020421583
+automotic reduction stage 14
+MB actor loss: 3.874070882797241
+MB critic loss: 1404.3681640625
+episode 2077, total reward -428.8223769193423
+automotic reduction stage 14
+Traceback (most recent call last):
+  File "MBMF.py", line 139, in <module>
+    main(conf)
+  File "MBMF.py", line 92, in main
+    agent.update(1)
+  File "/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py", line 239, in update
+    mb_critic_loss, mb_actor_loss = self.MB_learn(mb_s, mb_s_a, mb_t)
+  File "/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py", line 351, in MB_learn
+    a_q_target_list = Parallel(n_jobs=4,prefer="threads")(delayed(self.MB_target_compute)(states[i],states_actions[i],time_steps[i]) for i in range(self.mb_batchsize))
+  File "/usr/local/lib/python3.6/dist-packages/joblib/parallel.py", line 1042, in __call__
+    self.retrieve()
+  File "/usr/local/lib/python3.6/dist-packages/joblib/parallel.py", line 921, in retrieve
+    self._output.extend(job.get(timeout=self.timeout))
+  File "/usr/lib/python3.6/multiprocessing/pool.py", line 638, in get
+    self.wait(timeout)
+  File "/usr/lib/python3.6/multiprocessing/pool.py", line 635, in wait
+    self._event.wait(timeout)
+  File "/usr/lib/python3.6/threading.py", line 551, in wait
+    signaled = self._cond.wait(timeout)
+  File "/usr/lib/python3.6/threading.py", line 295, in wait
+    waiter.acquire()
+KeyboardInterrupt

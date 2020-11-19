@@ -1,0 +1,9 @@
+****** begin! ******
+****** step1 ******
+episode 0, total reward -364.7877216771338
+Traceback (most recent call last):
+  File "MBMF.py", line 145, in <module>
+    main(conf)
+  File "MBMF.py", line 96, in main
+    wandb.log({"trans_loss": trans_loss})
+UnboundLocalError: local variable 'trans_loss' referenced before assignment

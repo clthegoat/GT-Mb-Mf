@@ -1,0 +1,107 @@
+****** begin! ******
+****** step1 ******
+/home/yunke/git/DL_MBMF/experiment/MVE_agent.py:115: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 5.805256366729736
+reward loss: 44.26653289794922
+actor loss: 0.13641265034675598
+critic loss: 1.9697067737579346
+episode 1, total reward -453.58752959412465
+transition loss: 5.7074151039123535
+reward loss: 47.951663970947266
+actor loss: 0.2567249834537506
+critic loss: 2.2667253017425537
+episode 2, total reward -462.0880883947264
+transition loss: 5.7311110496521
+reward loss: 41.756874084472656
+actor loss: 0.42957067489624023
+critic loss: 2.1588170528411865
+episode 3, total reward -308.3181825030698
+transition loss: 4.166543483734131
+reward loss: 48.11022186279297
+actor loss: 0.46477431058883667
+critic loss: 2.6100611686706543
+episode 4, total reward -676.3233868797672
+transition loss: 3.920003890991211
+reward loss: 45.47918701171875
+actor loss: 0.5787684321403503
+critic loss: 2.64190936088562
+episode 5, total reward -501.3652514097156
+transition loss: 3.524359941482544
+reward loss: 42.05902099609375
+actor loss: 0.6791845560073853
+critic loss: 2.645167589187622
+episode 6, total reward -466.3907649132764
+transition loss: 3.1562793254852295
+reward loss: 33.961082458496094
+actor loss: 0.7841652631759644
+critic loss: 2.374490737915039
+episode 7, total reward -384.85964160731714
+transition loss: 3.2336788177490234
+reward loss: 39.33662414550781
+actor loss: 0.9331796169281006
+critic loss: 2.914902687072754
+episode 8, total reward -537.0561764216465
+transition loss: 2.8857688903808594
+reward loss: 44.26798629760742
+actor loss: 1.0149353742599487
+critic loss: 3.377908706665039
+episode 9, total reward -670.0511758691596
+transition loss: 2.5795271396636963
+reward loss: 33.738040924072266
+actor loss: 1.1317378282546997
+critic loss: 2.980700731277466
+episode 10, total reward -352.4972361282176
+transition loss: 2.367457389831543
+reward loss: 36.828121185302734
+actor loss: 1.2322951555252075
+critic loss: 3.432631254196167
+episode 11, total reward -479.88441917136066
+transition loss: 2.2246148586273193
+reward loss: 36.47169494628906
+actor loss: 1.3677763938903809
+critic loss: 3.78016996383667
+episode 12, total reward -537.0707192321264
+transition loss: 1.6833103895187378
+reward loss: 31.590723037719727
+actor loss: 1.4412014484405518
+critic loss: 3.6753876209259033
+episode 13, total reward -510.7789296523289
+transition loss: 1.5594123601913452
+reward loss: 31.127458572387695
+actor loss: 1.5171928405761719
+critic loss: 4.046562671661377
+episode 14, total reward -541.4695098201769
+transition loss: 1.3592506647109985
+reward loss: 29.23926544189453
+actor loss: 1.6607991456985474
+critic loss: 4.345670700073242
+episode 15, total reward -459.6537363715659
+transition loss: 1.444461703300476
+reward loss: 30.734020233154297
+actor loss: 1.8791792392730713
+critic loss: 5.08604621887207
+episode 16, total reward -415.65389015615807
+transition loss: 1.105643630027771
+reward loss: 23.097087860107422
+actor loss: 1.9634944200515747
+critic loss: 5.090694427490234
+episode 17, total reward -485.0930762669739
+transition loss: 1.2916966676712036
+reward loss: 25.3985652923584
+actor loss: 2.303384780883789
+critic loss: 6.417189598083496
+episode 18, total reward -678.9304886009459
+transition loss: 0.8318412899971008
+reward loss: 23.47290802001953
+actor loss: 2.085376024246216
+critic loss: 6.027945518493652
+episode 19, total reward -659.0226691699356
+episode 20, total reward -471.1668871156172
+start test!
+Traceback (most recent call last):
+  File "MBMF.py", line 151, in <module>
+    main(conf)
+  File "MBMF.py", line 123, in main
+    test_action = agent.select_action(j, state_list[j], exploration=0)[:,0]
+TypeError: select_action() got multiple values for argument 'exploration'

@@ -1,0 +1,107 @@
+****** begin! ******
+****** step1 ******
+/home/yunke/git/DL_MBMF/experiment/MVE_agent.py:115: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 1.751438021659851
+reward loss: 52.55320358276367
+actor loss: 0.16321112215518951
+critic loss: 2.3779571056365967
+episode 1, total reward -523.8939065966953
+transition loss: 1.8107043504714966
+reward loss: 50.018455505371094
+actor loss: 0.25418901443481445
+critic loss: 2.4135782718658447
+episode 2, total reward -548.534396059099
+transition loss: 3.0677404403686523
+reward loss: 44.169944763183594
+actor loss: 0.4140382409095764
+critic loss: 2.2623050212860107
+episode 3, total reward -380.42047260274705
+transition loss: 3.1431987285614014
+reward loss: 49.66783905029297
+actor loss: 0.5074906349182129
+critic loss: 2.669553279876709
+episode 4, total reward -516.8630358250124
+transition loss: 2.7566044330596924
+reward loss: 46.4493408203125
+actor loss: 0.6106206178665161
+critic loss: 2.7293848991394043
+episode 5, total reward -510.06426246304903
+transition loss: 2.423557996749878
+reward loss: 40.49132537841797
+actor loss: 0.682603120803833
+critic loss: 2.6379776000976562
+episode 6, total reward -365.0709892875081
+transition loss: 3.1579132080078125
+reward loss: 45.049774169921875
+actor loss: 0.8847419619560242
+critic loss: 3.002119541168213
+episode 7, total reward -395.3772427612351
+transition loss: 2.857969284057617
+reward loss: 38.00905990600586
+actor loss: 0.9899705648422241
+critic loss: 2.9052891731262207
+episode 8, total reward -489.7833919032338
+transition loss: 2.290452718734741
+reward loss: 36.52334976196289
+actor loss: 1.0782928466796875
+critic loss: 3.021923780441284
+episode 9, total reward -570.2291357118021
+transition loss: 1.5502341985702515
+reward loss: 40.68394470214844
+actor loss: 1.1236085891723633
+critic loss: 3.3243484497070312
+episode 10, total reward -607.2624908599819
+transition loss: 1.6462785005569458
+reward loss: 37.458866119384766
+actor loss: 1.233694076538086
+critic loss: 3.43229603767395
+episode 11, total reward -671.9636954206622
+transition loss: 1.9916267395019531
+reward loss: 40.11537170410156
+actor loss: 1.4868706464767456
+critic loss: 3.8699162006378174
+episode 12, total reward -362.94302591306047
+transition loss: 1.688521385192871
+reward loss: 37.55579376220703
+actor loss: 1.6597473621368408
+critic loss: 3.8604369163513184
+episode 13, total reward -443.11674992530504
+transition loss: 1.8829269409179688
+reward loss: 30.64315414428711
+actor loss: 1.9364712238311768
+critic loss: 3.7872097492218018
+episode 14, total reward -454.6479226626515
+transition loss: 1.2942243814468384
+reward loss: 33.54447555541992
+actor loss: 1.8160409927368164
+critic loss: 4.150493621826172
+episode 15, total reward -480.2306198692055
+transition loss: 1.3074396848678589
+reward loss: 30.364473342895508
+actor loss: 2.1659300327301025
+critic loss: 4.228829860687256
+episode 16, total reward -668.3951118655377
+transition loss: 1.238933801651001
+reward loss: 28.07105255126953
+actor loss: 2.2626707553863525
+critic loss: 4.890738010406494
+episode 17, total reward -364.445616359864
+transition loss: 1.2180734872817993
+reward loss: 26.910503387451172
+actor loss: 2.6528897285461426
+critic loss: 5.269444465637207
+episode 18, total reward -364.30960670567464
+transition loss: 1.1086493730545044
+reward loss: 23.03130340576172
+actor loss: 2.713329792022705
+critic loss: 5.710845947265625
+episode 19, total reward -361.45093150087007
+episode 20, total reward -489.46518859493585Traceback (most recent call last):
+
+start test!
+  File "MBMF.py", line 151, in <module>
+    main(conf)
+  File "MBMF.py", line 123, in main
+    test_action = agent.select_action(step_num, test_state_list[step_num], exploration=False)[:,0]
+TypeError: select_action() got multiple values for argument 'exploration'

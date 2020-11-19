@@ -1,0 +1,14 @@
+****** begin! ******
+****** step1 ******
+/home/yunke/git/DL_MBMF/experiment/MVE_agent.py:115: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 2.404521942138672
+reward loss: 56.955928802490234
+actor loss: 0.0009897634154185653Traceback (most recent call last):
+
+critic loss: 2.1902480125427246
+  File "MBMF.py", line 146, in <module>
+    main(conf)
+  File "MBMF.py", line 91, in main
+    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(0)
+TypeError: 'NoneType' object is not iterable

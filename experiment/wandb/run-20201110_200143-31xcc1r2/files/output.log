@@ -1,0 +1,410 @@
+****** begin! ******
+****** step1 ******
+episode 0, total reward -368.8475632944448
+/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py:201: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 7.02203369140625
+reward loss: 40.07024383544922
+episode 1, total reward -356.2050613473777
+transition loss: 5.7958221435546875
+reward loss: 55.99760437011719
+episode 2, total reward -691.4199425871943
+transition loss: 4.319878578186035
+reward loss: 49.757232666015625
+episode 3, total reward -524.5457472365136
+transition loss: 3.8260490894317627
+reward loss: 54.21107864379883
+episode 4, total reward -463.328086855502
+transition loss: 4.413809299468994
+reward loss: 47.03575134277344
+episode 5, total reward -383.1530299009165
+transition loss: 4.0082621574401855
+reward loss: 48.31266784667969
+episode 6, total reward -476.2905285780799
+transition loss: 3.912094831466675
+reward loss: 44.61014938354492
+episode 7, total reward -449.6647740824339
+transition loss: 3.229598045349121
+reward loss: 29.644550323486328
+episode 8, total reward -253.68923337010526
+transition loss: 3.331083297729492
+reward loss: 35.5727653503418
+episode 9, total reward -463.4669436173874
+transition loss: 2.713376760482788
+reward loss: 39.9845085144043
+episode 10, total reward -645.9782623713917
+transition loss: 2.584561586380005
+reward loss: 35.41844940185547
+episode 11, total reward -249.23997459413124
+transition loss: 2.6346962451934814
+reward loss: 28.01083755493164
+episode 12, total reward -371.16682088088015
+transition loss: 2.8386383056640625
+reward loss: 28.129436492919922
+episode 13, total reward -363.93991371535174
+transition loss: 2.165525436401367
+reward loss: 25.135610580444336
+episode 14, total reward -496.9506233286627
+transition loss: 1.7431668043136597
+reward loss: 31.631120681762695
+episode 15, total reward -498.25824085343777
+transition loss: 1.882347583770752
+reward loss: 23.75489616394043
+episode 16, total reward -335.3589490624838
+transition loss: 1.4052858352661133
+reward loss: 22.8829288482666
+episode 17, total reward -254.9058086429469
+transition loss: 1.665693759918213
+reward loss: 22.04697608947754
+episode 18, total reward -598.0466511980242
+transition loss: 1.082727313041687
+reward loss: 20.223447799682617
+episode 19, total reward -513.861705330357
+transition loss: 1.1380553245544434
+reward loss: 23.49834632873535
+episode 20, total reward -376.5906235429124
+start test!
+average_test_reward_sum = -468.11274229635063
+transition loss: 0.8617122173309326
+reward loss: 16.764904022216797
+episode 21, total reward -485.46061579073654
+transition loss: 0.9359071254730225
+reward loss: 19.091588973999023
+episode 22, total reward -365.81360758671724
+transition loss: 0.5814017653465271
+reward loss: 16.53141212463379
+episode 23, total reward -465.57158767716874
+transition loss: 0.5015105605125427
+reward loss: 17.814434051513672
+episode 24, total reward -528.6875342036672
+transition loss: 0.469163179397583
+reward loss: 14.318256378173828
+episode 25, total reward -226.9615620050831
+transition loss: 0.46136268973350525
+reward loss: 13.727060317993164
+episode 26, total reward -397.83247541813904
+transition loss: 0.39758360385894775
+reward loss: 12.323417663574219
+episode 27, total reward -363.6980043610525
+transition loss: 0.3746160566806793
+reward loss: 12.345525741577148
+episode 28, total reward -542.4329061305027
+transition loss: 0.33431172370910645
+reward loss: 11.90114688873291
+episode 29, total reward -366.7732551913741
+transition loss: 0.3172977566719055
+reward loss: 8.996000289916992
+episode 30, total reward -588.4462873225444
+transition loss: 0.3137664794921875
+reward loss: 10.598952293395996
+episode 31, total reward -643.3276324719578
+transition loss: 0.2798415720462799
+reward loss: 11.32437801361084
+episode 32, total reward -558.7190815160692
+transition loss: 0.26625582575798035
+reward loss: 9.11995792388916
+episode 33, total reward -423.11680956902387
+transition loss: 0.2394016832113266
+reward loss: 11.673139572143555
+episode 34, total reward -691.2186265183757
+transition loss: 0.26592183113098145
+reward loss: 8.643786430358887
+episode 35, total reward -593.8820845038981
+transition loss: 0.24704621732234955
+reward loss: 7.869875907897949
+episode 36, total reward -419.1313293011301
+transition loss: 0.251057505607605
+reward loss: 10.526135444641113
+episode 37, total reward -664.6518142869307
+transition loss: 0.2288701981306076
+reward loss: 10.280228614807129
+episode 38, total reward -372.86837328670146
+transition loss: 0.22278696298599243
+reward loss: 9.04975700378418
+episode 39, total reward -461.80500855286095
+transition loss: 0.22497005760669708
+reward loss: 10.491106033325195
+episode 40, total reward -491.4693200328085
+start test!
+average_test_reward_sum = -504.88485876212036
+transition loss: 0.21766430139541626
+reward loss: 9.302725791931152
+episode 41, total reward -253.60728052991695
+transition loss: 0.20978277921676636
+reward loss: 10.559900283813477
+episode 42, total reward -543.2252354606442
+transition loss: 0.19525836408138275
+reward loss: 9.578145027160645
+episode 43, total reward -522.2268743645257
+transition loss: 0.16003794968128204
+reward loss: 9.256338119506836
+episode 44, total reward -466.5598217379423
+transition loss: 0.15703235566616058
+reward loss: 7.8113250732421875
+episode 45, total reward -543.6166227950549
+transition loss: 0.1661251038312912
+reward loss: 8.922780990600586
+episode 46, total reward -320.1890418266556
+transition loss: 0.14612258970737457
+reward loss: 7.152973651885986
+episode 47, total reward -264.9323784842449
+transition loss: 0.1488383561372757
+reward loss: 10.434290885925293
+episode 48, total reward -393.30929212302243
+transition loss: 0.14527934789657593
+reward loss: 8.493366241455078
+episode 49, total reward -473.8978744481195
+transition loss: 0.1170433834195137
+reward loss: 8.425230979919434
+episode 50, total reward -463.05219643335477
+transition loss: 0.11968008428812027
+reward loss: 7.549877643585205
+episode 51, total reward -500.04600038096953
+transition loss: 0.11525318026542664
+reward loss: 7.1483025550842285
+episode 52, total reward -530.0337392553323
+transition loss: 0.11631587147712708
+reward loss: 8.731266975402832
+episode 53, total reward -475.1163664115393
+transition loss: 0.09956008940935135
+reward loss: 8.807991027832031
+episode 54, total reward -643.2201376546363
+transition loss: 0.10272253304719925
+reward loss: 7.878281116485596
+episode 55, total reward -338.008312566491
+transition loss: 0.09009408950805664
+reward loss: 8.103170394897461
+episode 56, total reward -494.5915565526746
+transition loss: 0.09303683042526245
+reward loss: 6.609843730926514
+episode 57, total reward -495.3135036674913
+transition loss: 0.09722473472356796
+reward loss: 7.782731533050537
+episode 58, total reward -360.2081417714143
+transition loss: 0.0841585323214531
+reward loss: 7.623919486999512
+episode 59, total reward -435.7114611719216
+transition loss: 0.0717092901468277
+reward loss: 6.626422882080078
+episode 60, total reward -361.91777389709324
+start test!
+average_test_reward_sum = -453.89253376197746
+transition loss: 0.07491131871938705
+reward loss: 7.811063289642334
+episode 61, total reward -504.63563527345883
+transition loss: 0.07049985229969025
+reward loss: 7.459092140197754
+episode 62, total reward -322.68691767058675
+transition loss: 0.05668916925787926
+reward loss: 6.3433837890625
+episode 63, total reward -629.5981271150747
+transition loss: 0.05321676656603813
+reward loss: 5.36126184463501
+episode 64, total reward -362.2022587831637
+transition loss: 0.05647682026028633
+reward loss: 5.7961907386779785
+episode 65, total reward -486.9755341845641
+transition loss: 0.051463138312101364
+reward loss: 6.931514739990234
+episode 66, total reward -552.1428059239495
+transition loss: 0.06009175255894661
+reward loss: 5.8700056076049805
+episode 67, total reward -452.3820056471458
+transition loss: 0.047744739800691605
+reward loss: 6.5663347244262695
+episode 68, total reward -361.752946361645
+transition loss: 0.04491894319653511
+reward loss: 5.6152143478393555
+episode 69, total reward -473.69811435613866
+transition loss: 0.04171605780720711
+reward loss: 6.1307244300842285
+episode 70, total reward -392.24358523002485
+transition loss: 0.03664715588092804
+reward loss: 6.4397735595703125
+episode 71, total reward -457.3716008687071
+transition loss: 0.03960981220006943
+reward loss: 6.469837665557861
+episode 72, total reward -267.9627193994489
+transition loss: 0.03314545378088951
+reward loss: 6.0282673835754395
+episode 73, total reward -343.3138333174792
+transition loss: 0.028220148757100105
+reward loss: 5.06071662902832
+episode 74, total reward -471.95531389793103
+transition loss: 0.027967339381575584
+reward loss: 6.362239837646484
+episode 75, total reward -672.2706814127234
+transition loss: 0.029517104849219322
+reward loss: 4.927141189575195
+episode 76, total reward -369.71627106790163
+transition loss: 0.025207599624991417
+reward loss: 5.572685718536377
+episode 77, total reward -367.5549926935143
+transition loss: 0.02649102546274662
+reward loss: 4.841865539550781
+episode 78, total reward -471.6083128921609
+transition loss: 0.02262137271463871
+reward loss: 4.563562870025635
+episode 79, total reward -464.6009400980682
+transition loss: 0.0207517109811306
+reward loss: 4.794736862182617
+episode 80, total reward -408.18412973380464
+start test!
+average_test_reward_sum = -492.9294820097572
+transition loss: 0.02053241804242134
+reward loss: 5.094438552856445
+episode 81, total reward -262.77069950687775
+transition loss: 0.01692631095647812
+reward loss: 5.095932960510254
+episode 82, total reward -446.62423892735376
+transition loss: 0.018839770928025246
+reward loss: 4.919192314147949
+episode 83, total reward -261.7054479842948
+transition loss: 0.016115091741085052
+reward loss: 4.141348838806152
+episode 84, total reward -526.4731071351379
+transition loss: 0.017007969319820404
+reward loss: 4.801967620849609
+episode 85, total reward -430.54300422272007
+transition loss: 0.016624512150883675
+reward loss: 3.9090185165405273
+episode 86, total reward -468.50045774613346
+transition loss: 0.013979531824588776
+reward loss: 4.100717067718506
+episode 87, total reward -300.0857681983456
+transition loss: 0.013906020671129227
+reward loss: 3.685518741607666
+episode 88, total reward -465.24447715628406
+transition loss: 0.012048075906932354
+reward loss: 3.676912784576416
+episode 89, total reward -459.4679658582125
+transition loss: 0.013394508510828018
+reward loss: 5.145684719085693
+episode 90, total reward -689.686399748359
+transition loss: 0.013904184103012085
+reward loss: 3.3729705810546875
+episode 91, total reward -376.9746672113987
+transition loss: 0.012764274142682552
+reward loss: 3.9743876457214355
+episode 92, total reward -588.4124323390774
+transition loss: 0.012122973799705505
+reward loss: 3.4897103309631348
+episode 93, total reward -519.6997103811473
+transition loss: 0.01127034705132246
+reward loss: 3.7376718521118164
+episode 94, total reward -607.2779426918472
+transition loss: 0.011338163167238235
+reward loss: 3.378208875656128
+episode 95, total reward -590.5418781208365
+transition loss: 0.010999951511621475
+reward loss: 3.6331801414489746
+episode 96, total reward -570.0751961513647
+transition loss: 0.011252880096435547
+reward loss: 3.241030216217041
+episode 97, total reward -398.47199337694934
+transition loss: 0.009937934577465057
+reward loss: 3.296908378601074
+episode 98, total reward -575.6707915820483
+transition loss: 0.009118468500673771
+reward loss: 3.667268991470337
+episode 99, total reward -551.633823805566
+transition loss: 0.007993058301508427
+reward loss: 2.6356735229492188
+episode 100, total reward -543.0262468823389
+start test!
+average_test_reward_sum = -430.68931927525864
+automotic reduction stage 25
+transition loss: 0.00879091676324606
+reward loss: 3.5094754695892334
+-56.908411961349074
+-66.068944348014
+-98.1579270679278
+-64.51654659040177
+-5.955059328742356
+-20.92445260494488
+-58.75835813991293
+-46.56233817934783
+-67.81128976083107
+-37.02619585635242
+-77.22614960589708
+-53.12046446036367
+-81.25042274384514
+-35.954820223792424
+-47.47381830310283
+-82.74965258072262
+MB actor loss: 1.8154975175857544
+MB critic loss: 2748.432373046875
+episode 101, total reward -335.5991320211854
+automotic reduction stage 25
+transition loss: 0.008496513590216637
+reward loss: 2.9646739959716797
+-65.01516096528518
+-57.200729591109116
+-34.341301316648064
+-64.77171811223393
+-26.065020385271865
+-60.103606590037955
+-67.8381020106414
+-69.24951147628362
+-28.215444358825682
+-31.927089326436043
+-58.97257789984078
+-14.679036054611206
+-71.15549700787678
+-77.66359050011118
+-57.970842336829534
+-31.342135675928926
+MB actor loss: 0.9558493494987488
+MB critic loss: 2019.06591796875
+episode 102, total reward -561.7888168218138
+automotic reduction stage 25
+transition loss: 0.009496609680354595
+reward loss: 2.864675760269165
+-22.152845574635506
+-38.50720833365957
+-66.93716307146138
+-68.69860676484222
+-44.62231135591075
+-51.14135840522816
+-79.94847896094315
+-72.41781069448784
+-51.13639600797282
+-25.02677966444936
+-68.63142429242825
+-62.82262099871195
+-62.38736954532796
+-62.37156663082241
+-75.62151555004465
+-72.57045155770264
+MB actor loss: 2.183277130126953
+MB critic loss: 2519.574951171875
+episode 103, total reward -361.81641908775316
+automotic reduction stage 25
+transition loss: 0.006713408976793289
+reward loss: 3.111974000930786
+-67.38794680287836
+-74.18170538280353
+-105.76230196853345
+-58.969128806017
+Traceback (most recent call last):
+  File "MBMF.py", line 139, in <module>
+    main(conf)
+  File "MBMF.py", line 92, in main
+    agent.update(1)
+  File "/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py", line 239, in update
+    mb_critic_loss, mb_actor_loss = self.MB_learn(mb_s, mb_s_a, mb_t)
+  File "/home/yunke/git/DL_MBMF/experiment/MBMF_agent.py", line 351, in MB_learn
+    a_q_target_list = Parallel(n_jobs=4,prefer="threads")(delayed(self.MB_target_compute)(states[i],states_actions[i],time_steps[i]) for i in range(self.mb_batchsize))
+  File "/usr/local/lib/python3.6/dist-packages/joblib/parallel.py", line 1042, in __call__
+    self.retrieve()
+  File "/usr/local/lib/python3.6/dist-packages/joblib/parallel.py", line 921, in retrieve
+    self._output.extend(job.get(timeout=self.timeout))
+  File "/usr/lib/python3.6/multiprocessing/pool.py", line 638, in get
+    self.wait(timeout)
+  File "/usr/lib/python3.6/multiprocessing/pool.py", line 635, in wait
+    self._event.wait(timeout)
+  File "/usr/lib/python3.6/threading.py", line 551, in wait
+    signaled = self._cond.wait(timeout)
+  File "/usr/lib/python3.6/threading.py", line 295, in wait
+    waiter.acquire()
+KeyboardInterrupt

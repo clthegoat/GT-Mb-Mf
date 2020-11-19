@@ -90,6 +90,8 @@ class MBMF_agent(MVE_agent):
         # agent (not used here, easily cause problem)
         # self.mb_agent = MPC_agent(self.conf)
         # self.mf_agent = MVE_agent(self.conf)
+        self.optimizer_mb_c = optim.Adam(self.critic_local.parameters(), lr=1e-4)
+        self.optimizer_mb_a = optim.Adam(self.actor_local.parameters(), lr=1e-4)
 
         # here we temporarily fix K
         self.K = self.conf.train.K
@@ -222,12 +224,14 @@ class MBMF_agent(MVE_agent):
         
         # update transition model
         trans_loss = self.trans_learn(all_s_a, all_s_)
-        # print("transition loss: {}".format(trans_loss))
+        print("transition loss: {}".format(trans_loss))
 
         # update reward model
         # this should be cost model?
         reward_loss = self.reward_learn(all_s_a, all_r)
-        # print("reward loss: {}".format(reward_loss))
+        print("reward loss: {}".format(reward_loss))
+
+        mb_critic_loss, mb_actor_loss = 0.0,0.0
 
         if(mode):
 
@@ -245,8 +249,8 @@ class MBMF_agent(MVE_agent):
         mf_s, mf_s_a, mf_s_, mf_r = mf_s.to(self.device), mf_s_a.to(self.device), mf_s_.to(self.device), mf_r.to(self.device)
         mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_, mf_r)
 
-        # print("MF actor loss: {}".format(mf_actor_loss))
-        # print("MF critic loss: {}".format(mf_critic_loss))
+        print("MF actor loss: {}".format(mf_actor_loss))
+        print("MF critic loss: {}".format(mf_critic_loss))
 
 
         if(mode):
@@ -256,6 +260,7 @@ class MBMF_agent(MVE_agent):
                 tk_s, tk_s_a, tk_s_, tk_r = tk_s.to(self.device), tk_s_a.to(self.device), tk_s_.to(self.device), tk_r.to(self.device)
                 self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r)
 
+        return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
 
 
     def MB_target_compute(self,state,state_action,time_step):
@@ -366,17 +371,17 @@ class MBMF_agent(MVE_agent):
         # print(q_pred[0])
         # print(q_target[0])
         mb_critic_loss = F.mse_loss(q_target, q_pred)
-        self.optimizer_c.zero_grad()
+        self.optimizer_mb_c.zero_grad()
         mb_critic_loss.backward()
-        self.optimizer_c.step()
+        self.optimizer_mb_c.step()
         self.soft_update_of_target_network(self.critic_local, self.critic_target, self.tau)
 
         # update mb-actor model
         a_target, a_pred = a_target.view([-1, 1]), a_pred.view([-1, 1])
         mb_actor_loss = F.mse_loss(a_pred, a_target)
-        self.optimizer_a.zero_grad()
+        self.optimizer_mb_a.zero_grad()
         mb_actor_loss.backward()
-        self.optimizer_a.step()
+        self.optimizer_mb_a.step()
         self.soft_update_of_target_network(self.actor_local, self.actor_target, self.tau)
 
         return mb_critic_loss, mb_actor_loss
@@ -406,7 +411,7 @@ class MBMF_agent(MVE_agent):
         #use torch.div
         err = torch.div(diff,torch.abs(q_target))
         err_num = torch.sum(torch.lt(err, self.c1))
-        # print(err_num)
+        print(float(err_num)/diff.size(0))
         if err_num > int(self.c2 * diff.size(0)):
             self.K += 1
             # here if I let K = K + 1, then those previously sampled tk_transition will be

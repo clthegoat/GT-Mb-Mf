@@ -65,6 +65,7 @@ def main(conf):
                 action = env.action_space.sample()
             else:
                 action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
+                #action = agent.select_action(state_list[j], exploration=1)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -80,19 +81,32 @@ def main(conf):
             #render
             if i > agent.num_random and i % 200 == 0:
                 env.render()
+            #print the automatic deduction process
+        if i>agent.num_random and Agent_Type == "MBMF":
+            print("automotic reduction stage {}".format(agent.K))
 
         # train
         if agent.memory.count>agent.batch_size:
-            if i<=agent.num_random:
-                agent.update(0)
-            else:
-                agent.update(1)
+            if Agent_Type == "MBMF":
+                if i<=agent.num_random:
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(0)
+                else:
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(1)
+            if Agent_Type == "MVE":
+                trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update()
 
-        #see the trend of reward
-        print('episode {}, total reward {}'.format(i,episode_reward))
+            #see the trend of reward
+            print('episode {}, total reward {}'.format(i,episode_reward))
+            wandb.log({"trans_loss": trans_loss})
+            wandb.log({"reward_loss": reward_loss})
+            wandb.log({"mb_actor_loss": mb_actor_loss})
+            wandb.log({"mb_critic_loss": mb_critic_loss})
+            if Agent_Type == "MBMF":
+                wandb.log({"mf_actor_loss": mf_actor_loss})
+                wandb.log({"mf_critic_loss": mf_critic_loss})
 
-        #test every 10 episodes
-        if i % 10 == 0 and i > 0:
+        #test every 20 episodes
+        if i % 20 == 0 and i > 0:
             test_reward_sum = 0
             print('start test!')
             # test
@@ -106,6 +120,7 @@ def main(conf):
                 for step_num in range(trial_len):
                     # print('step {} in episode {}'.format(step_num,i))
                     test_action = agent.mbmf_select_action(step_num, test_state_list[step_num], exploration=1, relative_step=1)[:,0]
+                    #test_action = agent.select_action(test_state_list[step_num], False)
                     test_state_action = np.concatenate((test_state_list[step_num], test_action))
 
                     # environment iteraction

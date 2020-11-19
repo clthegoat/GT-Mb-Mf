@@ -1,0 +1,15 @@
+****** begin! ******
+****** step1 ******
+/home/yunke/git/DL_MBMF/experiment/MVE_agent.py:115: FutureWarning: arrays to stack must be passed as a "sequence" type such as list or tuple. Support for non-sequence iterables such as generators is deprecated as of NumPy 1.16 and will raise an error in the future.
+  s = torch.from_numpy(np.vstack((t.s for t in transitions if t is not None))).float().to(self.device)
+transition loss: 4.371984958648682
+reward loss: 46.887420654296875Traceback (most recent call last):
+
+actor loss: -0.05540589243173599
+critic loss: 1.8995797634124756
+episode 1, total reward -510.1831380918663
+  File "MBMF.py", line 150, in <module>
+    main(conf)
+  File "MBMF.py", line 105, in main
+    wandb.log({"mf_actor_loss": mf_actor_loss})
+UnboundLocalError: local variable 'mf_actor_loss' referenced before assignment
