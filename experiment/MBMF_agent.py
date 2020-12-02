@@ -238,15 +238,12 @@ class MBMF_agent(MVE_agent):
             """ update critic and actor model, data sampled from MB memory"""
             mb_s, _, mb_s_a, _, _, mb_t = self.sample_transitions("MB")
             if not (mb_s==None):
-
-                mb_s, mb_s_a, mb_t = mb_s.to(self.device), mb_s_a.to(self.device), mb_t.to(self.device)
                 mb_critic_loss, mb_actor_loss = self.MB_learn(mb_s, mb_s_a, mb_t)
                 print("MB actor loss: {}".format(mb_actor_loss))
                 print("MB critic loss: {}".format(mb_critic_loss))
 
         """ update critic and actor model, data sampled from MF memory"""
         mf_s, _, mf_s_a, mf_s_, mf_r, _ = self.sample_transitions("MF")
-        mf_s, mf_s_a, mf_s_, mf_r = mf_s.to(self.device), mf_s_a.to(self.device), mf_s_.to(self.device), mf_r.to(self.device)
         mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_, mf_r)
 
         print("MF actor loss: {}".format(mf_actor_loss))
@@ -257,10 +254,10 @@ class MBMF_agent(MVE_agent):
             """ automatic transformation"""
             tk_s, _, tk_s_a, tk_s_, tk_r, _ = self.sample_transitions("judge")
             if not tk_s==None:
-                tk_s, tk_s_a, tk_s_, tk_r = tk_s.to(self.device), tk_s_a.to(self.device), tk_s_.to(self.device), tk_r.to(self.device)
                 self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r)
-
-        return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
+            return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
+        else:
+            return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
 
 
     def MB_target_compute(self,state,state_action,time_step):
@@ -302,24 +299,34 @@ class MBMF_agent(MVE_agent):
         time_step = np.int(time_step.cpu().detach().numpy())
         
         num_plan_step = min([self.T,self.trail_len-self.K-time_step])
-        #print(num_plan_step)
-        X_0 = state.cpu().detach().numpy().reshape((-1,1))
-        min_c = 1000000
-        for i in range(self.shooting_num):
-            #print(num_plan_step)
-            U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
-            X, c = ilqr.forward_sim(X_0,U,self.trans_model,self.cost_model,self.value_model)
-            if c<min_c:
-                min_c = c
-                min_U = U
-                min_X = X
+        ## old version: use random shooting for initialization
+        # X_0 = state.cpu().detach().numpy().reshape((-1,1))
+        # min_c = 1000000
+        # for i in range(self.shooting_num):
+        #     #print(num_plan_step)
+        #     U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
+        #     X, c = ilqr.forward_sim(X_0,U,self.trans_model,self.cost_model,self.value_model)
+        #     if c<min_c:
+        #         min_c = c
+        #         min_U = U
+        #         min_X = X
+        
+        ## new version: use learned policy for initialization
+        X_seq = torch.zeros(num_plan_step+1,1,self.dim_state)
+        U_seq = torch.zeros(num_plan_step,1,self.dim_action)
+        X_seq[0,:,:] = state.unsqueeze(0)
+        for i in range(num_plan_step-1):
+            U_seq[i,:,:] = self.actor_local(X_seq[i,:,:])
+            X_seq[i+1,:,:] = self.trans_model(torch.cat((X_seq[i,:,:], U_seq[i,:,:]), 1))
+        X_seq = X_seq.reshape((num_plan_step+1,self.dim_state,1)).cpu().detach().numpy()
+        U_seq = U_seq.reshape((num_plan_step,self.dim_action,1)).cpu().detach().numpy()
 
         self.up_X = np.asarray([[1.],[1.],[8.]])
         self.low_X = -self.up_X
         self.up_U = 2.
         self.low_U = -self.up_U
         #do ilqr based on best one
-        ilqr_ctrl = ilqr.ilqr_controller(min_X, min_U,
+        ilqr_ctrl = ilqr.ilqr_controller(X_seq, U_seq,
                                             self.up_X,self.low_X,self.up_U,self.low_U,
                                             num_plan_step,
                                             self.trans_model,self.cost_model,self.value_model,

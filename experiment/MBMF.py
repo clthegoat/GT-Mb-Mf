@@ -103,8 +103,8 @@ def main(conf):
             if i <= agent.num_random:
                 action = env.action_space.sample()
             else:
-                action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
-                #action = agent.select_action(state_list[j], exploration=1)
+                # action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
+                action = agent.select_action(state_list[j], exploration=1)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -145,7 +145,6 @@ def main(conf):
             if Agent_Type == "MBMF":
                 wandb.log({"mf_actor_loss": mf_actor_loss})
                 wandb.log({"mf_critic_loss": mf_critic_loss})
-
         #test every 20 episodes
         if i % 20 == 0 and i > 0:
             test_reward_sum = 0
@@ -161,11 +160,16 @@ def main(conf):
                     torch.tensor(test_init_state, dtype=torch.float))
                 for step_num in range(trial_len):
                     # print('step {} in episode {}'.format(step_num,i))
-                    test_action = agent.mbmf_select_action(
-                        step_num,
+                    if Agent_Type == "MVE":
+                        test_action = agent.select_action(
                         test_state_list[step_num],
-                        exploration=1,
-                        relative_step=1)[:, 0]
+                        exploration=1)
+                    if Agent_Type == "MBMF":
+                        test_action = agent.mbmf_select_action(
+                            step_num,
+                            test_state_list[step_num],
+                            exploration=1,
+                            relative_step=1)[:, 0]
                     test_state_action = np.concatenate(
                         (test_state_list[step_num], test_action))
 
