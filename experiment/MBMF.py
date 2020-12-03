@@ -123,24 +123,38 @@ def main(conf):
             if i > agent.num_random and i % 200 == 0:
                 env.render()
             #print the automatic deduction process
-        if i>agent.num_random and Agent_Type == "MBMF":
+        if i > agent.num_random and Agent_Type == "MBMF":
             print("automotic reduction stage {}".format(agent.K))
 
         # train
-        if agent.memory.count>agent.batch_size:
+        if agent.memory.count > agent.batch_size:
             if Agent_Type == "MBMF":
-                if i<=agent.num_random:
-                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(0)
+                if i <= agent.num_random:
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
+                        0)
                 else:
-                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(1)
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
+                        1)
             if Agent_Type == "MVE":
-                trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update()
+                trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                )
 
             #see the trend of reward
             # print('episode {}, total reward {}'.format(i,episode_reward))
-            wandb.log({"episode":i, "total reward": episode_reward, "trans_loss": trans_loss,"reward_loss": reward_loss, "mb_actor_loss": mb_actor_loss, "mb_critic_loss": mb_critic_loss})
+            wandb.log({
+                "episode": i,
+                "total reward": episode_reward,
+                "trans_loss": trans_loss,
+                "reward_loss": reward_loss,
+                "mb_actor_loss": mb_actor_loss,
+                "mb_critic_loss": mb_critic_loss
+            })
             if Agent_Type == "MBMF":
-                wandb.log({"episode":i, "mf_actor_loss": mf_actor_loss, "mf_critic_loss": mf_critic_loss})
+                wandb.log({
+                    "episode": i,
+                    "mf_actor_loss": mf_actor_loss,
+                    "mf_critic_loss": mf_critic_loss
+                })
         #test every 20 episodes
         if i % 20 == 0 and i > 0:
             test_reward_sum = 0
@@ -158,8 +172,7 @@ def main(conf):
                     # print('step {} in episode {}'.format(step_num,i))
                     if Agent_Type == "MVE":
                         test_action = agent.select_action(
-                        test_state_list[step_num],
-                        exploration=1)
+                            test_state_list[step_num], exploration=1)
                     if Agent_Type == "MBMF":
                         test_action = agent.mbmf_select_action(
                             step_num,
@@ -187,7 +200,10 @@ def main(conf):
             average_test_reward_sum = test_reward_sum / 10
             # print(
             #     'average_test_reward_sum = {}'.format(average_test_reward_sum))
-            wandb.log({"episode":i, "average_test_reward_sum": average_test_reward_sum})
+            wandb.log({
+                "episode": i,
+                "average_test_reward_sum": average_test_reward_sum
+            })
 
     print('****** done! ******')
 

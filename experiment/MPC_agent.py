@@ -31,7 +31,6 @@ class Memory():
 
 
 class MPC_agent():
-
     def __init__(self, conf):
         self.conf = conf
         self.dim_state = self.conf.data.state.dim
@@ -42,7 +41,7 @@ class MPC_agent():
         self.reward_model = reward_model(self.dim_state, self.dim_action)
         self.value_model = value_model(self.dim_state)
         self.target_value = value_model(self.dim_state)
-        
+
         self.memory = Memory(self.conf.data.mem_capacity)
         self.optimizer_t = optim.Adam(self.trans_model.parameters(), lr=1e-3)
         self.optimizer_r = optim.Adam(self.reward_model.parameters(), lr=1e-3)
@@ -53,22 +52,22 @@ class MPC_agent():
         #ilqr initial trajectory
         self.T = self.conf.planning.horizon
         self.gamma = self.conf.train.gamma
-        
+
         #saved good trajectories for init
         self.saved_X = []
         self.saved_U = []
-        
+
         #temporary solved planning trajectories
-        self.traj_X = np.zeros((self.T+1,self.dim_state,1))
-        self.traj_U = np.zeros((self.T,self.dim_action,1))
+        self.traj_X = np.zeros((self.T + 1, self.dim_state, 1))
+        self.traj_U = np.zeros((self.T, self.dim_action, 1))
         #init good trajectories
-        for i in range(self.trail_len+1):
+        for i in range(self.trail_len + 1):
             self.saved_X.append(self.traj_X)
-        
+
         for i in range(self.trail_len):
             self.saved_U.append(self.traj_U)
 
-        self.up_X = np.asarray([[1.],[1.],[8.]])
+        self.up_X = np.asarray([[1.], [1.], [8.]])
         self.low_X = -self.up_X
         self.up_U = 2.
         self.low_U = -self.up_U
@@ -86,7 +85,6 @@ class MPC_agent():
 
         self.training_step = 0
         self.target_update = self.conf.train.target_update_num
-        
 
     def select_action(self, num_step, state, mode, exploration):
         '''
@@ -104,29 +102,27 @@ class MPC_agent():
         exploration: whether add noise
         '''
         #get num of planning steps
-        num_plan_step = min([self.T,self.trail_len-num_step])
-        
-        
-        
+        num_plan_step = min([self.T, self.trail_len - num_step])
 
         #only receding horizon control, fixed initial
         if mode == 0:
-            
+
             #initialize with previous saved trajecotries
             #therefore also linearize around previous saved real interaction trajecories(not planned trajectories)
             #may cause problem when model is not accurate?
             self.traj_U = self.saved_U[num_step][0:num_plan_step]
-            X_0 = state.detach().numpy().reshape((-1,1))
-            self.traj_X,_ = ilqr.forward_sim(X_0,self.traj_U,self.trans_model,self.reward_model,self.value_model)
+            X_0 = state.detach().numpy().reshape((-1, 1))
+            self.traj_X, _ = ilqr.forward_sim(X_0, self.traj_U,
+                                              self.trans_model,
+                                              self.reward_model,
+                                              self.value_model)
 
-            
-            ilqr_ctrl = ilqr.ilqr_controller(self.traj_X,self.traj_U,
-                                            self.up_X,self.low_X,self.up_U,self.low_U,
-                                            num_plan_step,
-                                            self.trans_model,self.reward_model,self.value_model,
-                                            self.ilqr_lr, self.ilqr_iter_num, 0, 0)
+            ilqr_ctrl = ilqr.ilqr_controller(
+                self.traj_X, self.traj_U, self.up_X, self.low_X, self.up_U,
+                self.low_U, num_plan_step, self.trans_model, self.reward_model,
+                self.value_model, self.ilqr_lr, self.ilqr_iter_num, 0, 0)
 
-            self.K,self.k,traj_X,traj_U,_,_ = ilqr_ctrl.solve_ilqr()
+            self.K, self.k, traj_X, traj_U, _, _ = ilqr_ctrl.solve_ilqr()
             self.traj_X = traj_X
             self.traj_U = traj_U
 
@@ -134,7 +130,7 @@ class MPC_agent():
             self.saved_X[num_step] = self.traj_X
             self.saved_U[num_step] = self.traj_U
 
-            result_action = self.traj_U[0,:,:].reshape((-1,))
+            result_action = self.traj_U[0, :, :].reshape((-1, ))
 
         #pure ilqr, only compute at the first step
         #when using mode 1, num_plan_step shoud equals to trail length
@@ -144,17 +140,20 @@ class MPC_agent():
                 #therefore also linearize around previous saved real interaction trajecories(not planned trajectories)
                 #may cause problem when model is not accurate?
                 self.traj_U = self.saved_U[num_step][0:num_plan_step]
-                X_0 = state.detach().numpy().reshape((-1,1))
-                self.traj_X,_ = ilqr.forward_sim(X_0,self.traj_U,self.trans_model,self.reward_model,self.value_model)
+                X_0 = state.detach().numpy().reshape((-1, 1))
+                self.traj_X, _ = ilqr.forward_sim(X_0, self.traj_U,
+                                                  self.trans_model,
+                                                  self.reward_model,
+                                                  self.value_model)
 
-                ilqr_ctrl = ilqr.ilqr_controller(self.traj_X,self.traj_U,
-                                                self.up_X,self.low_X,self.up_U,self.low_U,
-                                                num_plan_step,
-                                                self.trans_model,self.reward_model,self.value_model,
-                                                self.ilqr_lr, self.ilqr_iter_num, 0, 0)
+                ilqr_ctrl = ilqr.ilqr_controller(
+                    self.traj_X, self.traj_U, self.up_X, self.low_X, self.up_U,
+                    self.low_U, num_plan_step, self.trans_model,
+                    self.reward_model, self.value_model, self.ilqr_lr,
+                    self.ilqr_iter_num, 0, 0)
 
-                self.K,self.k,traj_X,traj_U,_,_ = ilqr_ctrl.solve_ilqr()
-                
+                self.K, self.k, traj_X, traj_U, _, _ = ilqr_ctrl.solve_ilqr()
+
                 self.traj_X = traj_X
                 self.traj_U = traj_U
 
@@ -162,110 +161,114 @@ class MPC_agent():
                 self.saved_X[num_step] = self.traj_X
                 self.saved_U[num_step] = self.traj_U
 
-                result_action = self.traj_U[0,:,:].reshape((-1,))
+                result_action = self.traj_U[0, :, :].reshape((-1, ))
 
             else:
-                dx = state.reshape((-1,1))-self.traj_X[num_step,:,:]
-                result_action = self.ilqr_lr*(np.dot(self.K[num_step,:,:],dx) + self.k[num_step,:,:]) + (1-self.ilqr_lr)*self.traj_U[num_step,:,:]
-                result_action = result_action.reshape((-1,))
-
+                dx = state.reshape((-1, 1)) - self.traj_X[num_step, :, :]
+                result_action = self.ilqr_lr * (np.dot(
+                    self.K[num_step, :, :], dx) + self.k[num_step, :, :]) + (
+                        1 - self.ilqr_lr) * self.traj_U[num_step, :, :]
+                result_action = result_action.reshape((-1, ))
 
         elif mode == 2:
             #random shooting:
-            
-            X_0 = state.cpu().detach().numpy().reshape((-1,1))
+
+            X_0 = state.cpu().detach().numpy().reshape((-1, 1))
             min_c = 1000000
             for i in range(self.shooting_num):
-                U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
-                X, c = ilqr.forward_sim(X_0,U,self.trans_model,self.reward_model,self.value_model)
-                if c<min_c:
+                U = np.random.uniform(self.low_U, self.up_U,
+                                      (num_plan_step, self.dim_action, 1))
+                X, c = ilqr.forward_sim(X_0, U, self.trans_model,
+                                        self.reward_model, self.value_model)
+                if c < min_c:
                     min_c = c
                     min_U = U
                     min_X = X
 
-
-
             #do ilqr based on best one
 
-            ilqr_ctrl = ilqr.ilqr_controller(min_X, min_U,
-                                                self.up_X,self.low_X,self.up_U,self.low_U,
-                                                num_plan_step,
-                                                self.trans_model,self.reward_model,self.value_model,
-                                                self.ilqr_lr, self.ilqr_iter_num, 0, 0)
+            ilqr_ctrl = ilqr.ilqr_controller(min_X, min_U, self.up_X,
+                                             self.low_X, self.up_U, self.low_U,
+                                             num_plan_step, self.trans_model,
+                                             self.reward_model,
+                                             self.value_model, self.ilqr_lr,
+                                             self.ilqr_iter_num, 0, 0)
 
-            self.K,self.k,traj_X,traj_U,_,_ = ilqr_ctrl.solve_ilqr()
-                
+            self.K, self.k, traj_X, traj_U, _, _ = ilqr_ctrl.solve_ilqr()
+
             self.traj_X = traj_X
             self.traj_U = traj_U
             # self.traj_U = min_U
             # self.traj_X = min_X
 
-            result_action = self.traj_U[0,:,:].reshape((-1,))
-
-
+            result_action = self.traj_U[0, :, :].reshape((-1, ))
 
         elif mode == 3:
             #TODO: add warm up based on last time step
             #random shooting:
-            if num_step==0:
-                X_0 = state.detach().numpy().reshape((-1,1))
+            if num_step == 0:
+                X_0 = state.detach().numpy().reshape((-1, 1))
                 min_c = 1000000
                 for i in range(self.shooting_num):
-                    U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
-                    X, c = ilqr.forward_sim(X_0,U,self.trans_model,self.reward_model,self.value_model)
-                    if c<min_c:
+                    U = np.random.uniform(self.low_U, self.up_U,
+                                          (num_plan_step, self.dim_action, 1))
+                    X, c = ilqr.forward_sim(X_0, U, self.trans_model,
+                                            self.reward_model,
+                                            self.value_model)
+                    if c < min_c:
                         min_c = c
                         min_U = U
                         min_X = X
-            
+
             else:
                 #extract the last actions from previous optimization for initialization
-                min_U = self.traj_U[1:min(num_plan_step+1,self.T),:,:]
-                X_0 = state.detach().numpy().reshape((-1,1))
-                min_X, c = ilqr.forward_sim(X_0,min_U,self.trans_model,self.reward_model,self.value_model)
+                min_U = self.traj_U[1:min(num_plan_step + 1, self.T), :, :]
+                X_0 = state.detach().numpy().reshape((-1, 1))
+                min_X, c = ilqr.forward_sim(X_0, min_U, self.trans_model,
+                                            self.reward_model,
+                                            self.value_model)
                 min_v = 100000
                 if num_plan_step == self.T:
                     #append a new action at the end with random shooting
                     for i in range(self.shooting_num):
-                        u = np.random.uniform(self.low_U,self.up_U,(1, self.dim_action,1))
-                        xu = torch.from_numpy(np.concatenate([min_X[-1,:,:],u[0,:,:]])[:,0]).float()
+                        u = np.random.uniform(self.low_U, self.up_U,
+                                              (1, self.dim_action, 1))
+                        xu = torch.from_numpy(
+                            np.concatenate([min_X[-1, :, :],
+                                            u[0, :, :]])[:, 0]).float()
                         new_x = self.trans_model(xu)
-                        v = self.reward_model(xu) + self.gamma * self.value_model(new_x)
-                        if v<min_v:
+                        v = self.reward_model(
+                            xu) + self.gamma * self.value_model(new_x)
+                        if v < min_v:
                             min_v = v
                             min_u = u
-                            min_x = new_x.detach().numpy().reshape((1,self.dim_state,1))
+                            min_x = new_x.detach().numpy().reshape(
+                                (1, self.dim_state, 1))
 
-                    min_U = np.concatenate([min_U,min_u])
-                    min_X = np.concatenate([min_X,min_x])
-
-
-
+                    min_U = np.concatenate([min_U, min_u])
+                    min_X = np.concatenate([min_X, min_x])
 
             #do ilqr based on best one
 
-            ilqr_ctrl = ilqr.ilqr_controller(min_X, min_U,
-                                                self.up_X,self.low_X,self.up_U,self.low_U,
-                                                num_plan_step,
-                                                self.trans_model,self.reward_model,self.value_model,
-                                                self.ilqr_lr, self.ilqr_iter_num, 0, 0)
+            ilqr_ctrl = ilqr.ilqr_controller(min_X, min_U, self.up_X,
+                                             self.low_X, self.up_U, self.low_U,
+                                             num_plan_step, self.trans_model,
+                                             self.reward_model,
+                                             self.value_model, self.ilqr_lr,
+                                             self.ilqr_iter_num, 0, 0)
 
-            self.K,self.k,traj_X,traj_U,_,_ = ilqr_ctrl.solve_ilqr()
-                
+            self.K, self.k, traj_X, traj_U, _, _ = ilqr_ctrl.solve_ilqr()
+
             self.traj_X = traj_X
             self.traj_U = traj_U
             # self.traj_U = min_U
             # self.traj_X = min_X
 
-            result_action = self.traj_U[0,:,:].reshape((-1,))
-
-        
+            result_action = self.traj_U[0, :, :].reshape((-1, ))
 
             #print(result_action.shape)
-        return result_action + exploration*np.random.normal(0.0,self.action_noise,(self.dim_action))
-
-
-
+        return result_action + exploration * np.random.normal(
+            0.0, self.action_noise, (self.dim_action))
 
     def store_transition(self, transition):
         self.memory.update(transition)
@@ -281,10 +284,13 @@ class MPC_agent():
 
         # data preparation
         transitions = self.memory.sample(self.conf.data.mem_batchsize)
-        s_a = torch.tensor([t.s_a for t in transitions], dtype=torch.float).view(-1, self.dim_state_action)
-        s_ = torch.tensor([t.s_ for t in transitions], dtype=torch.float).view(-1, self.dim_state)
+        s_a = torch.tensor([t.s_a for t in transitions],
+                           dtype=torch.float).view(-1, self.dim_state_action)
+        s_ = torch.tensor([t.s_ for t in transitions],
+                          dtype=torch.float).view(-1, self.dim_state)
         #actually train cost
-        r = -torch.tensor([t.r for t in transitions], dtype=torch.float).view(-1, 1)
+        r = -torch.tensor([t.r for t in transitions], dtype=torch.float).view(
+            -1, 1)
         s_a, s_, r = s_a.to(device), s_.to(device), r.to(device)
 
         #get value target
@@ -305,7 +311,6 @@ class MPC_agent():
         reward_loss = F.mse_loss(pred_reward, r)
         print("reward loss: {}".format(reward_loss.item()))
 
-
         self.optimizer_r.zero_grad()
         reward_loss.backward()
         self.optimizer_r.step()
@@ -315,7 +320,6 @@ class MPC_agent():
         value_loss = F.mse_loss(pred_value, v_target)
         print("value loss: {}".format(value_loss.item()))
 
-
         self.optimizer_v.zero_grad()
         value_loss.backward()
         self.optimizer_v.step()
@@ -324,4 +328,3 @@ class MPC_agent():
         # TODO: change it to EMA?
         if self.training_step % self.target_update == 0:
             self.target_value.load_state_dict(self.value_model.state_dict())
-

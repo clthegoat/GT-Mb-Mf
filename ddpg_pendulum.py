@@ -17,17 +17,25 @@ wandb.init(project="my-project")
 wandb.config["more"] = "custom"
 
 parser = argparse.ArgumentParser(description='Solve the Pendulum-v0 with DDPG')
-parser.add_argument(
-    '--gamma', type=float, default=0.99, metavar='G', help='discount factor (default: 0.9)')
+parser.add_argument('--gamma',
+                    type=float,
+                    default=0.99,
+                    metavar='G',
+                    help='discount factor (default: 0.9)')
 
-parser.add_argument('--seed', type=int, default=0, metavar='N', help='random seed (default: 0)')
-parser.add_argument('--render', action='store_true', help='render the environment')
-parser.add_argument(
-    '--log-interval',
-    type=int,
-    default=10,
-    metavar='N',
-    help='interval between training status logs (default: 10)')
+parser.add_argument('--seed',
+                    type=int,
+                    default=0,
+                    metavar='N',
+                    help='random seed (default: 0)')
+parser.add_argument('--render',
+                    action='store_true',
+                    help='render the environment')
+parser.add_argument('--log-interval',
+                    type=int,
+                    default=10,
+                    metavar='N',
+                    help='interval between training status logs (default: 10)')
 args = parser.parse_args()
 
 torch.manual_seed(args.seed)
@@ -38,8 +46,8 @@ Transition = namedtuple('Transition', ['s', 'a', 'r', 's_'])
 num_random = 1000
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-class ActorNet(nn.Module):
 
+class ActorNet(nn.Module):
     def __init__(self):
         super(ActorNet, self).__init__()
         self.fc = nn.Linear(3, 100)
@@ -52,7 +60,6 @@ class ActorNet(nn.Module):
 
 
 class CriticNet(nn.Module):
-
     def __init__(self):
         super(CriticNet, self).__init__()
         self.fc = nn.Linear(4, 100)
@@ -91,8 +98,10 @@ class Agent():
     def __init__(self):
         self.training_step = 0
         self.var = 1.
-        self.eval_cnet, self.target_cnet = critic_model(3, 1).float().to(device), critic_model(3, 1).float().to(device)
-        self.eval_anet, self.target_anet = actor_model(3, 1).float().to(device), actor_model(3, 1).float().to(device)
+        self.eval_cnet, self.target_cnet = critic_model(
+            3, 1).float().to(device), critic_model(3, 1).float().to(device)
+        self.eval_anet, self.target_anet = actor_model(
+            3, 1).float().to(device), actor_model(3, 1).float().to(device)
         self.memory = Memory(20000)
         self.optimizer_c = optim.Adam(self.eval_cnet.parameters(), lr=1e-3)
         self.optimizer_a = optim.Adam(self.eval_anet.parameters(), lr=2e-3)
@@ -105,7 +114,7 @@ class Agent():
         dist = Normal(mu, torch.tensor(self.var, dtype=torch.float).to(device))
         action = dist.sample()
         action.clamp(-2.0, 2.0)
-        return (action.item(),)
+        return (action.item(), )
 
     def save_param(self):
         torch.save(self.eval_anet.state_dict(), 'param/ddpg_anet_params.pkl')
@@ -118,28 +127,36 @@ class Agent():
         self.training_step += 1
 
         transitions = self.memory.sample(128)
-        s = torch.tensor([t.s for t in transitions], dtype=torch.float).to(device)
-        a = torch.tensor([t.a for t in transitions], dtype=torch.float).view(-1, 1).to(device)
-        r = torch.tensor([t.r for t in transitions], dtype=torch.float).view(-1, 1).to(device)
-        s_ = torch.tensor([t.s_ for t in transitions], dtype=torch.float).to(device)
+        s = torch.tensor([t.s for t in transitions],
+                         dtype=torch.float).to(device)
+        a = torch.tensor([t.a for t in transitions],
+                         dtype=torch.float).view(-1, 1).to(device)
+        r = torch.tensor([t.r for t in transitions],
+                         dtype=torch.float).view(-1, 1).to(device)
+        s_ = torch.tensor([t.s_ for t in transitions],
+                          dtype=torch.float).to(device)
         # print('s:', s_.shape)
         # print('act:', self.target_anet(s_).shape)
         with torch.no_grad():
-            q_target = r + args.gamma * self.target_cnet(torch.cat([s_, self.target_anet(s_)], dim=-1))
+            q_target = r + args.gamma * self.target_cnet(
+                torch.cat([s_, self.target_anet(s_)], dim=-1))
         q_eval = self.eval_cnet(torch.cat([s, a], dim=-1))
 
         # update critic net
         self.optimizer_c.zero_grad()
         c_loss = F.smooth_l1_loss(q_eval, q_target)
         c_loss.backward()
-        nn.utils.clip_grad_norm_(self.eval_cnet.parameters(), self.max_grad_norm)
+        nn.utils.clip_grad_norm_(self.eval_cnet.parameters(),
+                                 self.max_grad_norm)
         self.optimizer_c.step()
 
         # update actor net
         self.optimizer_a.zero_grad()
-        a_loss = -self.eval_cnet(torch.cat([s, self.eval_anet(s)], dim=-1)).mean()
+        a_loss = -self.eval_cnet(torch.cat([s, self.eval_anet(s)],
+                                           dim=-1)).mean()
         a_loss.backward()
-        nn.utils.clip_grad_norm_(self.eval_anet.parameters(), self.max_grad_norm)
+        nn.utils.clip_grad_norm_(self.eval_anet.parameters(),
+                                 self.max_grad_norm)
         self.optimizer_a.step()
 
         if self.training_step % 200 == 0:
@@ -190,21 +207,27 @@ def main():
                 test_state_list.append(test_init_state)
                 for step_num in range(75):
                     # print('step {} in episode {}'.format(step_num,i))
-                    test_action = agent.select_action(test_state_list[step_num])
-                    test_state_action = np.concatenate((test_state_list[step_num], test_action))
+                    test_action = agent.select_action(
+                        test_state_list[step_num])
+                    test_state_action = np.concatenate(
+                        (test_state_list[step_num], test_action))
 
                     # environment iteraction
                     # print(env.state)
-                    test_gt_state, test_gt_reward, done, info = env.step(test_action)
+                    test_gt_state, test_gt_reward, done, info = env.step(
+                        test_action)
                     test_state_list.append(test_gt_state)
 
                     # memory store
                     # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-                    agent.store_transition(Transition(state, test_action, test_gt_reward, test_gt_state))
+                    agent.store_transition(
+                        Transition(state, test_action, test_gt_reward,
+                                   test_gt_state))
 
                     test_reward_sum += test_gt_reward
             average_test_reward_sum = test_reward_sum / 10
-            print('average_test_reward_sum = {}'.format(average_test_reward_sum))
+            print(
+                'average_test_reward_sum = {}'.format(average_test_reward_sum))
             wandb.log({"average_test_reward_sum": average_test_reward_sum})
 
         running_reward = running_reward * 0.9 + score * 0.1
@@ -223,7 +246,8 @@ def main():
 
     env.close()
 
-    plt.plot([r.ep for r in training_records], [r.reward for r in training_records])
+    plt.plot([r.ep for r in training_records],
+             [r.reward for r in training_records])
     plt.title('DDPG')
     plt.xlabel('Episode')
     plt.ylabel('Moving averaged episode reward')
