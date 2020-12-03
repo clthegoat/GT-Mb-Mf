@@ -137,18 +137,14 @@ def main(conf):
                 trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update()
 
             #see the trend of reward
-            print('episode {}, total reward {}'.format(i,episode_reward))
-            wandb.log({"trans_loss": trans_loss})
-            wandb.log({"reward_loss": reward_loss})
-            wandb.log({"mb_actor_loss": mb_actor_loss})
-            wandb.log({"mb_critic_loss": mb_critic_loss})
+            # print('episode {}, total reward {}'.format(i,episode_reward))
+            wandb.log({"episode":i, "total reward": episode_reward, "trans_loss": trans_loss,"reward_loss": reward_loss, "mb_actor_loss": mb_actor_loss, "mb_critic_loss": mb_critic_loss})
             if Agent_Type == "MBMF":
-                wandb.log({"mf_actor_loss": mf_actor_loss})
-                wandb.log({"mf_critic_loss": mf_critic_loss})
+                wandb.log({"episode":i, "mf_actor_loss": mf_actor_loss, "mf_critic_loss": mf_critic_loss})
         #test every 20 episodes
         if i % 20 == 0 and i > 0:
             test_reward_sum = 0
-            print('start test!')
+            # print('start test!')
             # test
             for num in range(10):
                 # print('test time {}'.format(num))
@@ -189,9 +185,9 @@ def main(conf):
 
                     test_reward_sum += test_gt_reward
             average_test_reward_sum = test_reward_sum / 10
-            print(
-                'average_test_reward_sum = {}'.format(average_test_reward_sum))
-            wandb.log({"average_test_reward_sum": average_test_reward_sum})
+            # print(
+            #     'average_test_reward_sum = {}'.format(average_test_reward_sum))
+            wandb.log({"episode":i, "average_test_reward_sum": average_test_reward_sum})
 
     print('****** done! ******')
 
