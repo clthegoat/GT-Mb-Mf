@@ -103,8 +103,8 @@ def main(conf):
             if i <= agent.num_random:
                 action = env.action_space.sample()
             else:
-                # action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
-                action = agent.select_action(state_list[j], exploration=1)
+                action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
+                # action = agent.select_action(state_list[j], exploration=1)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction

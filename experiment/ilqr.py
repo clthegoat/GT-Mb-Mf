@@ -178,7 +178,7 @@ def torch_hessian(f, x):
     return hessian.detach().numpy()
 
 
-def forward_sim(X_0, U, f, c, v):
+def forward_sim(X_0, U, f, c, v, time_step=None):
     '''
     simulate a traj given input
     X_0: init state n*1
@@ -199,7 +199,12 @@ def forward_sim(X_0, U, f, c, v):
         #forward dyn
         X[t + 1, :, :] = f(xu).detach().numpy().reshape((n, 1))
         cost += c(xu)
-    cost += v(torch.from_numpy(X[T, :, 0]).float())
+    if time_step == None:
+        cost += v(torch.from_numpy(X[T, :, 0]).float())
+    else:
+        cost += v(
+            torch.cat(torch.from_numpy(X[T, :, 0]),
+                      torch.Tensor(time_step + T)).float())
 
     return X, cost
 

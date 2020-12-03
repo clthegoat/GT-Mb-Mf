@@ -4,7 +4,7 @@ import numpy as np
 import torch.optim as optim
 import torch.nn.functional as F
 
-from models.model_based import trans_model, reward_model, value_model, actor_model, critic_model
+from models.model_based import trans_model, reward_model, value_model, actor_model, critic_model, actor_time_model, critic_time_model
 from MPC_agent import MPC_agent
 from MVE_agent import MVE_agent
 from collections import namedtuple
@@ -96,10 +96,6 @@ class MBMF_agent(MVE_agent):
         # agent (not used here, easily cause problem)
         # self.mb_agent = MPC_agent(self.conf)
         # self.mf_agent = MVE_agent(self.conf)
-        self.optimizer_mb_c = optim.Adam(self.critic_local.parameters(),
-                                         lr=1e-4)
-        self.optimizer_mb_a = optim.Adam(self.actor_local.parameters(),
-                                         lr=1e-4)
 
         # here we temporarily fix K
         self.K = self.conf.train.K
@@ -116,19 +112,41 @@ class MBMF_agent(MVE_agent):
 
         ####first tried cpu
         self.device = 'cpu'
+        self.time_dependent = False
+        if self.time_dependent == True:
+            self.critic_local = critic_time_model(
+                self.dim_state, self.dim_action).to(self.device)
+            self.critic_target = critic_time_model(
+                self.dim_state, self.dim_action).to(self.device)
+            self.copy_model_over(self.critic_local, self.critic_target)
+            self.actor_local = actor_time_model(
+                self.dim_state, self.dim_action).to(self.device)
+            self.actor_target = actor_time_model(
+                self.dim_state, self.dim_action).to(self.device)
+            self.copy_model_over(self.actor_local, self.actor_target)
+        self.optimizer_mb_c = optim.Adam(self.critic_local.parameters(),
+                                         lr=1e-4)
+        self.optimizer_mb_a = optim.Adam(self.actor_local.parameters(),
+                                         lr=1e-4)
 
     '''
     No value model here, so build it based on critic model and target actor
     '''
 
-    def value_model(self, state):
+    def value_model(self, state, time_step):
         '''
         given state, return the value function according to the current critic and actor
         input: state (torch)
         '''
-
-        target_action = self.actor_target(state)
-        return -self.critic_target(torch.cat((state, target_action), -1))[0]
+        if self.time_dependent == True:
+            target_action = self.actor_target(torch.cat((state, time_step), 1))
+            value = -self.critic_target(
+                torch.cat((state, target_action, time_step), -1))[0]
+        else:
+            target_action = self.actor_target(state)
+            value = -self.critic_target(torch.cat(
+                (state, target_action), -1))[0]
+        return value
 
     def cost_model(self, state_action):
 
@@ -145,7 +163,7 @@ class MBMF_agent(MVE_agent):
 
         # first choice
         if relative_step == 0:
-
+            print(num_step)
             if num_step < self.trail_len - self.K:
                 #model based
                 #random shooting
@@ -162,6 +180,15 @@ class MBMF_agent(MVE_agent):
                         min_c = c
                         min_U = U
                         min_X = X
+                # X_seq = torch.zeros(num_plan_step+1,1,self.dim_state)
+                # U_seq = torch.zeros(num_plan_step,1,self.dim_action)
+                # X_seq[0,:,:] = state.unsqueeze(0)
+                # for i in range(num_plan_step-1):
+                #     # U_seq[i,:,:] = self.actor_local(X_seq[i,:,:])
+                #     U_seq[i,:,:] = self.actor_target(X_seq[i,:,:])
+                #     X_seq[i+1,:,:] = self.trans_model(torch.cat((X_seq[i,:,:], U_seq[i,:,:]), 1))
+                # X_seq = X_seq.reshape((num_plan_step+1,self.dim_state,1)).cpu().detach().numpy()
+                # U_seq = U_seq.reshape((num_plan_step,self.dim_action,1)).cpu().detach().numpy()
 
                 #do ilqr based on best one
                 ilqr_ctrl = ilqr.ilqr_controller(
@@ -180,7 +207,11 @@ class MBMF_agent(MVE_agent):
         else:
             # second choice
             state = state.unsqueeze(0).to(self.device)
-            action = self.actor_local(state).cpu().data.numpy()
+            if self.time_dependent == True:
+                action = self.actor_local(torch.cat((state, num_step),
+                                                    1)).cpu().data.numpy()
+            else:
+                action = self.actor_local(state).cpu().data.numpy()
             if exploration:
                 action = self.exploration_strategy.perturb_action_for_exploration_purposes(
                     action)
@@ -262,16 +293,17 @@ class MBMF_agent(MVE_agent):
         """ update critic and actor model, data sampled from MF memory"""
         mf_s, _, mf_s_a, mf_s_, mf_r, _ = self.sample_transitions("MF")
         mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
-                                                      mf_r)
+                                                      mf_r, mb_t)
 
         print("MF actor loss: {}".format(mf_actor_loss))
         print("MF critic loss: {}".format(mf_critic_loss))
 
         if (mode):
             """ automatic transformation"""
-            tk_s, _, tk_s_a, tk_s_, tk_r, _ = self.sample_transitions("judge")
+            tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
+                "judge")
             if not tk_s == None:
-                self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r)
+                self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
         else:
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
@@ -326,15 +358,24 @@ class MBMF_agent(MVE_agent):
         #         min_c = c
         #         min_U = U
         #         min_X = X
-
+        # X_seq = min_X
+        # U_seq = min_U
         ## new version: use learned policy for initialization
         X_seq = torch.zeros(num_plan_step + 1, 1, self.dim_state)
         U_seq = torch.zeros(num_plan_step, 1, self.dim_action)
         X_seq[0, :, :] = state.unsqueeze(0)
-        for i in range(num_plan_step - 1):
-            U_seq[i, :, :] = self.actor_local(X_seq[i, :, :])
-            X_seq[i + 1, :, :] = self.trans_model(
-                torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
+        if self.time_dependent == True:
+            for i in range(num_plan_step - 1):
+                U_seq[i, :, :] = self.actor_local(
+                    torch.cat((X_seq[i, :, :],
+                               torch.Tensor(time_step + i).unsqueeze(0)), 1))
+                X_seq[i + 1, :, :] = self.trans_model(
+                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
+        else:
+            for i in range(num_plan_step - 1):
+                U_seq[i, :, :] = self.actor_local(X_seq[i, :, :])
+                X_seq[i + 1, :, :] = self.trans_model(
+                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
         X_seq = X_seq.reshape(
             (num_plan_step + 1, self.dim_state, 1)).cpu().detach().numpy()
         U_seq = U_seq.reshape(
@@ -370,7 +411,11 @@ class MBMF_agent(MVE_agent):
 
     def MB_learn(self, states, states_actions, time_steps):
         # q prediction and target
-        q_pred = self.critic_local(states_actions).to(self.device)
+        if self.time_dependent == True:
+            q_pred = self.critic_local(
+                torch.cat((states_actions, time_steps), 1)).to(self.device)
+        else:
+            q_pred = self.critic_local(states_actions).to(self.device)
         q_target = torch.zeros(self.mb_batchsize).to(self.device)
 
         # policy prediction and target
@@ -399,8 +444,14 @@ class MBMF_agent(MVE_agent):
             self.device)
         q_target = torch.from_numpy(np.asarray(q_target_list)).float().to(
             self.device)
-        a_pred = self.actor_local(states).to(self.device)
-        q_pred = self.critic_local(states_actions).to(self.device)
+        if self.time_dependent == True:
+            a_pred = self.actor_local(torch.cat((states, time_steps),
+                                                1)).to(self.device)
+            q_pred = self.critic_local(
+                torch.cat((states_actions, time_steps), 1)).to(self.device)
+        else:
+            a_pred = self.actor_local(states).to(self.device)
+            q_pred = self.critic_local(states_actions).to(self.device)
 
         # update mb-critic model
         q_target, q_pred = q_target.view([-1, 1]), q_pred.view([-1, 1])
@@ -424,14 +475,24 @@ class MBMF_agent(MVE_agent):
 
         return mb_critic_loss, mb_actor_loss
 
-    def MF_learn(self, states, states_actions, next_states, rewards):
-        # update mf-actor model
-        mf_actor_loss = self.actor_learn(states)
-        # update mf-critic model
-        actions_pred = self.actor_target(next_states)
-        q_target = rewards + self.gamma * self.critic_target(
-            torch.cat((next_states, actions_pred), 1))
-        q_pred = self.critic_local(states_actions)
+    def MF_learn(self, states, states_actions, next_states, rewards,
+                 time_steps):
+        if self.time_dependent == True:
+            mf_actor_loss = self.actor_learn(states, time_steps)
+            actions_pred = self.actor_target(
+                torch.cat((next_states, time_steps + 1), 1))
+            q_target = rewards + self.gamma * self.critic_target(
+                torch.cat((next_states, actions_pred, time_steps + 1), 1))
+            q_pred = self.critic_local(
+                torch.cat((states_actions, time_steps), 1))
+        else:
+            # update mf-actor model
+            mf_actor_loss = self.actor_learn(states)
+            # update mf-critic model
+            actions_pred = self.actor_target(next_states)
+            q_target = rewards + self.gamma * self.critic_target(
+                torch.cat((next_states, actions_pred), 1))
+            q_pred = self.critic_local(states_actions)
 
         mf_critic_loss = F.mse_loss(q_target, q_pred)
         self.optimizer_c.zero_grad()
@@ -442,13 +503,47 @@ class MBMF_agent(MVE_agent):
 
         return mf_critic_loss, mf_actor_loss
 
-    def Auto_Transform(self, states, states_actions, next_states, rewards):
+    def actor_learn(self, states, time_steps=None):
+        """Runs a learning iteration for the actor"""
+        # if self.done: #we only update the learning rate at end of each episode
+        #     self.update_learning_rate(self.hyperparameters["Actor"]["learning_rate"], self.actor_optimizer)
+        if time_steps == None:
+            actions_pred = self.actor_local(states).to(self.device)
+            actor_loss = -self.critic_local(
+                torch.cat((states, actions_pred), 1)).to(self.device).mean()
+        else:
+            actions_pred = self.actor_local(torch.cat((states, time_steps),
+                                                      1)).to(self.device)
+            actor_loss = -self.critic_local(
+                torch.cat((states, actions_pred, time_steps), 1)).to(
+                    self.device).mean()
+        self.optimizer_a.zero_grad()
+        actor_loss.backward()
+        nn.utils.clip_grad_norm_(self.actor_local.parameters(),
+                                 self.max_grad_norm)
+        self.optimizer_a.step()
+        self.soft_update_of_target_network(self.actor_local, self.actor_target,
+                                           self.tau)
+
+        return actor_loss.item()
+
+    def Auto_Transform(self, states, states_actions, next_states, rewards,
+                       time_steps):
         # print(self.K)
-        q_pred = self.critic_local(
-            states_actions)  # not sure here use local or target
-        actions_pred = self.actor_local(states)
-        q_target = rewards + self.gamma * self.critic_local(
-            torch.cat((next_states, actions_pred), 1))
+        if self.time_dependent == True:
+            q_pred = self.critic_local(
+                torch.cat((states_actions, time_steps),
+                          1))  # not sure here use local or target
+            actions_pred = self.actor_local(
+                torch.cat((next_states, time_steps + 1), 1))
+            q_target = rewards + self.gamma * self.critic_local(
+                torch.cat((next_states, actions_pred, time_steps + 1), 1))
+        else:
+            q_pred = self.critic_local(
+                states_actions)  # not sure here use local or target
+            actions_pred = self.actor_local(next_states)
+            q_target = rewards + self.gamma * self.critic_local(
+                torch.cat((next_states, actions_pred), 1))
         diff = torch.abs(q_pred - q_target)
         #use torch.div
         err = torch.div(diff, torch.abs(q_target))
