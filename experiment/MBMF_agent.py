@@ -519,7 +519,7 @@ class MBMF_agent(MVE_agent):
                     self.device).mean()
         self.optimizer_a.zero_grad()
         actor_loss.backward()
-        nn.utils.clip_grad_norm_(self.actor_local.parameters(),
+        torch.nn.utils.clip_grad_norm_(self.actor_local.parameters(),
                                  self.max_grad_norm)
         self.optimizer_a.step()
         self.soft_update_of_target_network(self.actor_local, self.actor_target,
