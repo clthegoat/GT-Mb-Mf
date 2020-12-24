@@ -133,19 +133,19 @@ class MBMF_agent(MVE_agent):
     No value model here, so build it based on critic model and target actor
     '''
 
-    def value_model(self, state, time_step):
+    def value_model(self, state):
         '''
         given state, return the value function according to the current critic and actor
         input: state (torch)
         '''
-        if self.time_dependent == True:
-            target_action = self.actor_target(torch.cat((state, time_step), 1))
-            value = -self.critic_target(
-                torch.cat((state, target_action, time_step), -1))[0]
-        else:
-            target_action = self.actor_target(state)
-            value = -self.critic_target(torch.cat(
-                (state, target_action), -1))[0]
+        # if self.time_dependent == True:
+        #     target_action = self.actor_target(torch.cat((state, time_step), 1))
+        #     value = -self.critic_target(
+        #         torch.cat((state, target_action, time_step), -1))[0]
+        # else:
+        target_action = self.actor_target(state)
+        value = -self.critic_target(torch.cat(
+            (state, target_action), -1))[0]
         return value
 
     def cost_model(self, state_action):
@@ -281,8 +281,7 @@ class MBMF_agent(MVE_agent):
         print("reward loss: {}".format(reward_loss))
 
         mb_critic_loss, mb_actor_loss = 0.0, 0.0
-
-        if (mode):
+        if (mode==1 and self.T>0):
             """ update critic and actor model, data sampled from MB memory"""
             mb_s, _, mb_s_a, _, _, mb_t = self.sample_transitions("MB")
             if not (mb_s == None):
@@ -291,7 +290,7 @@ class MBMF_agent(MVE_agent):
                 print("MB actor loss: {}".format(mb_actor_loss))
                 print("MB critic loss: {}".format(mb_critic_loss))
         """ update critic and actor model, data sampled from MF memory"""
-        mf_s, _, mf_s_a, mf_s_, mf_r, _ = self.sample_transitions("MF")
+        mf_s, _, mf_s_a, mf_s_, mf_r, mb_t = self.sample_transitions("MF")
         mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
                                                       mf_r, mb_t)
 
@@ -300,10 +299,13 @@ class MBMF_agent(MVE_agent):
 
         if (mode):
             """ automatic transformation"""
-            tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
-                "judge")
-            if not tk_s == None:
-                self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
+            if self.training_step % 50==0:
+                self.T = max(self.T-1,0)
+                print("predict horizon is %d" %self.T)
+            # tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
+            #     "judge")
+            # if not tk_s == None:
+            #     self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
         else:
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
@@ -345,8 +347,8 @@ class MBMF_agent(MVE_agent):
 
         #random shooting
         time_step = np.int(time_step.cpu().detach().numpy())
-
-        num_plan_step = min([self.T, self.trail_len - self.K - time_step])
+        num_plan_step = self.T
+        # num_plan_step = min([self.T, self.trail_len - self.K - time_step])
         ## old version: use random shooting for initialization
         # X_0 = state.cpu().detach().numpy().reshape((-1,1))
         # min_c = 1000000
