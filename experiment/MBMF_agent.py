@@ -280,15 +280,23 @@ class MBMF_agent(MVE_agent):
         reward_loss = self.reward_learn(all_s_a, all_r)
         print("reward loss: {}".format(reward_loss))
 
-        mb_critic_loss, mb_actor_loss = 0.0, 0.0
+        mb_critic_loss, mb_actor_loss, mf_actor_loss, mf_critic_loss = 0.0, 0.0, 0.0, 0.0
         if (mode==1 and self.T>0):
             """ update critic and actor model, data sampled from MB memory"""
-            mb_s, _, mb_s_a, _, _, mb_t = self.sample_transitions("all")
+            mb_s, _, mb_s_a, _, _, mb_t = self.sample_transitions("MB")
             if not (mb_s == None):
                 mb_critic_loss, mb_actor_loss = self.MB_learn(
                     mb_s, mb_s_a, mb_t)
                 print("MB actor loss: {}".format(mb_actor_loss))
                 print("MB critic loss: {}".format(mb_critic_loss))
+            """ automatic transformation"""
+            if self.training_step % 200==0:
+                self.T = max(self.T-1,0)
+                print("predict horizon is %d" %self.T)
+            # tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
+            #     "judge")
+            # if not tk_s == None:
+            #     self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
         else:
             """ update critic and actor model, data sampled from MF memory"""
             mf_s, _, mf_s_a, mf_s_, mf_r, mb_t = self.sample_transitions("all")
@@ -296,19 +304,7 @@ class MBMF_agent(MVE_agent):
                                                         mf_r, mb_t)
             print("MF actor loss: {}".format(mf_actor_loss))
             print("MF critic loss: {}".format(mf_critic_loss))
-
-        if (mode):
-            """ automatic transformation"""
-            if self.training_step % 50==0:
-                self.T = max(self.T-1,0)
-                print("predict horizon is %d" %self.T)
-            # tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
-            #     "judge")
-            # if not tk_s == None:
-            #     self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
-            return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
-        else:
-            return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
+        return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
 
     def MB_target_compute(self, state, state_action, time_step):
         '''
