@@ -283,19 +283,19 @@ class MBMF_agent(MVE_agent):
         mb_critic_loss, mb_actor_loss = 0.0, 0.0
         if (mode==1 and self.T>0):
             """ update critic and actor model, data sampled from MB memory"""
-            mb_s, _, mb_s_a, _, _, mb_t = self.sample_transitions("MB")
+            mb_s, _, mb_s_a, _, _, mb_t = self.sample_transitions("all")
             if not (mb_s == None):
                 mb_critic_loss, mb_actor_loss = self.MB_learn(
                     mb_s, mb_s_a, mb_t)
                 print("MB actor loss: {}".format(mb_actor_loss))
                 print("MB critic loss: {}".format(mb_critic_loss))
-        """ update critic and actor model, data sampled from MF memory"""
-        mf_s, _, mf_s_a, mf_s_, mf_r, mb_t = self.sample_transitions("MF")
-        mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
-                                                      mf_r, mb_t)
-
-        print("MF actor loss: {}".format(mf_actor_loss))
-        print("MF critic loss: {}".format(mf_critic_loss))
+        else:
+            """ update critic and actor model, data sampled from MF memory"""
+            mf_s, _, mf_s_a, mf_s_, mf_r, mb_t = self.sample_transitions("all")
+            mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
+                                                        mf_r, mb_t)
+            print("MF actor loss: {}".format(mf_actor_loss))
+            print("MF critic loss: {}".format(mf_critic_loss))
 
         if (mode):
             """ automatic transformation"""
