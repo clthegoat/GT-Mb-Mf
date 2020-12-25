@@ -2,6 +2,10 @@
 
 # run code
 ```
-python -m experiment.MBMF --conf experiment/configs/MBMF_Pendulum
-python MBMF.py --conf configs/MBMF_Pendulum
+python MBMF.py --conf configs/MBMF_Pendulum --type pendulum
 ```
+# run following for help
+```
+python MBMF.py -h
+```
+
