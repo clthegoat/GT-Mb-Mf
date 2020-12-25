@@ -26,11 +26,40 @@ Ext_transition = namedtuple('MBMF_transition',
                             ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
 
 
-def main(conf):
+def main(conf, type):
     print('****** begin! ******')
-    env = PendulumEnv()
-    Agent_Type = conf.train.Agent_Type
+    if type == 'pendulum':
+        env = PendulumEnv()
+    elif type == 'ant':
+        env = gym.make('Ant-v2')
+    elif type == 'halfcheet':
+        env = gym.make('HalfCheetah-v1')
+    else:
+        env = gym.make('Walker2d-v2')
 
+    state_dim = len(env.reset())
+    state_high = list(map(float, list(env.observation_space.high)))
+    state_low = list(map(float, list(env.observation_space.low)))
+    action_dim = len(env.action_space.sample())
+    action_high = list(map(float, list(env.action_space.high)))
+    action_low = list(map(float, list(env.action_space.low)))
+
+    new_conf = {
+        'data': {
+            'state': {
+                'dim': state_dim,
+                'high': state_high,
+                'low': state_low,
+            },
+            'action': {
+                'dim': action_dim,
+                'high': action_high,
+                'low': action_low,
+            },
+        }
+    }
+    conf = OmegaConf.merge(conf, new_conf)
+    Agent_Type = conf.train.Agent_Type
     # parser = argparse.ArgumentParser()
 
     # train params
@@ -211,9 +240,10 @@ def main(conf):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
+    parser.add_argument('--type', nargs='?', default='pendulum', help='you need to input the type of experiments including: pendulum(default), ant, halfcheet, walker')
     parser.add_argument('--conf', type=str)
     args = parser.parse_args()
 
     conf = OmegaConf.load(args.conf)
-
-    main(conf)
+    type = args.type
+    main(conf, type)
