@@ -140,6 +140,16 @@ def main(conf):
                 trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                 )
 
+            if Agent_Type == "MPC":
+                if i <= agent.num_random or i>=2*agent.num_random:
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                    0)
+                else:
+                    # if i % agent.num_random==0 and agent.T>1:
+                    #     agent.T -= 1
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                    1)
+
             #see the trend of reward
             # print('episode {}, total reward {}'.format(i,episode_reward))
             wandb.log({
