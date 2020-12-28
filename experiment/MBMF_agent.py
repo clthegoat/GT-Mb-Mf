@@ -132,7 +132,7 @@ class MBMF_agent(MVE_agent):
                 self.dim_state, self.dim_action).to(self.device)
             self.copy_model_over(self.actor_local, self.actor_target)
         self.optimizer_mb_c = optim.Adam(self.critic_local.parameters(),
-                                         lr=1e-4)
+                                         lr=1e-3)
         self.optimizer_mb_a = optim.Adam(self.actor_local.parameters(),
                                          lr=1e-4)
 
@@ -273,7 +273,7 @@ class MBMF_agent(MVE_agent):
         mode=1:
         update all
         '''
-        self.backward = True
+        self.backward = False
         self.training_step += 1
         """ update transition and reward model, data sampled from all memory"""
         _, _, all_s_a, all_s_, all_r, _ = self.sample_transitions("all")
@@ -288,7 +288,7 @@ class MBMF_agent(MVE_agent):
         print("reward loss: {}".format(reward_loss))
 
         mb_critic_loss, mb_actor_loss, mf_actor_loss, mf_critic_loss = 0.0, 0.0, 0.0, 0.0
-        if (mode and not self.backward and self.T>0) or (mode and self.backward and self.K!=self.training_step):
+        if (mode and not self.backward and self.T>0) or (mode and self.backward and self.K!=self.trail_len):
             """ update critic and actor model, data sampled from MB memory"""
             mb_s, _, mb_s_a, mb_s_, mb_r, mb_t = self.sample_transitions("MB")
             if not (mb_s == None):
@@ -297,7 +297,7 @@ class MBMF_agent(MVE_agent):
                 print("MB actor loss: {}".format(mb_actor_loss))
                 print("MB critic loss: {}".format(mb_critic_loss))
             """ fixed transformation"""
-            if self.training_step % 60==0:
+            if self.training_step % 200==0:
                 if self.backward:
                     self.K += 1
                 else:
