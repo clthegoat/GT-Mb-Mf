@@ -124,8 +124,10 @@ def main(conf):
                 env.render()
             #print the automatic deduction process
         if i > agent.num_random and Agent_Type == "MBMF":
-            print("automotic reduction stage {}".format(agent.T))
-            # print("automotic reduction stage {}".format(agent.K))
+            if agent.backward:
+                print("automotic reduction stage {}".format(agent.K))
+            else:
+                print("automotic reduction stage {}".format(agent.T))
 
         # train
         if agent.memory.count > agent.batch_size:
