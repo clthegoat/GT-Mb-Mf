@@ -103,8 +103,10 @@ def main(conf):
             if i <= agent.num_random:
                 action = env.action_space.sample()
             else:
-                action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
-                # action = agent.select_action(state_list[j], exploration=1)
+                if Agent_Type == "MBMF":
+                    action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
+                else:
+                    action = agent.select_action(state_list[j], exploration=1)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -183,7 +185,7 @@ def main(conf):
                     torch.tensor(test_init_state, dtype=torch.float))
                 for step_num in range(trial_len):
                     # print('step {} in episode {}'.format(step_num,i))
-                    if Agent_Type == "MVE":
+                    if Agent_Type == "MVE" or "MPC":
                         test_action = agent.select_action(
                             test_state_list[step_num], exploration=1)
                     if Agent_Type == "MBMF":

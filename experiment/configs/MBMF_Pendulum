@@ -6,7 +6,7 @@ train:
   gamma: 0.99
   target_update_num: 50
   Agent_Type: MBMF
-  K: 5
+  K: 0
   c1: 0.15
   c2: 0.9
 
@@ -18,14 +18,14 @@ data:
     dim: 1
   mem_capacity: 20000
   mem_batchsize: 128
-  mb_mem_batchsize: 8
+  mb_mem_batchsize: 32
 
 planning:
-  horizon: 10
+  horizon: 5
   method: shooting
   ilqr_learning_rate: 0.0001
   ilqr_iteration_num: 10
-  shooting_num: 40
+  shooting_num: 20
 
 MVE:
   horizon: 5

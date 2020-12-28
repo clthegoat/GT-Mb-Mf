@@ -88,6 +88,7 @@ class MPC_agent():
         self.optimizer_c = optim.Adam(self.critic_model.parameters(), lr=1e-3)
         self.optimizer_a = optim.Adam(self.actor_model.parameters(), lr=1e-4)
         self.trail_len = self.conf.train.trail_len
+        self.mb_batch_size = self.conf.data.mb_mem_batchsize
         self.batch_size = self.conf.data.mem_batchsize
 
         #ilqr initial trajectory
@@ -279,7 +280,11 @@ class MPC_agent():
         self.reward_model.to(device)
 
         # data preparation
-        transitions = self.memory.sample(self.conf.data.mem_batchsize)
+        if mode:
+            transitions = self.memory.sample(self.mb_batch_size)
+        else:
+            transitions = self.memory.sample(self.batch_size)
+
         s = torch.from_numpy(
             np.vstack((t.s for t in transitions
                        if t is not None))).float().to(self.device)
@@ -293,17 +298,18 @@ class MPC_agent():
         s_a, s_, r = s_a.to(device), s_.to(device), r.to(device)
 
         #get value target
-        # a_q_target_list = Parallel(n_jobs=4, prefer="threads")(
-        #     delayed(self.MB_target_compute)(s_a[i][:self.dim_state], s_a[i])
-        #     for i in range(self.batch_size))
+        
         if mode:
-            a_q_target_list = [self.MB_target_compute(s[i], s_a[i],0) ##########adjust mode
-                for i in range(self.batch_size)]
+            a_q_target_list = Parallel(n_jobs=4, prefer="threads")(
+                delayed(self.MB_target_compute)(s_a[i][:self.dim_state], s_a[i], 0)
+                for i in range(self.mb_batch_size))
+            # a_q_target_list = [self.MB_target_compute(s[i], s_a[i],0) ##########adjust mode
+            #     for i in range(self.batch_size)]
             a_target_list = [
-                a_q_target_list[i][0] for i in range(self.batch_size)
+                a_q_target_list[i][0] for i in range(self.mb_batch_size)
             ]
             q_target_list = [
-                a_q_target_list[i][1] for i in range(self.batch_size)
+                a_q_target_list[i][1] for i in range(self.mb_batch_size)
             ]
             
         
@@ -357,7 +363,7 @@ class MPC_agent():
 
         else:
             for g in self.optimizer_a.param_groups:
-                g['lr'] = 1e-3
+                g['lr'] = 1e-4
             actions_pred = self.actor_model(s)
             actor_loss = -self.critic_model(
                 torch.cat((s, actions_pred), 1)).to(
