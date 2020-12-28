@@ -273,7 +273,7 @@ class MBMF_agent(MVE_agent):
         mode=1:
         update all
         '''
-
+        self.backward = True
         self.training_step += 1
         """ update transition and reward model, data sampled from all memory"""
         _, _, all_s_a, all_s_, all_r, _ = self.sample_transitions("all")
@@ -288,7 +288,7 @@ class MBMF_agent(MVE_agent):
         print("reward loss: {}".format(reward_loss))
 
         mb_critic_loss, mb_actor_loss, mf_actor_loss, mf_critic_loss = 0.0, 0.0, 0.0, 0.0
-        if (mode==1 and self.T>0):
+        if (mode and not self.backward and self.T>0) or (mode and self.backward and self.K!=self.training_step):
             """ update critic and actor model, data sampled from MB memory"""
             mb_s, _, mb_s_a, mb_s_, mb_r, mb_t = self.sample_transitions("MB")
             if not (mb_s == None):
@@ -296,10 +296,12 @@ class MBMF_agent(MVE_agent):
                     mb_s, mb_s_a, mb_s_, mb_r, mb_t)
                 print("MB actor loss: {}".format(mb_actor_loss))
                 print("MB critic loss: {}".format(mb_critic_loss))
-            """ automatic transformation"""
-            if self.training_step % 200==0:
-                self.T = max(self.T-1,0)
-                print("predict horizon is %d" %self.T)
+            """ fixed transformation"""
+            if self.training_step % 60==0:
+                if self.backward:
+                    self.K += 1
+                else:
+                    self.T = max(self.T-1,0)
             # tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
             #     "judge")
             # if not tk_s == None:
@@ -353,8 +355,10 @@ class MBMF_agent(MVE_agent):
         #random shooting
         if mode:
             time_step = np.int(time_step.cpu().detach().numpy())
-            num_plan_step = self.T
-            # num_plan_step = min([self.T, self.trail_len - self.K - time_step])
+            if self.backward:
+                num_plan_step = min([self.T, self.trail_len - self.K - time_step])
+            else:
+                num_plan_step = self.T
             ## old version: use random shooting for initialization
             # X_0 = state.cpu().detach().numpy().reshape((-1,1))
             # min_c = 1000000
