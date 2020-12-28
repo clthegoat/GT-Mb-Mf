@@ -456,28 +456,27 @@ class MBMF_agent(MVE_agent):
         #compute batch targets
         #print(joblib.cpu_count())
         #time_start = time.clock()
-        a_q_target_list = Parallel(n_jobs=4, prefer="threads")(
-            delayed(self.MB_target_compute)(states[i], states_actions[i], 
-                                            next_states[i],
-                                            rewards[i], 
-                                            time_steps[i],
-                                            self.planning_mode)
-            for i in range(self.mb_batchsize))
-        #time_1 = time.clock()
-        #a_q_target_list = [self.MB_target_compute(states[i],states_actions[i],time_steps[i]) for i in range(self.mb_batchsize)]
-        #time_2 = time.clock()
-        # print(time_1-time_start)
-        # print(time_2-time_1)
-        a_target_list = [
-            a_q_target_list[i][0] for i in range(self.mb_batchsize)
-        ]
-        q_target_list = [
-            a_q_target_list[i][1] for i in range(self.mb_batchsize)
-        ]
-        a_target = torch.from_numpy(np.asarray(a_target_list)).float().to(
-            self.device)
-        q_target = torch.from_numpy(np.asarray(q_target_list)).float().to(
-            self.device)
+        with torch.no_grad():
+            a_q_target_list = Parallel(n_jobs=4, prefer="threads")(
+                delayed(self.MB_target_compute)(states[i], states_actions[i], 
+                                                next_states[i],
+                                                rewards[i], 
+                                                time_steps[i],
+                                                self.planning_mode)
+                for i in range(self.mb_batchsize))
+            
+            a_target_list = [
+                a_q_target_list[i][0] for i in range(self.mb_batchsize)
+            ]
+            q_target_list = [
+                a_q_target_list[i][1] for i in range(self.mb_batchsize)
+            ]
+            a_target = torch.from_numpy(np.asarray(a_target_list)).float().to(
+                self.device)
+            q_target = torch.from_numpy(np.asarray(q_target_list)).float().to(
+                self.device)
+
+
         if self.time_dependent == True:
             a_pred = self.actor_local(torch.cat((states, time_steps),
                                                 1)).to(self.device)
@@ -524,8 +523,9 @@ class MBMF_agent(MVE_agent):
             mf_actor_loss = self.actor_learn(states)
             # update mf-critic model
             actions_pred = self.actor_target(next_states)
-            q_target = rewards + self.gamma * self.critic_target(
-                torch.cat((next_states, actions_pred), 1))
+            with torch.no_grad():
+                q_target = rewards + self.gamma * self.critic_target(
+                    torch.cat((next_states, actions_pred), 1))
             q_pred = self.critic_local(states_actions)
 
         mf_critic_loss = F.mse_loss(q_target, q_pred)
