@@ -66,6 +66,9 @@ class MVE_agent():
         self.dim_state_action = self.dim_state + self.dim_action
         # for "pendulumEnv", state & action limitation
         # self.up_X = torch.Tensor([1., 1., 8.]).expand(self.batch_size, -1)
+        # self.low_X = -self.up_X
+        # self.up_U = 2.
+        # self.low_U = -self.up_U
         self.up_X = torch.tensor(self.conf.data.state.high).expand(self.batch_size, -1)
         self.low_X = torch.tensor(self.conf.data.state.low).expand(self.batch_size, -1)
         self.up_U = torch.tensor(self.conf.data.action.high)

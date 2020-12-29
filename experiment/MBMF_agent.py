@@ -91,6 +91,7 @@ class MBMF_agent(MVE_agent):
     def __init__(self, conf):
         super().__init__(conf)
 
+        self.reduction_method = self.conf.MBMF.reduction_type
         self.memory = Memory(self.conf.data.mem_capacity)
 
         # agent (not used here, easily cause problem)
@@ -109,6 +110,13 @@ class MBMF_agent(MVE_agent):
         self.shooting_num = self.conf.planning.shooting_num
         self.ilqr_lr = self.conf.planning.ilqr_learning_rate
         self.ilqr_iter_num = self.conf.planning.ilqr_iteration_num
+        self.plannning_method = self.conf.planning.method
+        self.planning_mode = -1
+        if self.plannning_method=="ilqr": #only shooting and ilqr
+            self.planning_mode = 1
+        if self.plannning_method=="shooting": #only shooting and ilqr
+            self.planning_mode = 0
+
 
         ####first tried cpu
         self.device = 'cpu'
@@ -125,7 +133,7 @@ class MBMF_agent(MVE_agent):
                 self.dim_state, self.dim_action).to(self.device)
             self.copy_model_over(self.actor_local, self.actor_target)
         self.optimizer_mb_c = optim.Adam(self.critic_local.parameters(),
-                                         lr=1e-4)
+                                         lr=1e-3)
         self.optimizer_mb_a = optim.Adam(self.actor_local.parameters(),
                                          lr=1e-4)
 
@@ -133,19 +141,19 @@ class MBMF_agent(MVE_agent):
     No value model here, so build it based on critic model and target actor
     '''
 
-    def value_model(self, state, time_step):
+    def value_model(self, state):
         '''
         given state, return the value function according to the current critic and actor
         input: state (torch)
         '''
-        if self.time_dependent == True:
-            target_action = self.actor_target(torch.cat((state, time_step), 1))
-            value = -self.critic_target(
-                torch.cat((state, target_action, time_step), -1))[0]
-        else:
-            target_action = self.actor_target(state)
-            value = -self.critic_target(torch.cat(
-                (state, target_action), -1))[0]
+        # if self.time_dependent == True:
+        #     target_action = self.actor_target(torch.cat((state, time_step), 1))
+        #     value = -self.critic_target(
+        #         torch.cat((state, target_action, time_step), -1))[0]
+        # else:
+        target_action = self.actor_target(state)
+        value = -self.critic_target(torch.cat(
+            (state, target_action), -1))[0]
         return value
 
     def cost_model(self, state_action):
@@ -266,7 +274,23 @@ class MBMF_agent(MVE_agent):
         mode=1:
         update all
         '''
-
+        if self.reduction_method == "back_fixed":
+            print("MBMF auto reduction method: back fixed")
+            self.backward = True
+            self.critiria = False
+        elif self.reduction_method == "direct_fixed":
+            self.backward = False
+            self.critiria = False
+            print("MBMF auto reduction method: direct fixed")
+        elif self.reduction_method == "back_bellman":
+            print("MBMF auto reduction method: back bellman equation")
+            self.backward = False
+            self.critiria = True
+        else:
+            print("Please indicate MBMF auto reduction method! Now default: back bellman equation")
+            self.backward = False
+            self.critiria = True
+        
         self.training_step += 1
         """ update transition and reward model, data sampled from all memory"""
         _, _, all_s_a, all_s_, all_r, _ = self.sample_transitions("all")
@@ -280,37 +304,62 @@ class MBMF_agent(MVE_agent):
         reward_loss = self.reward_learn(all_s_a, all_r)
         print("reward loss: {}".format(reward_loss))
 
-        mb_critic_loss, mb_actor_loss = 0.0, 0.0
-
-        if (mode):
-            """ update critic and actor model, data sampled from MB memory"""
-            mb_s, _, mb_s_a, _, _, mb_t = self.sample_transitions("MB")
-            if not (mb_s == None):
-                mb_critic_loss, mb_actor_loss = self.MB_learn(
-                    mb_s, mb_s_a, mb_t)
-                print("MB actor loss: {}".format(mb_actor_loss))
-                print("MB critic loss: {}".format(mb_critic_loss))
-        """ update critic and actor model, data sampled from MF memory"""
-        mf_s, _, mf_s_a, mf_s_, mf_r, _ = self.sample_transitions("MF")
-        mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
-                                                      mf_r, mb_t)
-
-        print("MF actor loss: {}".format(mf_actor_loss))
-        print("MF critic loss: {}".format(mf_critic_loss))
-
-        if (mode):
-            """ automatic transformation"""
-            tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
-                "judge")
-            if not tk_s == None:
-                self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
+        mb_critic_loss, mb_actor_loss, mf_actor_loss, mf_critic_loss = 0.0, 0.0, 0.0, 0.0
+        if self.critiria == True:
+            if (mode==1 and self.T>0):
+                """ update critic and actor model, data sampled from MB memory"""
+                mb_s, _, mb_s_a, mb_s_, mb_r, mb_t = self.sample_transitions("MB")
+                if not (mb_s == None):
+                    mb_critic_loss, mb_actor_loss = self.MB_learn(
+                        mb_s, mb_s_a, mb_s_, mb_r, mb_t)
+                    print("MB actor loss: {}".format(mb_actor_loss))
+                    print("MB critic loss: {}".format(mb_critic_loss))
+                """ automatic transformation"""
+                tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
+                    "judge")
+                if not tk_s == None:
+                    self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
+            else:
+                """ update critic and actor model, data sampled from MF memory"""
+                mf_s, _, mf_s_a, mf_s_, mf_r, mb_t = self.sample_transitions("all")
+                mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
+                                                            mf_r, mb_t)
+                print("MF actor loss: {}".format(mf_actor_loss))
+                print("MF critic loss: {}".format(mf_critic_loss))
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
         else:
+            if (mode and not self.backward and self.T>0) or (mode and self.backward and self.K!=self.trail_len):
+                """ update critic and actor model, data sampled from MB memory"""
+                mb_s, _, mb_s_a, mb_s_, mb_r, mb_t = self.sample_transitions("MB")
+                if not (mb_s == None):
+                    mb_critic_loss, mb_actor_loss = self.MB_learn(
+                        mb_s, mb_s_a, mb_s_, mb_r, mb_t)
+                    print("MB actor loss: {}".format(mb_actor_loss))
+                    print("MB critic loss: {}".format(mb_critic_loss))
+                """ fixed transformation"""
+                if self.training_step % 200==0:
+                    if self.backward:
+                        self.K += 1
+                    else:
+                        self.T = max(self.T-1,0)
+                # tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
+                #     "judge")
+                # if not tk_s == None:
+                #     self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
+            else:
+                """ update critic and actor model, data sampled from MF memory"""
+                mf_s, _, mf_s_a, mf_s_, mf_r, mb_t = self.sample_transitions("all")
+                mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
+                                                            mf_r, mb_t)
+                print("MF actor loss: {}".format(mf_actor_loss))
+                print("MF critic loss: {}".format(mf_critic_loss))
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
 
-    def MB_target_compute(self, state, state_action, time_step):
+    def MB_target_compute(self, state, state_action, next_state, reward, time_step, mode):
         '''
         given a state (torch), state_action, compute the action target and q target at one
+        mode 0: random shooting
+        mode 1: ilqr
         '''
 
         #     time_step = time_steps[i]
@@ -344,72 +393,94 @@ class MBMF_agent(MVE_agent):
         #         q_target[i:i+1] += self.critic_target(state_action_H) * self.gamma ** j
 
         #random shooting
-        time_step = np.int(time_step.cpu().detach().numpy())
+        if mode:
+            time_step = np.int(time_step.cpu().detach().numpy())
+            if self.backward:
+                num_plan_step = min([self.T, self.trail_len - self.K - time_step])
+            else:
+                num_plan_step = self.T
+            ## old version: use random shooting for initialization
+            # X_0 = state.cpu().detach().numpy().reshape((-1,1))
+            # min_c = 1000000
+            # for i in range(self.shooting_num):
+            #     #print(num_plan_step)
+            #     U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
+            #     X, c = ilqr.forward_sim(X_0,U,self.trans_model,self.cost_model,self.value_model)
+            #     if c<min_c:
+            #         min_c = c
+            #         min_U = U
+            #         min_X = X
+            # X_seq = min_X
+            # U_seq = min_U
+            ## new version: use learned policy for initialization
+            X_seq = torch.zeros(num_plan_step + 1, 1, self.dim_state)
+            U_seq = torch.zeros(num_plan_step, 1, self.dim_action)
+            X_seq[0, :, :] = state.unsqueeze(0)
+            if self.time_dependent == True:
+                for i in range(num_plan_step - 1):
+                    U_seq[i, :, :] = self.actor_local(
+                        torch.cat((X_seq[i, :, :],
+                                torch.Tensor(time_step + i).unsqueeze(0)), 1))
+                    X_seq[i + 1, :, :] = self.trans_model(
+                        torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
+            else:
+                for i in range(num_plan_step - 1):
+                    U_seq[i, :, :] = self.actor_local(X_seq[i, :, :])
+                    X_seq[i + 1, :, :] = self.trans_model(
+                        torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
+            X_seq = X_seq.reshape(
+                (num_plan_step + 1, self.dim_state, 1)).cpu().detach().numpy()
+            U_seq = U_seq.reshape(
+                (num_plan_step, self.dim_action, 1)).cpu().detach().numpy()
 
-        num_plan_step = min([self.T, self.trail_len - self.K - time_step])
-        ## old version: use random shooting for initialization
-        # X_0 = state.cpu().detach().numpy().reshape((-1,1))
-        # min_c = 1000000
-        # for i in range(self.shooting_num):
-        #     #print(num_plan_step)
-        #     U = np.random.uniform(self.low_U,self.up_U,(num_plan_step,self.dim_action,1))
-        #     X, c = ilqr.forward_sim(X_0,U,self.trans_model,self.cost_model,self.value_model)
-        #     if c<min_c:
-        #         min_c = c
-        #         min_U = U
-        #         min_X = X
-        # X_seq = min_X
-        # U_seq = min_U
-        ## new version: use learned policy for initialization
-        X_seq = torch.zeros(num_plan_step + 1, 1, self.dim_state)
-        U_seq = torch.zeros(num_plan_step, 1, self.dim_action)
-        X_seq[0, :, :] = state.unsqueeze(0)
-        if self.time_dependent == True:
-            for i in range(num_plan_step - 1):
-                U_seq[i, :, :] = self.actor_local(
-                    torch.cat((X_seq[i, :, :],
-                               torch.Tensor(time_step + i).unsqueeze(0)), 1))
-                X_seq[i + 1, :, :] = self.trans_model(
-                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
+            self.up_X = np.asarray([[1.], [1.], [8.]])
+            self.low_X = -self.up_X
+            self.up_U = 2.
+            self.low_U = -self.up_U
+            #do ilqr based on best one
+            ilqr_ctrl = ilqr.ilqr_controller(X_seq, U_seq, self.up_X, self.low_X,
+                                            self.up_U, self.low_U, num_plan_step,
+                                            self.trans_model, self.cost_model,
+                                            self.value_model, self.ilqr_lr,
+                                            self.ilqr_iter_num, 0, 0)
+
+            _, _, traj_X, traj_U, C, last_value = ilqr_ctrl.solve_ilqr()
+
+            #compute target action
+            target_action = traj_U[0, :, :]  #m*1
+
+            #compute target value
+            gamma_array = np.logspace(0,
+                                    num_plan_step,
+                                    num_plan_step + 1,
+                                    base=self.gamma)
+            R_value = np.concatenate([-C, -last_value.reshape((-1, ))])
+
+            critic_target = np.dot(gamma_array, R_value)
+            #print(critic_target)
         else:
-            for i in range(num_plan_step - 1):
-                U_seq[i, :, :] = self.actor_local(X_seq[i, :, :])
-                X_seq[i + 1, :, :] = self.trans_model(
-                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
-        X_seq = X_seq.reshape(
-            (num_plan_step + 1, self.dim_state, 1)).cpu().detach().numpy()
-        U_seq = U_seq.reshape(
-            (num_plan_step, self.dim_action, 1)).cpu().detach().numpy()
+            num_plan_step = self.T
+            X_0 = state.cpu().detach().numpy().reshape((-1, 1))
+            min_c = 1000000
+            for i in range(self.shooting_num):
+                U = np.random.uniform(self.low_U, self.up_U,
+                                      (num_plan_step, self.dim_action, 1))
+                X, c = ilqr.forward_sim(X_0, U, self.trans_model,
+                                        self.reward_model, self.value_model)
+                if c < min_c:
+                    min_c = c
+                    min_U = U
+                    min_X = X
 
-        self.up_X = np.asarray([[1.], [1.], [8.]])
-        self.low_X = -self.up_X
-        self.up_U = 2.
-        self.low_U = -self.up_U
-        #do ilqr based on best one
-        ilqr_ctrl = ilqr.ilqr_controller(X_seq, U_seq, self.up_X, self.low_X,
-                                         self.up_U, self.low_U, num_plan_step,
-                                         self.trans_model, self.cost_model,
-                                         self.value_model, self.ilqr_lr,
-                                         self.ilqr_iter_num, 0, 0)
 
-        _, _, traj_X, traj_U, C, last_value = ilqr_ctrl.solve_ilqr()
-
-        #compute target action
-        target_action = traj_U[0, :, :]  #m*1
-
-        #compute target value
-        gamma_array = np.logspace(0,
-                                  num_plan_step,
-                                  num_plan_step + 1,
-                                  base=self.gamma)
-        R_value = np.concatenate([-C, -last_value.reshape((-1, ))])
-
-        critic_target = np.dot(gamma_array, R_value)
-        #print(critic_target)
+            target_action = min_U[0, :, :]
+            action_pred = self.actor_target(next_state)
+            critic_target = reward + self.gamma * self.critic_target(
+                torch.cat((next_state, action_pred), -1)).cpu().detach().numpy()
 
         return target_action, critic_target
 
-    def MB_learn(self, states, states_actions, time_steps):
+    def MB_learn(self, states, states_actions, next_states, rewards, time_steps):
         # q prediction and target
         if self.time_dependent == True:
             q_pred = self.critic_local(
@@ -425,25 +496,27 @@ class MBMF_agent(MVE_agent):
         #compute batch targets
         #print(joblib.cpu_count())
         #time_start = time.clock()
-        a_q_target_list = Parallel(n_jobs=4, prefer="threads")(
-            delayed(self.MB_target_compute)(states[i], states_actions[i],
-                                            time_steps[i])
-            for i in range(self.mb_batchsize))
-        #time_1 = time.clock()
-        #a_q_target_list = [self.MB_target_compute(states[i],states_actions[i],time_steps[i]) for i in range(self.mb_batchsize)]
-        #time_2 = time.clock()
-        # print(time_1-time_start)
-        # print(time_2-time_1)
-        a_target_list = [
-            a_q_target_list[i][0] for i in range(self.mb_batchsize)
-        ]
-        q_target_list = [
-            a_q_target_list[i][1] for i in range(self.mb_batchsize)
-        ]
-        a_target = torch.from_numpy(np.asarray(a_target_list)).float().to(
-            self.device)
-        q_target = torch.from_numpy(np.asarray(q_target_list)).float().to(
-            self.device)
+        with torch.no_grad():
+            a_q_target_list = Parallel(n_jobs=4, prefer="threads")(
+                delayed(self.MB_target_compute)(states[i], states_actions[i], 
+                                                next_states[i],
+                                                rewards[i], 
+                                                time_steps[i],
+                                                self.planning_mode)
+                for i in range(self.mb_batchsize))
+            
+            a_target_list = [
+                a_q_target_list[i][0] for i in range(self.mb_batchsize)
+            ]
+            q_target_list = [
+                a_q_target_list[i][1] for i in range(self.mb_batchsize)
+            ]
+            a_target = torch.from_numpy(np.asarray(a_target_list)).float().to(
+                self.device)
+            q_target = torch.from_numpy(np.asarray(q_target_list)).float().to(
+                self.device)
+
+
         if self.time_dependent == True:
             a_pred = self.actor_local(torch.cat((states, time_steps),
                                                 1)).to(self.device)
@@ -490,8 +563,9 @@ class MBMF_agent(MVE_agent):
             mf_actor_loss = self.actor_learn(states)
             # update mf-critic model
             actions_pred = self.actor_target(next_states)
-            q_target = rewards + self.gamma * self.critic_target(
-                torch.cat((next_states, actions_pred), 1))
+            with torch.no_grad():
+                q_target = rewards + self.gamma * self.critic_target(
+                    torch.cat((next_states, actions_pred), 1))
             q_pred = self.critic_local(states_actions)
 
         mf_critic_loss = F.mse_loss(q_target, q_pred)

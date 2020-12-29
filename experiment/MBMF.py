@@ -28,6 +28,7 @@ Ext_transition = namedtuple('MBMF_transition',
 
 def main(conf, type):
     print('****** begin! ******')
+    # env = PendulumEnv()
     if type == 'pendulum':
         env = PendulumEnv()
     elif type == 'ant':
@@ -60,6 +61,7 @@ def main(conf, type):
     }
     conf = OmegaConf.merge(conf, new_conf)
     Agent_Type = conf.train.Agent_Type
+
     # parser = argparse.ArgumentParser()
 
     # train params
@@ -75,7 +77,8 @@ def main(conf, type):
     args.train_c2 = conf.train.c2
 
     # data params
-    args.data_name = conf.data.name
+    # args.data_name = conf.data.name
+    args.data_type = type
     args.data_state_dim = conf.data.state.dim
     args.data_action_dim = conf.data.action.dim
     args.data_mem_capacity = conf.data.mem_capacity
@@ -132,8 +135,10 @@ def main(conf, type):
             if i <= agent.num_random:
                 action = env.action_space.sample()
             else:
-                action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
-                # action = agent.select_action(state_list[j], exploration=1)
+                if Agent_Type == "MBMF":
+                    action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
+                else:
+                    action = agent.select_action(state_list[j], exploration=1)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -153,7 +158,10 @@ def main(conf, type):
                 env.render()
             #print the automatic deduction process
         if i > agent.num_random and Agent_Type == "MBMF":
-            print("automotic reduction stage {}".format(agent.K))
+            if agent.backward:
+                print("automotic reduction stage {}".format(agent.K))
+            else:
+                print("automotic reduction stage {}".format(agent.T))
 
         # train
         if agent.memory.count > agent.batch_size:
@@ -167,6 +175,16 @@ def main(conf, type):
             if Agent_Type == "MVE":
                 trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                 )
+
+            if Agent_Type == "MPC":
+                if i <= agent.num_random or i>=2*agent.num_random:
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                    0)
+                else:
+                    # if i % agent.num_random==0 and agent.T>1:
+                    #     agent.T -= 1
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                    1)
 
             #see the trend of reward
             # print('episode {}, total reward {}'.format(i,episode_reward))
@@ -199,7 +217,7 @@ def main(conf, type):
                     torch.tensor(test_init_state, dtype=torch.float))
                 for step_num in range(trial_len):
                     # print('step {} in episode {}'.format(step_num,i))
-                    if Agent_Type == "MVE":
+                    if Agent_Type == "MVE" or "MPC":
                         test_action = agent.select_action(
                             test_state_list[step_num], exploration=1)
                     if Agent_Type == "MBMF":
@@ -245,5 +263,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     conf = OmegaConf.load(args.conf)
+
     type = args.type
     main(conf, type)
