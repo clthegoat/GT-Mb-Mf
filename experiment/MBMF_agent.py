@@ -133,9 +133,9 @@ class MBMF_agent(MVE_agent):
                 self.dim_state, self.dim_action).to(self.device)
             self.copy_model_over(self.actor_local, self.actor_target)
         self.optimizer_mb_c = optim.Adam(self.critic_local.parameters(),
-                                         lr=3e-4)
+                                         lr=self.conf.train.mb_c_lr)
         self.optimizer_mb_a = optim.Adam(self.actor_local.parameters(),
-                                         lr=3e-4)
+                                         lr=self.conf.train.mb_a_lr)
 
         #reduction
         self.fixed_num_per_redction = self.conf.MBMF.fixed_num_per_redction

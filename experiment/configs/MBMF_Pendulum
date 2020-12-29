@@ -9,6 +9,12 @@ train:
   K: 0
   c1: 0.15
   c2: 0.9
+  mb_r_lr: 1e-3
+  mb_t_lr: 1e-3
+  mb_c_lr: 1e-3
+  mb_a_lr: 1e-4
+  mf_c_lr: 1e-3
+  mf_a_lr: 1e-3
 
 MBMF:
   reduction_type: direct_fixed
