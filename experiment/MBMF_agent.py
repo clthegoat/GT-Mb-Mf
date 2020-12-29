@@ -133,9 +133,12 @@ class MBMF_agent(MVE_agent):
                 self.dim_state, self.dim_action).to(self.device)
             self.copy_model_over(self.actor_local, self.actor_target)
         self.optimizer_mb_c = optim.Adam(self.critic_local.parameters(),
-                                         lr=1e-3)
+                                         lr=3e-4)
         self.optimizer_mb_a = optim.Adam(self.actor_local.parameters(),
-                                         lr=1e-4)
+                                         lr=3e-4)
+
+        #reduction
+        self.fixed_num_per_redction = self.conf.MBMF.fixed_num_per_redction
 
     '''
     No value model here, so build it based on critic model and target actor
@@ -224,7 +227,7 @@ class MBMF_agent(MVE_agent):
                 action = self.exploration_strategy.perturb_action_for_exploration_purposes(
                     action)
                 action = np.clip(action, self.low_U, self.up_U)
-            return action
+            return action.cpu().data.numpy()
 
     def store_transition(self, transition):
         return self.memory.update(transition)
@@ -250,15 +253,19 @@ class MBMF_agent(MVE_agent):
         #if it is empty
         if len(transitions) == 0:
             return None, None, None, None, None, None
+        # for t in transitions:
+        #     if t.a.shape[0]<6:
+        #         print(t)
         s = torch.from_numpy(
             np.vstack((t.s for t in transitions
                        if t is not None))).float().to(self.device)
         # s = torch.tensor([t.s for t in transitions], dtype=torch.float).view(-1, self.dim_state).to(self.device)
-        a = torch.tensor([t.a for t in transitions], dtype=torch.float).view(
-            -1, self.dim_action).to(self.device)
-        s_a = torch.tensor([t.s_a for t in transitions],
-                           dtype=torch.float).view(
-                               -1, self.dim_state_action).to(self.device)
+        a = torch.from_numpy(
+            np.vstack((t.a.reshape((1,-1)) for t in transitions
+                       if t is not None))).float().to(self.device)
+        s_a = torch.from_numpy(
+            np.vstack((t.s_a.reshape((1,-1)) for t in transitions
+                       if t is not None))).float().to(self.device)
         s_ = torch.tensor([t.s_ for t in transitions], dtype=torch.float).view(
             -1, self.dim_state).to(self.device)
         r = torch.tensor([t.r for t in transitions],

@@ -14,7 +14,7 @@ from MBMF_agent import *
 from Pendulum import PendulumEnv
 
 import wandb
-wandb.init(project="my-project")
+wandb.init(project="dl_mbmf")
 wandb.config["more"] = "custom"
 
 # basic setting
@@ -24,6 +24,27 @@ wandb.config["more"] = "custom"
 # MBMF_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
 Ext_transition = namedtuple('MBMF_transition',
                             ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
+
+
+
+class NormalizedActions(gym.ActionWrapper):
+    def action(self, action):
+        low  = self.action_space.low
+        high = self.action_space.high
+        
+        action = low + (action + 1.0) * 0.5 * (high - low)
+        action = np.clip(action, low, high)
+        
+        return action
+
+    def _reverse_action(self, action):
+        low  = self.action_space.low
+        high = self.action_space.high
+        
+        action = 2 * (action - low) / (high - low) - 1
+        action = np.clip(action, low, high)
+        
+        return action
 
 
 def main(conf, type):
@@ -37,6 +58,9 @@ def main(conf, type):
         env = gym.make('HalfCheetah-v1')
     else:
         env = gym.make('Walker2d-v2')
+
+    ##normalize environment
+    env = NormalizedActions(env)
 
     state_dim = len(env.reset())
     state_high = list(map(float, list(env.observation_space.high)))
@@ -136,9 +160,12 @@ def main(conf, type):
                 action = env.action_space.sample()
             else:
                 if Agent_Type == "MBMF":
-                    action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1)[:,0]
+                    action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1).reshape((-1,))
                 else:
                     action = agent.select_action(state_list[j], exploration=1)
+
+            
+            # print(action.shape)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -147,7 +174,6 @@ def main(conf, type):
             state_list.append(torch.tensor(gt_state, dtype=torch.float))
 
             # memory store
-            # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
             agent.store_transition(
                 Ext_transition(state_list[j], action, state_action, gt_state,
                                gt_reward, j, done))
@@ -177,7 +203,7 @@ def main(conf, type):
                 )
 
             if Agent_Type == "MPC":
-                if i <= agent.num_random or i>=2*agent.num_random:
+                if i <= agent.num_random or i>=agent.num_random+agent.fixed_num_per_redction:
                     trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                     0)
                 else:
@@ -203,7 +229,7 @@ def main(conf, type):
                     "mf_critic_loss": mf_critic_loss
                 })
         #test every 20 episodes
-        if i % 20 == 0 and i > 0:
+        if i % 200 == 0 and i > 0:
             test_reward_sum = 0
             # print('start test!')
             # test
@@ -226,6 +252,7 @@ def main(conf, type):
                             test_state_list[step_num],
                             exploration=1,
                             relative_step=1)[:, 0]
+                    
                     test_state_action = np.concatenate(
                         (test_state_list[step_num], test_action))
 
@@ -238,10 +265,10 @@ def main(conf, type):
 
                     # memory store
                     # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-                    agent.store_transition(
-                        Ext_transition(test_state_list[step_num], test_action,
-                                       test_state_action, test_gt_state,
-                                       test_gt_reward, step_num, done))
+                    # agent.store_transition(
+                    #     Ext_transition(test_state_list[step_num], test_action,
+                    #                    test_state_action, test_gt_state,
+                    #                    test_gt_reward, step_num, done))
 
                     test_reward_sum += test_gt_reward
             average_test_reward_sum = test_reward_sum / 10

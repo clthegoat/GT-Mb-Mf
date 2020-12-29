@@ -71,8 +71,12 @@ class MVE_agent():
         # self.low_U = -self.up_U
         self.up_X = torch.tensor(self.conf.data.state.high).expand(self.batch_size, -1)
         self.low_X = torch.tensor(self.conf.data.state.low).expand(self.batch_size, -1)
-        self.up_U = torch.tensor(self.conf.data.action.high)
-        self.low_U = torch.tensor(self.conf.data.action.low)
+        #normalize actions
+        # self.up_U = torch.tensor(self.conf.data.action.high)
+        # self.low_U = torch.tensor(self.conf.data.action.low)
+        self.up_U = torch.tensor(np.ones((self.dim_action,)))
+        self.low_U = -self.up_U
+
         print('low: {}'.format(self.low_U))
         """ models"""
         self.trans_model = trans_model(self.dim_state,
@@ -92,8 +96,8 @@ class MVE_agent():
         self.memory = Memory(self.conf.data.mem_capacity)
         self.optimizer_t = optim.Adam(self.trans_model.parameters(), lr=1e-3)
         self.optimizer_r = optim.Adam(self.reward_model.parameters(), lr=1e-3)
-        self.optimizer_c = optim.Adam(self.critic_local.parameters(), lr=1e-3)
-        self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=1e-4)
+        self.optimizer_c = optim.Adam(self.critic_local.parameters(), lr=3e-4)
+        self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=3e-4)
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
         self.training_step = 0
         # self.select_action()
