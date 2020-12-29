@@ -9,3 +9,5 @@ python MBMF.py --conf configs/MBMF_Pendulum --type pendulum
 python MBMF.py -h
 ```
 
+# Config
+MBMF reduction_type: back_bellman, back_fixed, direct_fixed
