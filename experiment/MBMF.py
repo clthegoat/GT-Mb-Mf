@@ -51,16 +51,15 @@ def main(conf, type):
     print('****** begin! ******')
     # env = PendulumEnv()
     if type == 'pendulum':
-        env = PendulumEnv()
+        env = NormalizedActions(PendulumEnv())
     elif type == 'ant':
-        env = gym.make('Ant-v2')
+        env = NormalizedActions(gym.make('Ant-v2'))
     elif type == 'halfcheet':
-        env = gym.make('HalfCheetah-v1')
+        env = NormalizedActions(gym.make('HalfCheetah-v1'))
     else:
-        env = gym.make('Walker2d-v2')
+        env = NormalizedActions(gym.make('Walker2d-v2'))
 
     ##normalize environment
-    env = NormalizedActions(env)
 
     state_dim = len(env.reset())
     state_high = list(map(float, list(env.observation_space.high)))
@@ -180,56 +179,58 @@ def main(conf, type):
 
             episode_reward += gt_reward
             #render
-            if i > agent.num_random and i % 200 == 0:
-                env.render()
+            
             #print the automatic deduction process
+       
+            # train
+            if agent.memory.count > agent.batch_size:
+                if Agent_Type == "MBMF":
+                    if i <= agent.num_random:
+                        trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
+                            0)
+                    else:
+                        trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
+                            1)
+                if Agent_Type == "MVE":
+                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                    )
+
+                if Agent_Type == "MPC":
+                    if i <= agent.num_random or i>=agent.num_random+agent.fixed_num_per_redction:
+                        trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                        0)
+                    else:
+                        # if i % agent.num_random==0 and agent.T>1:
+                        #     agent.T -= 1
+                        trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                        1)
+
+                #see the trend of reward
+                # print('episode {}, total reward {}'.format(i,episode_reward))
+                wandb.log({
+                    "trans_loss": trans_loss,
+                    "reward_loss": reward_loss,
+                    "mb_actor_loss": mb_actor_loss,
+                    "mb_critic_loss": mb_critic_loss
+                })
+                if Agent_Type == "MBMF":
+                    wandb.log({
+                        "mf_actor_loss": mf_actor_loss,
+                        "mf_critic_loss": mf_critic_loss
+                   })
+
+        wandb.log({
+                "episode": i,
+                "total reward": episode_reward})
+
         if i > agent.num_random and Agent_Type == "MBMF":
             if agent.backward:
                 print("automotic reduction stage {}".format(agent.K))
             else:
                 print("automotic reduction stage {}".format(agent.T))
 
-        # train
-        if agent.memory.count > agent.batch_size:
-            if Agent_Type == "MBMF":
-                if i <= agent.num_random:
-                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
-                        0)
-                else:
-                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
-                        1)
-            if Agent_Type == "MVE":
-                trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
-                )
-
-            if Agent_Type == "MPC":
-                if i <= agent.num_random or i>=agent.num_random+agent.fixed_num_per_redction:
-                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
-                    0)
-                else:
-                    # if i % agent.num_random==0 and agent.T>1:
-                    #     agent.T -= 1
-                    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
-                    1)
-
-            #see the trend of reward
-            # print('episode {}, total reward {}'.format(i,episode_reward))
-            wandb.log({
-                "episode": i,
-                "total reward": episode_reward,
-                "trans_loss": trans_loss,
-                "reward_loss": reward_loss,
-                "mb_actor_loss": mb_actor_loss,
-                "mb_critic_loss": mb_critic_loss
-            })
-            if Agent_Type == "MBMF":
-                wandb.log({
-                    "episode": i,
-                    "mf_actor_loss": mf_actor_loss,
-                    "mf_critic_loss": mf_critic_loss
-                })
         #test every 20 episodes
-        if i % 200 == 0 and i > 0:
+        if i % 10 == 0 and i > 0:
             test_reward_sum = 0
             # print('start test!')
             # test
@@ -242,16 +243,18 @@ def main(conf, type):
                 test_state_list.append(
                     torch.tensor(test_init_state, dtype=torch.float))
                 for step_num in range(trial_len):
+                    if num==0:
+                        env.render()
                     # print('step {} in episode {}'.format(step_num,i))
                     if Agent_Type == "MVE" or "MPC":
                         test_action = agent.select_action(
-                            test_state_list[step_num], exploration=1)
+                            test_state_list[step_num], exploration=0).reshape((-1,))
                     if Agent_Type == "MBMF":
                         test_action = agent.mbmf_select_action(
                             step_num,
                             test_state_list[step_num],
-                            exploration=1,
-                            relative_step=1)[:, 0]
+                            exploration=0,
+                            relative_step=1).reshape((-1,))
                     
                     test_state_action = np.concatenate(
                         (test_state_list[step_num], test_action))
@@ -264,11 +267,10 @@ def main(conf, type):
                         torch.tensor(test_gt_state, dtype=torch.float))
 
                     # memory store
-                    # Ext_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-                    # agent.store_transition(
-                    #     Ext_transition(test_state_list[step_num], test_action,
-                    #                    test_state_action, test_gt_state,
-                    #                    test_gt_reward, step_num, done))
+                    agent.store_transition(
+                        Ext_transition(test_state_list[step_num], test_action,
+                                       test_state_action, test_gt_state,
+                                       test_gt_reward, step_num, done))
 
                     test_reward_sum += test_gt_reward
             average_test_reward_sum = test_reward_sum / 10

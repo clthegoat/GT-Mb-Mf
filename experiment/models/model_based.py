@@ -28,9 +28,9 @@ class reward_model(nn.Module):
 class value_model(nn.Module):
     def __init__(self, dim_state):
         super().__init__()
-        self.fc = nn.Sequential(nn.Linear(dim_state, 128), nn.ReLU(),
-                                nn.Linear(128, 128), nn.ReLU(),
-                                nn.Linear(128, 1))
+        self.fc = nn.Sequential(nn.Linear(dim_state, 256), nn.ReLU(),
+                                nn.Linear(256, 256), nn.ReLU(),
+                                nn.Linear(256, 1))
 
     def forward(self, x):
         return self.fc(x)
@@ -39,9 +39,9 @@ class value_model(nn.Module):
 class actor_model(nn.Module):
     def __init__(self, dim_state, dim_action):
         super().__init__()
-        self.fc = nn.Sequential(nn.Linear(dim_state, 128), nn.ReLU(),
-                                nn.Linear(128, 128), nn.ReLU(),
-                                nn.Linear(128, dim_action), nn.Tanh())
+        self.fc = nn.Sequential(nn.Linear(dim_state, 400), nn.ReLU(),
+                                nn.Linear(400, 300), nn.ReLU(),
+                                nn.Linear(300, dim_action), nn.Tanh())
 
     def forward(self, x):
         return self.fc(x)
@@ -50,9 +50,9 @@ class actor_model(nn.Module):
 class critic_model(nn.Module):
     def __init__(self, dim_state, dim_action):
         super().__init__()
-        self.fc = nn.Sequential(nn.Linear(dim_state + dim_action, 128),
-                                nn.ReLU(), nn.Linear(128, 128), nn.ReLU(),
-                                nn.Linear(128, 1))
+        self.fc = nn.Sequential(nn.Linear(dim_state + dim_action, 400),
+                                nn.ReLU(), nn.Linear(400, 300), nn.ReLU(),
+                                nn.Linear(300, 1))
 
     def forward(self, x):
         return self.fc(x)
@@ -76,4 +76,4 @@ class actor_time_model(nn.Module):
                                 nn.Linear(128, dim_action), nn.Tanh())
 
     def forward(self, x):
-        return 2.0 * self.fc(x)
+        return self.fc(x)

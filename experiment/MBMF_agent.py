@@ -41,7 +41,7 @@ class Memory():
         mb_transition = namedtuple('mb_transition',
                                    ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
         i = 0
-        MB_memory = np.empty(20000, dtype=object)
+        MB_memory = np.empty(self.capacity, dtype=object)
         for tran in memory:
             if (tran is not None) and (tran.t < (trail_len - K)):
                 MB_memory[i] = mb_transition(tran.s, tran.a, tran.s_a, tran.s_,
@@ -57,7 +57,7 @@ class Memory():
         mf_transition = namedtuple('mf_transition',
                                    ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
         i = 0
-        MF_memory = np.empty(20000, dtype=object)
+        MF_memory = np.empty(self.capacity, dtype=object)
         for tran in memory:
             if (tran is not None) and (tran.t >= (trail_len - K)):
                 MF_memory[i] = mf_transition(tran.s, tran.a, tran.s_a, tran.s_,
@@ -76,7 +76,7 @@ class Memory():
         mb_transition = namedtuple('mb_transition',
                                    ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
         i = 0
-        MB_memory = np.empty(10000, dtype=object)
+        MB_memory = np.empty(self.capacity/2, dtype=object)
         for tran in memory:
             if (tran is not None) and (tran.t == (trail_len - K)):
                 MB_memory[i] = mb_transition(tran.s, tran.a, tran.s_a, tran.s_,
@@ -226,8 +226,9 @@ class MBMF_agent(MVE_agent):
             if exploration:
                 action = self.exploration_strategy.perturb_action_for_exploration_purposes(
                     action)
-                action = np.clip(action, self.low_U, self.up_U)
-            return action.cpu().data.numpy()
+                #action = action + np.random.normal(0, 0.2, self.dim_action)
+                action = np.clip(action, self.low_U, self.up_U).cpu().data.numpy()
+            return action
 
     def store_transition(self, transition):
         return self.memory.update(transition)
@@ -319,8 +320,8 @@ class MBMF_agent(MVE_agent):
                 if not (mb_s == None):
                     mb_critic_loss, mb_actor_loss = self.MB_learn(
                         mb_s, mb_s_a, mb_s_, mb_r, mb_t)
-                    print("MB actor loss: {}".format(mb_actor_loss))
-                    print("MB critic loss: {}".format(mb_critic_loss))
+                    # print("MB actor loss: {}".format(mb_actor_loss))
+                    # print("MB critic loss: {}".format(mb_critic_loss))
                 """ automatic transformation"""
                 tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
                     "judge")
@@ -331,8 +332,8 @@ class MBMF_agent(MVE_agent):
                 mf_s, _, mf_s_a, mf_s_, mf_r, mb_t = self.sample_transitions("all")
                 mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
                                                             mf_r, mb_t)
-                print("MF actor loss: {}".format(mf_actor_loss))
-                print("MF critic loss: {}".format(mf_critic_loss))
+                # print("MF actor loss: {}".format(mf_actor_loss))
+                # print("MF critic loss: {}".format(mf_critic_loss))
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
         else:
             if (mode and not self.backward and self.T>0) or (mode and self.backward and self.K!=self.trail_len):
@@ -341,8 +342,8 @@ class MBMF_agent(MVE_agent):
                 if not (mb_s == None):
                     mb_critic_loss, mb_actor_loss = self.MB_learn(
                         mb_s, mb_s_a, mb_s_, mb_r, mb_t)
-                    print("MB actor loss: {}".format(mb_actor_loss))
-                    print("MB critic loss: {}".format(mb_critic_loss))
+                    # print("MB actor loss: {}".format(mb_actor_loss))
+                    # print("MB critic loss: {}".format(mb_critic_loss))
                 """ fixed transformation"""
                 if self.training_step % 200==0:
                     if self.backward:
@@ -358,8 +359,8 @@ class MBMF_agent(MVE_agent):
                 mf_s, _, mf_s_a, mf_s_, mf_r, mb_t = self.sample_transitions("all")
                 mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
                                                             mf_r, mb_t)
-                print("MF actor loss: {}".format(mf_actor_loss))
-                print("MF critic loss: {}".format(mf_critic_loss))
+                # print("MF actor loss: {}".format(mf_actor_loss))
+                # print("MF critic loss: {}".format(mf_critic_loss))
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
 
     def MB_target_compute(self, state, state_action, next_state, reward, time_step, mode):
@@ -470,7 +471,7 @@ class MBMF_agent(MVE_agent):
             X_0 = state.cpu().detach().numpy().reshape((-1, 1))
             min_c = 1000000
             for i in range(self.shooting_num):
-                U = np.random.uniform(self.low_U, self.up_U,
+                U = np.random.uniform(-1., 1.,
                                       (num_plan_step, self.dim_action, 1))
                 X, c = ilqr.forward_sim(X_0, U, self.trans_model,
                                         self.reward_model, self.value_model)

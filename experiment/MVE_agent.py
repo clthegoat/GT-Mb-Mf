@@ -74,7 +74,7 @@ class MVE_agent():
         #normalize actions
         # self.up_U = torch.tensor(self.conf.data.action.high)
         # self.low_U = torch.tensor(self.conf.data.action.low)
-        self.up_U = torch.tensor(np.ones((self.dim_action,)))
+        self.up_U = torch.tensor(np.ones((self.dim_action,1)))
         self.low_U = -self.up_U
 
         print('low: {}'.format(self.low_U))
@@ -96,7 +96,8 @@ class MVE_agent():
         self.memory = Memory(self.conf.data.mem_capacity)
         self.optimizer_t = optim.Adam(self.trans_model.parameters(), lr=self.conf.train.mb_t_lr)
         self.optimizer_r = optim.Adam(self.reward_model.parameters(), lr=self.conf.train.mb_r_lr)
-        self.optimizer_c = optim.Adam(self.critic_local.parameters(), lr=self.conf.train.mf_c_lr)
+        self.optimizer_c = optim.Adam(self.critic_local.parameters(), lr=self.conf.train.mf_c_lr, 
+                                    weight_decay = 0.01)
         self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=self.conf.train.mf_a_lr)
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
         self.training_step = 0
