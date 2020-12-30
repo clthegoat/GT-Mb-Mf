@@ -163,6 +163,7 @@ def main(conf, type):
             else:
                 if Agent_Type == "MBMF":
                     action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1).reshape((-1,))
+                    #print("episode {} action".format(i))
                 else:
                     action = agent.select_action(state_list[j], exploration=1)
 
@@ -194,6 +195,7 @@ def main(conf, type):
                     else:
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             1)
+                        #print("episode {} update".format(i))
                 if Agent_Type == "MVE":
                     trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                     )
