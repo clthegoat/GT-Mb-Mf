@@ -227,7 +227,7 @@ class MBMF_agent(MVE_agent):
                 action = self.exploration_strategy.perturb_action_for_exploration_purposes(
                     action)
                 #action = action + np.random.normal(0, 0.2, self.dim_action)
-                action = np.clip(action, self.low_U, self.up_U).cpu().data.numpy()
+                action = np.clip(action, -1, 1)
             return action
 
     def store_transition(self, transition):
@@ -283,19 +283,19 @@ class MBMF_agent(MVE_agent):
         update all
         '''
         if self.reduction_method == "back_fixed":
-            print("MBMF auto reduction method: back fixed")
+            # print("MBMF auto reduction method: back fixed")
             self.backward = True
             self.critiria = False
         elif self.reduction_method == "direct_fixed":
             self.backward = False
             self.critiria = False
-            print("MBMF auto reduction method: direct fixed")
+            # print("MBMF auto reduction method: direct fixed")
         elif self.reduction_method == "back_bellman":
-            print("MBMF auto reduction method: back bellman equation")
+            # print("MBMF auto reduction method: back bellman equation")
             self.backward = False
             self.critiria = True
         else:
-            print("Please indicate MBMF auto reduction method! Now default: back bellman equation")
+            # print("Please indicate MBMF auto reduction method! Now default: back bellman equation")
             self.backward = False
             self.critiria = True
         
@@ -305,12 +305,12 @@ class MBMF_agent(MVE_agent):
 
         # update transition model
         trans_loss = self.trans_learn(all_s_a, all_s_)
-        print("transition loss: {}".format(trans_loss))
+        # print("transition loss: {}".format(trans_loss))
 
         # update reward model
         # this should be cost model?
         reward_loss = self.reward_learn(all_s_a, all_r)
-        print("reward loss: {}".format(reward_loss))
+        # print("reward loss: {}".format(reward_loss))
 
         mb_critic_loss, mb_actor_loss, mf_actor_loss, mf_critic_loss = 0.0, 0.0, 0.0, 0.0
         if self.critiria == True:

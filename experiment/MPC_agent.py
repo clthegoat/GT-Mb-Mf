@@ -121,13 +121,9 @@ class MPC_agent():
         self.k = np.zeros((self.T, self.dim_action, 1))
 
         self.num_random = self.conf.train.num_random
-        self.action_noise = self.conf.train.action_noise
-
-        self.shooting_num = self.conf.planning.shooting_num
-
+        self.fixed_num_per_redction = self.conf.MBMF.fixed_num_per_reduction
         self.training_step = 0
-        self.target_update = self.conf.train.target_update_num
-
+        self.shooting_num = self.conf.planning.shooting_num
         self.tau = self.conf.MVE.target_model_update_rate
 
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
@@ -317,7 +313,7 @@ class MPC_agent():
         # update transition model
         pred_state = self.trans_model(s_a)
         trans_loss = F.mse_loss(pred_state, s_)
-        print("transition loss: {}".format(trans_loss.item()))
+        # print("transition loss: {}".format(trans_loss.item()))
 
         self.optimizer_t.zero_grad()
         trans_loss.backward()
@@ -326,7 +322,7 @@ class MPC_agent():
         # update reward model
         pred_reward = self.reward_model(s_a)
         reward_loss = F.mse_loss(pred_reward, r)
-        print("reward loss: {}".format(reward_loss.item()))
+        # print("reward loss: {}".format(reward_loss.item()))
         self.optimizer_r.zero_grad()
         reward_loss.backward()
         self.optimizer_r.step()
@@ -345,7 +341,7 @@ class MPC_agent():
         self.optimizer_c.zero_grad()
         critic_loss.backward()
         self.optimizer_c.step()
-        print("critic loss: {}".format(critic_loss.item()))
+        # print("critic loss: {}".format(critic_loss.item()))
 
         if mode:
             for g in self.optimizer_a.param_groups:
@@ -359,7 +355,7 @@ class MPC_agent():
             self.optimizer_a.zero_grad()
             actor_loss.backward()
             self.optimizer_a.step()
-            print("actor loss: {}".format(actor_loss.item()))
+            # print("actor loss: {}".format(actor_loss.item()))
 
         else:
             for g in self.optimizer_a.param_groups:
@@ -371,7 +367,7 @@ class MPC_agent():
             self.optimizer_a.zero_grad()
             actor_loss.backward()
             self.optimizer_a.step()
-            print("actor loss: {}".format(actor_loss.item()))
+            # print("actor loss: {}".format(actor_loss.item()))
 
 
         # update value target

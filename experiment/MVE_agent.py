@@ -156,11 +156,11 @@ class MVE_agent():
             # env = PendulumEnv() # used to get true reward
             actor_loss = self.actor_learn(s)
             critic_loss = self.critic_learn(s_a, r, s_)
-        if self.training_step % 20:
-            print("transition loss: {}".format(trans_loss))
-            print("reward loss: {}".format(reward_loss))
-            print("actor loss: {}".format(actor_loss))
-            print("critic loss: {}".format(critic_loss))
+        # if self.training_step % 20:
+        #     print("transition loss: {}".format(trans_loss))
+        #     print("reward loss: {}".format(reward_loss))
+        #     print("actor loss: {}".format(actor_loss))
+        #     print("critic loss: {}".format(critic_loss))
 
         return trans_loss, reward_loss, actor_loss, critic_loss
 
@@ -215,7 +215,7 @@ class MVE_agent():
             states = next_states
             with torch.no_grad():
                 actions = self.actor_target(states)
-                actions = torch.clamp(actions, self.low_U, self.up_U)
+                actions = torch.clamp(actions, -1, 1)
             states_actions = torch.cat((states, actions), 1)
             critic_pred[:, t:t + 1] = self.critic_local(states_actions)
             next_states = self.trans_model(states_actions)
