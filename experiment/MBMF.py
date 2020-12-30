@@ -56,8 +56,11 @@ def main(conf, type):
         env = NormalizedActions(gym.make('Ant-v2'))
     elif type == 'halfcheet':
         env = NormalizedActions(gym.make('HalfCheetah-v1'))
-    else:
+    elif type == 'walker':
         env = NormalizedActions(gym.make('Walker2d-v2'))
+    else:
+        env = NormalizedActions(gym.make('Hopper-v2'))
+
 
     ##normalize environment
 
