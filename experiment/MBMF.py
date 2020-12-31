@@ -154,6 +154,8 @@ def main(conf, type):
         #print(agent.value_model(torch.from_numpy(init_state).float()))
         state_list.append(torch.tensor(init_state, dtype=torch.float))
 
+        #record done for MVE and backward
+        episode_done = 0
         episode_reward = 0
         for j in range(trial_len):
             # print('step {} in episode {}'.format(j,i))
@@ -173,7 +175,11 @@ def main(conf, type):
 
             # environment iteraction
             #print(env.state)
-            gt_state, gt_reward, done, info = env.step(action)
+            gt_state = state_list[j].cpu().data.numpy()
+            gt_reward = 0
+            done = 1
+            if not episode_done:
+                gt_state, gt_reward, done, info = env.step(action)
             state_list.append(torch.tensor(gt_state, dtype=torch.float))
 
             # memory store
@@ -246,8 +252,11 @@ def main(conf, type):
                         })
                 #see the trend of reward
                 # print('episode {}, total reward {}'.format(i,episode_reward))
+            
+            if done and Agent_Type == "MVE" or done and agent.backward:
+                episode_done = 1
 
-            if done and not agent.backward:
+            if done and not Agent_Type=="MVE" and not agent.backward:
                 break
 
         wandb.log({
