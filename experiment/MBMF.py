@@ -57,7 +57,7 @@ def main(conf, type):
     elif type == 'halfcheet':
         env = NormalizedActions(gym.make('HalfCheetah-v1'))
     elif type == 'walker':
-        env = NormalizedActions(gym.make('Walker2d-v2'))
+        env = NormalizedActions(gym.make('Walker2d-v1'))
     else:
         env = NormalizedActions(gym.make('Hopper-v2'))
 
@@ -191,7 +191,7 @@ def main(conf, type):
                     if i <= agent.num_random:
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             0)
-                    else:
+                    elif j==0:
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             1)
                 if Agent_Type == "MVE":
@@ -202,7 +202,7 @@ def main(conf, type):
                     if i <= agent.num_random or i>=agent.num_random+agent.fixed_num_per_redction:
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                         0)
-                    else:
+                    elif j==0:
                         # if i % agent.num_random==0 and agent.T>1:
                         #     agent.T -= 1
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
@@ -221,7 +221,8 @@ def main(conf, type):
                         "mf_actor_loss": mf_actor_loss,
                         "mf_critic_loss": mf_critic_loss
                    })
-
+        print("episode: {}".format(i))
+        print("episode reward: episode_reward")
         wandb.log({
                 "episode": i,
                 "total reward": episode_reward})

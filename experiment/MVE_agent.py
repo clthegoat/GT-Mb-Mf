@@ -101,6 +101,10 @@ class MVE_agent():
         self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=self.conf.train.mf_a_lr)
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
         self.training_step = 0
+        if self.conf.MBMF.reduction_type == "direct_fixed":
+            self.backward = 0
+        else:
+            self.backward = 1
         # self.select_action()
         # self.store_transition()
         # self.sample_transitions()
@@ -156,11 +160,11 @@ class MVE_agent():
             # env = PendulumEnv() # used to get true reward
             actor_loss = self.actor_learn(s)
             critic_loss = self.critic_learn(s_a, r, s_)
-        if self.training_step % 20:
-            print("transition loss: {}".format(trans_loss))
-            print("reward loss: {}".format(reward_loss))
-            print("actor loss: {}".format(actor_loss))
-            print("critic loss: {}".format(critic_loss))
+        # if self.training_step % 20:
+        #     print("transition loss: {}".format(trans_loss))
+        #     print("reward loss: {}".format(reward_loss))
+        #     print("actor loss: {}".format(actor_loss))
+        #     print("critic loss: {}".format(critic_loss))
 
         return trans_loss, reward_loss, actor_loss, critic_loss
 

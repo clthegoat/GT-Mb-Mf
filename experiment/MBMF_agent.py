@@ -468,20 +468,46 @@ class MBMF_agent(MVE_agent):
             #print(critic_target)
         else:
             num_plan_step = self.T
-            X_0 = state.cpu().detach().numpy().reshape((-1, 1))
-            min_c = 1000000
-            for i in range(self.shooting_num):
-                U = np.random.uniform(-1., 1.,
-                                      (num_plan_step, self.dim_action, 1))
-                X, c = ilqr.forward_sim(X_0, U, self.trans_model,
-                                        self.reward_model, self.value_model)
-                if c < min_c:
-                    min_c = c
-                    min_U = U
-                    min_X = X
+            # X_0 = state.cpu().detach().numpy().reshape((-1, 1))
+            # min_c = 1000000
+            # for i in range(self.shooting_num):
+            #     U = np.random.uniform(-1., 1.,
+            #                           (num_plan_step, self.dim_action, 1))
+            #     X, c = ilqr.forward_sim(X_0, U, self.trans_model,
+            #                             self.reward_model, self.value_model)
+            #     if c < min_c:
+            #         min_c = c
+            #         min_U = U
+            #         min_X = X
 
+            #parallel sim
+            X_seq = torch.zeros(num_plan_step + 1, self.mb_batchsize, self.dim_state)
+            batch_cost = torch.zeros(self.mb_batchsize, 1)
+            U = np.random.uniform(-1., 1.,
+                                    (num_plan_step, self.mb_batchsize, self.dim_action))
+            U_seq = torch.from_numpy(U)
+            X_seq[0, :, :] = state.unsqueeze(0)
+            
+            for i in range(num_plan_step - 1):
+                X_seq[i + 1, :, :] = self.trans_model(
+                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 2))
 
-            target_action = min_U[0, :, :]
+                batch_cost += self.cost_model(
+                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 2)
+                )
+
+            batch_cost += self.value_model(X_seq[-1, :, :])
+
+            X_seq = X_seq.reshape(
+                (num_plan_step + 1, self.dim_state, 1)).cpu().detach().numpy()
+            U_seq = U_seq.reshape(
+                (num_plan_step, self.dim_action, 1)).cpu().detach().numpy()
+
+            min_c, index = torch.min(batch_cost, 0)
+
+            min_U = U_seq[index, :, :]
+
+            target_action = min_U[0]
             action_pred = self.actor_target(next_state)
             critic_target = reward + self.gamma * self.critic_target(
                 torch.cat((next_state, action_pred), -1)).cpu().detach().numpy()
