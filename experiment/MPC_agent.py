@@ -112,7 +112,7 @@ class MPC_agent():
 
         self.up_X = np.asarray([[1.], [1.], [8.]])
         self.low_X = -self.up_X
-        self.up_U = 2.
+        self.up_U = 1.
         self.low_U = -self.up_U
 
         self.ilqr_lr = self.conf.planning.ilqr_learning_rate
@@ -122,16 +122,17 @@ class MPC_agent():
         self.k = np.zeros((self.T, self.dim_action, 1))
 
         self.num_random = self.conf.train.num_random
-        self.action_noise = self.conf.train.action_noise
-
-        self.shooting_num = self.conf.planning.shooting_num
-
+        self.fixed_num_per_redction = self.conf.MBMF.fixed_num_per_reduction
         self.training_step = 0
-        self.target_update = self.conf.train.target_update_num
-
+        self.shooting_num = self.conf.planning.shooting_num
         self.tau = self.conf.MVE.target_model_update_rate
 
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
+
+        if self.conf.MBMF.reduction_type == "direct_fixed":
+            self.backward = 0
+        else:
+            self.backward = 1
 
     def cost_model(self, state_action):
 
@@ -187,20 +188,36 @@ class MPC_agent():
         num_plan_step = self.T
 
         if mode == 0:
-            X_0 = state.cpu().detach().numpy().reshape((-1, 1))
-            min_c = 1000000
-            for i in range(self.shooting_num):
-                U = np.random.uniform(self.low_U, self.up_U,
-                                      (num_plan_step, self.dim_action, 1))
-                X, c = ilqr.forward_sim(X_0, U, self.trans_model,
-                                        self.reward_model, self.value_model)
-                if c < min_c:
-                    min_c = c
-                    min_U = U
-                    min_X = X
+            num_plan_step = self.T
+            X_seq = torch.zeros(num_plan_step + 1, self.shooting_num, self.dim_state)
+            batch_cost = torch.zeros(self.shooting_num, 1)
+            U = np.random.uniform(-1., 1.,
+                                    (num_plan_step, self.shooting_num, self.dim_action))
+            U_seq = torch.from_numpy(U).float().to(self.device)
+            X_seq[0, :, :] = state.unsqueeze(0)
+            
+            for i in range(num_plan_step - 1):
+                X_seq[i + 1, :, :] = self.trans_model(
+                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
+
+                batch_cost += self.cost_model(
+                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1)
+                )
+
+            batch_cost += self.value_model(X_seq[-1, :, :])
 
 
-            target_action = min_U[0, :, :]
+            X_seq = X_seq.reshape(
+                (num_plan_step + 1, self.shooting_num, self.dim_state)).cpu().detach().numpy()
+            U_seq = U_seq.reshape(
+                (num_plan_step, self.shooting_num, self.dim_action)).cpu().detach().numpy()
+
+            min_c, index = torch.min(batch_cost, 0)
+
+            min_U = U_seq[:, index, :]
+
+            target_action = min_U[0]
+
             critic_target = 0
 
 
@@ -226,7 +243,7 @@ class MPC_agent():
 
             self.up_X = np.asarray([[1.], [1.], [8.]])
             self.low_X = -self.up_X
-            self.up_U = 2.
+            self.up_U = 1.
             self.low_U = -self.up_U
 
             #do ilqr based on best one
@@ -296,7 +313,11 @@ class MPC_agent():
         #actually train cost
         r = torch.tensor([t.r for t in transitions], dtype=torch.float).view(
             -1, 1)
-        s_a, s_, r = s_a.to(device), s_.to(device), r.to(device)
+
+        done = torch.tensor([t.done for t in transitions], dtype=torch.int).view(
+            -1, 1)
+
+        s_a, s_, r, done = s_a.to(device), s_.to(device), r.to(device), done.to(device)
 
         #get value target
         
@@ -318,7 +339,11 @@ class MPC_agent():
         # update transition model
         pred_state = self.trans_model(s_a)
         trans_loss = F.mse_loss(pred_state, s_)
+<<<<<<< HEAD
         #print("transition loss: {}".format(trans_loss.item()))
+=======
+        # print("transition loss: {}".format(trans_loss.item()))
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
 
         self.optimizer_t.zero_grad()
         trans_loss.backward()
@@ -327,7 +352,11 @@ class MPC_agent():
         # update reward model
         pred_reward = self.reward_model(s_a)
         reward_loss = F.mse_loss(pred_reward, r)
+<<<<<<< HEAD
         #print("reward loss: {}".format(reward_loss.item()))
+=======
+        # print("reward loss: {}".format(reward_loss.item()))
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
         self.optimizer_r.zero_grad()
         reward_loss.backward()
         self.optimizer_r.step()
@@ -341,12 +370,16 @@ class MPC_agent():
         s_a_target = torch.cat([s_,self.target_actor(s_)],1)
 
         with torch.no_grad():
-            q_target = r + self.gamma*self.target_critic(s_a_target)
+            q_target = r + torch.mul(self.gamma*self.target_critic(s_a_target), 1-done)
         critic_loss = F.mse_loss(q_target, q_pred)
         self.optimizer_c.zero_grad()
         critic_loss.backward()
         self.optimizer_c.step()
+<<<<<<< HEAD
         #print("critic loss: {}".format(critic_loss.item()))
+=======
+        # print("critic loss: {}".format(critic_loss.item()))
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
 
         if mode:
             for g in self.optimizer_a.param_groups:
@@ -360,7 +393,11 @@ class MPC_agent():
             self.optimizer_a.zero_grad()
             actor_loss.backward()
             self.optimizer_a.step()
+<<<<<<< HEAD
             #print("actor loss: {}".format(actor_loss.item()))
+=======
+            # print("actor loss: {}".format(actor_loss.item()))
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
 
         else:
             for g in self.optimizer_a.param_groups:
@@ -372,7 +409,11 @@ class MPC_agent():
             self.optimizer_a.zero_grad()
             actor_loss.backward()
             self.optimizer_a.step()
+<<<<<<< HEAD
             #print("actor loss: {}".format(actor_loss.item()))
+=======
+            # print("actor loss: {}".format(actor_loss.item()))
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
 
 
         # update value target

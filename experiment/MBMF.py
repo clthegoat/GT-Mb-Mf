@@ -163,6 +163,7 @@ def main(conf, type):
             else:
                 if Agent_Type == "MBMF":
                     action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1).reshape((-1,))
+                    #print("episode {} action".format(i))
                 else:
                     action = agent.select_action(state_list[j], exploration=1)
 
@@ -191,25 +192,69 @@ def main(conf, type):
                     if i <= agent.num_random:
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             0)
+<<<<<<< HEAD
                     elif j==0:
+=======
+                        wandb.log({
+                            "trans_loss": trans_loss,
+                            "reward_loss": reward_loss,
+                            "mb_actor_loss": mb_actor_loss,
+                            "mb_critic_loss": mb_critic_loss,
+                            "mf_actor_loss": mf_actor_loss,
+                            "mf_critic_loss": mf_critic_loss
+                        })
+                    elif j%10==0:
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             1)
+                        wandb.log({
+                            "trans_loss": trans_loss,
+                            "reward_loss": reward_loss,
+                            "mb_actor_loss": mb_actor_loss,
+                            "mb_critic_loss": mb_critic_loss,
+                            "mf_actor_loss": mf_actor_loss,
+                            "mf_critic_loss": mf_critic_loss
+                        })
+                        #print("episode {} update".format(i))
+
                 if Agent_Type == "MVE":
                     trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                     )
+                    wandb.log({
+                            "trans_loss": trans_loss,
+                            "reward_loss": reward_loss,
+                            "mb_actor_loss": mb_actor_loss,
+                            "mb_critic_loss": mb_critic_loss
+                        })
 
                 if Agent_Type == "MPC":
                     if i <= agent.num_random or i>=agent.num_random+agent.fixed_num_per_redction:
-                        trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
+                        trans_loss, reward_loss, mf_actor_loss, mf_critic_loss = agent.update(
                         0)
+<<<<<<< HEAD
                     elif j==0:
+=======
+                        wandb.log({
+                            "trans_loss": trans_loss,
+                            "reward_loss": reward_loss,
+                            "mf_actor_loss": mf_actor_loss,
+                            "mf_critic_loss": mf_critic_loss
+                        })
+                    elif j%10==0:
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
                         # if i % agent.num_random==0 and agent.T>1:
                         #     agent.T -= 1
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                         1)
-
+                        wandb.log({
+                            "trans_loss": trans_loss,
+                            "reward_loss": reward_loss,
+                            "mb_actor_loss": mb_actor_loss,
+                            "mb_critic_loss": mb_critic_loss
+                        })
                 #see the trend of reward
                 # print('episode {}, total reward {}'.format(i,episode_reward))
+<<<<<<< HEAD
                 wandb.log({
                     "trans_loss": trans_loss,
                     "reward_loss": reward_loss,
@@ -223,6 +268,12 @@ def main(conf, type):
                    })
         print("episode: {}".format(i))
         print("episode reward: episode_reward")
+=======
+
+            if done and not agent.backward:
+                break
+
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
         wandb.log({
                 "episode": i,
                 "total reward": episode_reward})
@@ -247,8 +298,7 @@ def main(conf, type):
                 test_state_list.append(
                     torch.tensor(test_init_state, dtype=torch.float))
                 for step_num in range(trial_len):
-                    if num==0:
-                        env.render()
+                    
                     # print('step {} in episode {}'.format(step_num,i))
                     if Agent_Type == "MVE" or "MPC":
                         test_action = agent.select_action(
@@ -259,9 +309,16 @@ def main(conf, type):
                             test_state_list[step_num],
                             exploration=0,
                             relative_step=1).reshape((-1,))
+
+                    
                     
                     test_state_action = np.concatenate(
                         (test_state_list[step_num], test_action))
+
+                    if num==0:
+                        env.render()
+                        # if step_num == 0:
+                        #     print(test_action)
 
                     # environment iteraction
                     # print(env.state)
@@ -277,6 +334,8 @@ def main(conf, type):
                                        test_gt_reward, step_num, done))
 
                     test_reward_sum += test_gt_reward
+                    if done and not agent.backward:
+                        break
             average_test_reward_sum = test_reward_sum / 10
             # print(
             #     'average_test_reward_sum = {}'.format(average_test_reward_sum))

@@ -74,7 +74,7 @@ class MVE_agent():
         #normalize actions
         # self.up_U = torch.tensor(self.conf.data.action.high)
         # self.low_U = torch.tensor(self.conf.data.action.low)
-        self.up_U = torch.tensor(np.ones((self.dim_action,1)))
+        self.up_U = 1.
         self.low_U = -self.up_U
 
         print('low: {}'.format(self.low_U))
@@ -109,6 +109,10 @@ class MVE_agent():
         # self.store_transition()
         # self.sample_transitions()
         self.max_grad_norm = 0.01
+        if self.conf.MBMF.reduction_type == "direct_fixed":
+            self.backward = 0
+        else:
+            self.backward = 1
 
     def select_action(self, state, exploration=True):
         """Picks an action using the actor network and then adds some noise to it to ensure exploration"""
@@ -219,7 +223,7 @@ class MVE_agent():
             states = next_states
             with torch.no_grad():
                 actions = self.actor_target(states)
-                actions = torch.clamp(actions, self.low_U, self.up_U)
+                actions = torch.clamp(actions, -1, 1)
             states_actions = torch.cat((states, actions), 1)
             critic_pred[:, t:t + 1] = self.critic_local(states_actions)
             next_states = self.trans_model(states_actions)

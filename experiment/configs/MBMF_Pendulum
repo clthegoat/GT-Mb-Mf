@@ -1,7 +1,13 @@
 train:
+<<<<<<< HEAD
   num_trials: 10000
   trail_len: 200
   num_random: 20
+=======
+  num_trials: 100000
+  trail_len: 1000
+  num_random: 2
+>>>>>>> 6d2b5029a83e5490c7ce90ed198dbb0e751c96ab
   action_noise: 0.1
   gamma: 0.99
   target_update_num: 50
@@ -21,7 +27,7 @@ MBMF:
   fixed_num_per_reduction: 200
 
 data:
-  mem_capacity: 200000
+  mem_capacity: 2000000
   mem_batchsize: 64
   mb_mem_batchsize: 32
 
