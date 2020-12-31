@@ -101,6 +101,10 @@ class MVE_agent():
         self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=self.conf.train.mf_a_lr)
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
         self.training_step = 0
+        if self.conf.MBMF.reduction_type == "direct_fixed":
+            self.backward = 0
+        else:
+            self.backward = 1
         # self.select_action()
         # self.store_transition()
         # self.sample_transitions()

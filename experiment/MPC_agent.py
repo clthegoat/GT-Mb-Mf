@@ -83,10 +83,11 @@ class MPC_agent():
         self.target_actor = actor_model(self.dim_state, self.dim_action)
 
         self.memory = Memory(self.conf.data.mem_capacity)
-        self.optimizer_t = optim.Adam(self.trans_model.parameters(), lr=1e-3)
-        self.optimizer_r = optim.Adam(self.reward_model.parameters(), lr=1e-3)
-        self.optimizer_c = optim.Adam(self.critic_model.parameters(), lr=1e-3)
-        self.optimizer_a = optim.Adam(self.actor_model.parameters(), lr=1e-4)
+        self.optimizer_t = optim.Adam(self.trans_model.parameters(), lr=self.conf.train.mb_t_lr)
+        self.optimizer_r = optim.Adam(self.reward_model.parameters(), lr=self.conf.train.mb_r_lr)
+        self.optimizer_c = optim.Adam(self.critic_model.parameters(), lr=self.conf.train.mf_c_lr, 
+                                    weight_decay = 0.01)
+        self.optimizer_a = optim.Adam(self.actor_model.parameters(), lr=self.conf.train.mf_a_lr)
         self.trail_len = self.conf.train.trail_len
         self.mb_batch_size = self.conf.data.mb_mem_batchsize
         self.batch_size = self.conf.data.mem_batchsize
