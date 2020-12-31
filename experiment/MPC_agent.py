@@ -111,7 +111,7 @@ class MPC_agent():
 
         self.up_X = np.asarray([[1.], [1.], [8.]])
         self.low_X = -self.up_X
-        self.up_U = 2.
+        self.up_U = 1.
         self.low_U = -self.up_U
 
         self.ilqr_lr = self.conf.planning.ilqr_learning_rate
@@ -127,6 +127,11 @@ class MPC_agent():
         self.tau = self.conf.MVE.target_model_update_rate
 
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
+
+        if self.conf.MBMF.reduction_type == "direct_fixed":
+            self.backward = 0
+        else:
+            self.backward = 1
 
     def cost_model(self, state_action):
 
@@ -182,20 +187,36 @@ class MPC_agent():
         num_plan_step = self.T
 
         if mode == 0:
-            X_0 = state.cpu().detach().numpy().reshape((-1, 1))
-            min_c = 1000000
-            for i in range(self.shooting_num):
-                U = np.random.uniform(self.low_U, self.up_U,
-                                      (num_plan_step, self.dim_action, 1))
-                X, c = ilqr.forward_sim(X_0, U, self.trans_model,
-                                        self.reward_model, self.value_model)
-                if c < min_c:
-                    min_c = c
-                    min_U = U
-                    min_X = X
+            num_plan_step = self.T
+            X_seq = torch.zeros(num_plan_step + 1, self.shooting_num, self.dim_state)
+            batch_cost = torch.zeros(self.shooting_num, 1)
+            U = np.random.uniform(-1., 1.,
+                                    (num_plan_step, self.shooting_num, self.dim_action))
+            U_seq = torch.from_numpy(U).float().to(self.device)
+            X_seq[0, :, :] = state.unsqueeze(0)
+            
+            for i in range(num_plan_step - 1):
+                X_seq[i + 1, :, :] = self.trans_model(
+                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
+
+                batch_cost += self.cost_model(
+                    torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1)
+                )
+
+            batch_cost += self.value_model(X_seq[-1, :, :])
 
 
-            target_action = min_U[0, :, :]
+            X_seq = X_seq.reshape(
+                (num_plan_step + 1, self.shooting_num, self.dim_state)).cpu().detach().numpy()
+            U_seq = U_seq.reshape(
+                (num_plan_step, self.shooting_num, self.dim_action)).cpu().detach().numpy()
+
+            min_c, index = torch.min(batch_cost, 0)
+
+            min_U = U_seq[:, index, :]
+
+            target_action = min_U[0]
+
             critic_target = 0
 
 
@@ -221,7 +242,7 @@ class MPC_agent():
 
             self.up_X = np.asarray([[1.], [1.], [8.]])
             self.low_X = -self.up_X
-            self.up_U = 2.
+            self.up_U = 1.
             self.low_U = -self.up_U
 
             #do ilqr based on best one
@@ -291,7 +312,11 @@ class MPC_agent():
         #actually train cost
         r = torch.tensor([t.r for t in transitions], dtype=torch.float).view(
             -1, 1)
-        s_a, s_, r = s_a.to(device), s_.to(device), r.to(device)
+
+        done = torch.tensor([t.done for t in transitions], dtype=torch.int).view(
+            -1, 1)
+
+        s_a, s_, r, done = s_a.to(device), s_.to(device), r.to(device), done.to(device)
 
         #get value target
         
@@ -336,7 +361,7 @@ class MPC_agent():
         s_a_target = torch.cat([s_,self.target_actor(s_)],1)
 
         with torch.no_grad():
-            q_target = r + self.gamma*self.target_critic(s_a_target)
+            q_target = r + torch.mul(self.gamma*self.target_critic(s_a_target), 1-done)
         critic_loss = F.mse_loss(q_target, q_pred)
         self.optimizer_c.zero_grad()
         critic_loss.backward()
