@@ -138,7 +138,7 @@ class MBMF_agent(MVE_agent):
                                          lr=self.conf.train.mb_a_lr)
 
         #reduction
-        self.fixed_num_per_redction = self.conf.MBMF.fixed_num_per_redction
+        self.fixed_num_per_reduction = self.conf.MBMF.fixed_num_per_reduction
         if self.conf.MBMF.reduction_type == "direct_fixed":
             self.backward = 0
         else:
@@ -353,7 +353,7 @@ class MBMF_agent(MVE_agent):
                     # print("MB actor loss: {}".format(mb_actor_loss))
                     # print("MB critic loss: {}".format(mb_critic_loss))
                 """ fixed transformation"""
-                if self.training_step % 200==0:
+                if self.training_step % self.fixed_num_per_reduction==0:
                     if self.backward:
                         self.K += 1
                     else:
