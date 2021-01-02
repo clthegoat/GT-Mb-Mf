@@ -138,6 +138,9 @@ def main(conf, type):
     num_trials = conf.train.num_trials
     trial_len = conf.train.trail_len
 
+    #add step_num
+    step_num = 0
+
     for i in range(num_trials):
         # print('episode {}'.format(i))
         # initial state
@@ -159,7 +162,9 @@ def main(conf, type):
         episode_reward = 0
         for j in range(trial_len):
             # print('step {} in episode {}'.format(j,i))
+            step_num+=1
             # here should be replace with action solved by LQR
+
             if i <= agent.num_random:
                 action = env.action_space.sample()
             else:
@@ -261,6 +266,7 @@ def main(conf, type):
 
         wandb.log({
                 "episode": i,
+                "step_num": step_num,
                 "total reward": episode_reward})
 
         if i > agent.num_random and Agent_Type == "MBMF":
@@ -326,6 +332,7 @@ def main(conf, type):
             #     'average_test_reward_sum = {}'.format(average_test_reward_sum))
             wandb.log({
                 "episode": i,
+                "step_num": step_num,
                 "average_test_reward_sum": average_test_reward_sum
             })
 
