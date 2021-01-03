@@ -162,7 +162,7 @@ def main(conf, type):
         episode_reward = 0
         for j in range(trial_len):
             # print('step {} in episode {}'.format(j,i))
-            step_num+=1
+            interaction_step+=1
             # here should be replace with action solved by LQR
 
             if i <= agent.num_random:
