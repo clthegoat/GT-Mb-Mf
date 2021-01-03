@@ -139,7 +139,7 @@ def main(conf, type):
     trial_len = conf.train.trail_len
 
     #add step_num
-    step_num = 0
+    interaction_step = 0
 
     for i in range(num_trials):
         # print('episode {}'.format(i))
@@ -266,7 +266,7 @@ def main(conf, type):
 
         wandb.log({
                 "episode": i,
-                "step_num": step_num,
+                "step_num": interaction_step,
                 "total reward": episode_reward})
 
         if i > agent.num_random and Agent_Type == "MBMF":
@@ -332,7 +332,7 @@ def main(conf, type):
             #     'average_test_reward_sum = {}'.format(average_test_reward_sum))
             wandb.log({
                 "episode": i,
-                "step_num": step_num,
+                "step_num": interaction_step,
                 "average_test_reward_sum": average_test_reward_sum
             })
 
