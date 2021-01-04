@@ -122,7 +122,7 @@ class MPC_agent():
         self.k = np.zeros((self.T, self.dim_action, 1))
 
         self.num_random = self.conf.train.num_random
-        self.fixed_num_per_redction = self.conf.MBMF.fixed_num_per_reduction
+        self.fixed_num_per_reduction = self.conf.MBMF.fixed_num_per_reduction
         self.training_step = 0
         self.shooting_num = self.conf.planning.shooting_num
         self.tau = self.conf.MVE.target_model_update_rate

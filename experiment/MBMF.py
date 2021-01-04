@@ -53,7 +53,7 @@ def main(conf, type):
     if type == 'pendulum':
         env = NormalizedActions(PendulumEnv())
     elif type == 'ant':
-        env = NormalizedActions(gym.make('Ant-v2'))
+        env = NormalizedActions(gym.make('LunarLanderContinuous-v2'))
     elif type == 'halfcheet':
         env = NormalizedActions(gym.make('HalfCheetah-v1'))
     elif type == 'walker':
@@ -230,7 +230,7 @@ def main(conf, type):
                         })
 
                 if Agent_Type == "MPC":
-                    if i <= agent.num_random or i>=agent.num_random and self.training_step % agent.fixed_num_per_reduction == 0:
+                    if i <= agent.num_random or i>=agent.num_random and agent.training_step % agent.fixed_num_per_reduction == 0:
                         trans_loss, reward_loss, mf_actor_loss, mf_critic_loss = agent.update(
                         0)
                         wandb.log({
