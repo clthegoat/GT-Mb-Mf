@@ -134,6 +134,8 @@ class MPC_agent():
         else:
             self.backward = 1
 
+        self.fixed_num_per_reduction = self.conf.MBMF.fixed_num_per_reduction
+
     def cost_model(self, state_action):
 
         return -self.reward_model(state_action)
