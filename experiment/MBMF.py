@@ -200,7 +200,7 @@ def main(conf, type):
             # train
             if agent.memory.count > agent.batch_size:
                 if Agent_Type == "MBMF":
-                    if i <= agent.num_random:
+                    if i <= agent.num_random or i>agent.num_random+agent.fixed_num_per_reduction*agent.conf.MVE.horizon:
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             0)
                         wandb.log({
