@@ -235,7 +235,7 @@ def main(conf, type):
                         })
 
                 if Agent_Type == "MPC":
-                    if i <= agent.num_random or i>=agent.num_random and agent.training_step % agent.fixed_num_per_reduction == 0:
+                    if i <= agent.num_random or i>=agent.num_random + agent.fixed_num_per_reduction:
                         trans_loss, reward_loss, mf_actor_loss, mf_critic_loss = agent.update(
                         0)
                         wandb.log({
