@@ -76,7 +76,7 @@ class Memory():
         mb_transition = namedtuple('mb_transition',
                                    ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
         i = 0
-        MB_memory = np.empty(self.capacity/2, dtype=object)
+        MB_memory = np.empty(int(self.capacity/2), dtype=object)
         for tran in memory:
             if (tran is not None) and (tran.t == (trail_len - K)):
                 MB_memory[i] = mb_transition(tran.s, tran.a, tran.s_a, tran.s_,
