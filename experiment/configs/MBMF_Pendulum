@@ -5,7 +5,7 @@ train:
   action_noise: 0.1
   gamma: 0.99
   target_update_num: 50
-  Agent_Type: MPC
+  Agent_Type: MVE
   K: 5
   c1: 0.15
   c2: 0.9

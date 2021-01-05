@@ -258,10 +258,10 @@ def main(conf, type):
                 #see the trend of reward
                 # print('episode {}, total reward {}'.format(i,episode_reward))
             
-            if done and Agent_Type == "MVE" or done and agent.backward:
+            if done and agent.backward:
                 episode_done = 1
 
-            if done and not Agent_Type=="MVE" and not agent.backward:
+            if done and not agent.backward:
                 break
 
         wandb.log({
