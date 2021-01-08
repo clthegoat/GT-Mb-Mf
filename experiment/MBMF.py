@@ -55,7 +55,7 @@ def main(conf, type):
     elif type == 'ant':
         env = NormalizedActions(gym.make('LunarLanderContinuous-v2'))
     elif type == 'halfcheet':
-        env = NormalizedActions(gym.make('HalfCheetah-v1'))
+        env = NormalizedActions(gym.make('HalfCheetah-v2'))
     elif type == 'walker':
         env = NormalizedActions(gym.make('Walker2d-v2'))
     else:
@@ -142,6 +142,8 @@ def main(conf, type):
     interaction_step = 0
 
     for i in range(num_trials):
+        if Agent_Type == "MBMF":
+            agent.training_episode += 1
         # print('episode {}'.format(i))
         # initial state
         state_list = []
@@ -165,7 +167,7 @@ def main(conf, type):
             interaction_step+=1
             # here should be replace with action solved by LQR
 
-            if i <= agent.num_random:
+            if i <= 200:
                 action = env.action_space.sample()
             else:
                 if Agent_Type == "MBMF":
@@ -211,7 +213,7 @@ def main(conf, type):
                             "mf_actor_loss": mf_actor_loss,
                             "mf_critic_loss": mf_critic_loss
                         })
-                    elif j%10==0:
+                    else:
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             1)
                         wandb.log({
@@ -244,7 +246,7 @@ def main(conf, type):
                             "mf_actor_loss": mf_actor_loss,
                             "mf_critic_loss": mf_critic_loss
                         })
-                    elif j%10==0:
+                    else:
                         # if i % agent.num_random==0 and agent.T>1:
                         #     agent.T -= 1
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(

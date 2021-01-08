@@ -93,6 +93,7 @@ class MBMF_agent(MVE_agent):
 
         self.reduction_method = self.conf.MBMF.reduction_type
         self.memory = Memory(self.conf.data.mem_capacity)
+        self.training_episode = -1
 
         # agent (not used here, easily cause problem)
         # self.mb_agent = MPC_agent(self.conf)
@@ -353,7 +354,7 @@ class MBMF_agent(MVE_agent):
                     # print("MB actor loss: {}".format(mb_actor_loss))
                     # print("MB critic loss: {}".format(mb_critic_loss))
                 """ fixed transformation"""
-                if self.training_step % self.fixed_num_per_reduction==0:
+                if (self.training_episode - self.num_random + 1) % self.fixed_num_per_reduction==0:
                     if self.backward:
                         self.K += 1
                     else:
