@@ -372,8 +372,8 @@ class MPC_agent():
         # print("critic loss: {}".format(critic_loss.item()))
 
         if mode:
-            for g in self.optimizer_a.param_groups:
-                g['lr'] = 1e-4
+            # for g in self.optimizer_a.param_groups:
+            #     g['lr'] = 1e-4
             # update action model
             a_pred = self.actor_model(s).to(self.device)
             with torch.no_grad():
@@ -386,8 +386,8 @@ class MPC_agent():
             # print("actor loss: {}".format(actor_loss.item()))
 
         else:
-            for g in self.optimizer_a.param_groups:
-                g['lr'] = 1e-4
+            # for g in self.optimizer_a.param_groups:
+            #     g['lr'] = 1e-4
             actions_pred = self.actor_model(s)
             actor_loss = -self.critic_model(
                 torch.cat((s, actions_pred), 1)).to(

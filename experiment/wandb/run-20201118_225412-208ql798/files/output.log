@@ -1,8 +1,0 @@
-****** begin! ******
-****** step1 ******
-Traceback (most recent call last):
-  File "MBMF.py", line 146, in <module>
-    main(conf)
-  File "MBMF.py", line 91, in main
-    trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(0)
-TypeError: update() takes 1 positional argument but 2 were given

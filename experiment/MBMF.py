@@ -167,7 +167,7 @@ def main(conf, type):
             interaction_step+=1
             # here should be replace with action solved by LQR
 
-            if i <= 200:
+            if i <= 20:
                 action = env.action_space.sample()
             else:
                 if Agent_Type == "MBMF":
@@ -181,7 +181,6 @@ def main(conf, type):
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
-            #print(env.state)
             gt_state = state_list[j].cpu().data.numpy()
             gt_reward = 0
             done = 1
@@ -195,9 +194,6 @@ def main(conf, type):
                                gt_reward, j, done))
 
             episode_reward += gt_reward
-            #render
-            
-            #print the automatic deduction process
        
             # train
             if agent.memory.count > agent.batch_size:

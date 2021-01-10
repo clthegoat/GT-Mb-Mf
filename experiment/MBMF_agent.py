@@ -145,6 +145,8 @@ class MBMF_agent(MVE_agent):
         else:
             self.backward = 1
 
+        self.tmp_training_episode = 0
+
     '''
     No value model here, so build it based on critic model and target actor
     '''
@@ -354,11 +356,13 @@ class MBMF_agent(MVE_agent):
                     # print("MB actor loss: {}".format(mb_actor_loss))
                     # print("MB critic loss: {}".format(mb_critic_loss))
                 """ fixed transformation"""
-                if (self.training_episode - self.num_random + 1) % self.fixed_num_per_reduction==0:
+                if ((self.training_episode - self.num_random) % self.fixed_num_per_reduction==0) and not self.tmp_training_episode == self.training_episode:
+                    
                     if self.backward:
                         self.K += 1
                     else:
                         self.T = max(self.T-1,0)
+                    self.tmp_training_episode = self.training_episode
                 # tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
                 #     "judge")
                 # if not tk_s == None:
