@@ -13,7 +13,27 @@ pip3 install -r requirements.txt
 You can run the experiment on the simplest environment 'Pendulum-v1' after installing the required packages, but if you want to run experiments on other more complicated environment, please install mujoco_py [here](https://github.com/openai/mujoco-py). You can run code as follows:
 ```
 cd experiment
-python MBMF.py --conf configs/MBMF_Pendulum --type [type name]
+python MBMF.py --conf configuration_mbmf --type [type name]
 ```
 ## 3.Experiments ##
-Besides running on different environments, you could try different metrics, i.e. *DDPG*, *MVE*, *MPC* to compare with our method *MBMF* via modifying parameters in configuration file *configs/MBMF*
+Besides running on different environments, you could try different metrics, i.e. *DDPG*, *MVE*, *MPC* to compare with our method *MBMF* via modifying parameters in configuration file *configuration_mbmf*.
+*MBMF*
+```
+train.Agent_Type: MBMF
+MVE.horizon: 5
+```
+*DDPG*
+```
+train.Agent_Type: MBMF
+MVE.horizon: 0
+```
+*MPC*
+```
+train.Agent_Type: MPC
+MVE.horizon: 5
+```
+*MVE*
+```
+train.Agent_Type: MVE
+MVE.horizon: 5
+```
