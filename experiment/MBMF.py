@@ -11,7 +11,6 @@ from omegaconf import OmegaConf
 from MPC_agent import *
 from MVE_agent import *
 from MBMF_agent import *
-from Pendulum import PendulumEnv
 
 import wandb
 wandb.init(project="dl_mbmf")
@@ -51,7 +50,7 @@ def main(conf, type):
     print('****** begin! ******')
     # env = PendulumEnv()
     if type == 'pendulum':
-        env = NormalizedActions(PendulumEnv())
+        env = NormalizedActions(gym.make('Pendulum-v0'))
     elif type == 'ant':
         env = NormalizedActions(gym.make('LunarLanderContinuous-v2'))
     elif type == 'halfcheet':
