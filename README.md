@@ -15,4 +15,5 @@ You can run the experiment on the simplest environment 'Pendulum-v1' after insta
 cd experiment
 python MBMF.py --conf configs/MBMF_Pendulum --type [type name]
 ```
-
+## 3.Experiments ##
+Besides running on different environments, you could try different metrics, i.e. *DDPG*, *MVE*, *MPC* to compare with our method *MBMF* via modifying parameters in configuration file *configs/MBMF*
