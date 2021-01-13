@@ -3,7 +3,8 @@ This repo contains the code for our Deep Learning course project.
  <br> Developed by Le Chen, Yunke Ao, Kaiyue Shen and Zheyu Ye.
 
 ## 1.Description ##
-Reinforcement learning (RL) algorithms have been shown to be ca-pable of learning a wide range of robotic skills. They are divided into two categories: model-based RL and model-free RL. In this project, we propose our method that could gradually transform a model-based RL training framework to a model-free actor-critic ar-chitecture such as Deep Deterministic Policy Gradient (DDPG). The framework is shown as follows.
+Reinforcement learning (RL) algorithms have been shown to be ca-pable of learning a wide range of robotic skills. Model-free RL algorithms directly optimize the policy based on gathered interaction experiences, while model-based ones additionally learn the dynamic and reward functions of the environment. Generally, model-free RL could achieve higher performance for different tasks but typically with millions of trials for convergence. For model-based RL, much fewer samples are required for learning a decent policy, but the existence of bias in learned model usually results in relatively lower final performance compared with model-free RL algorithms. 
+In this project, our approach starts with a model-based framework which is integrated with value learning, and gradually transform it to pure model-free actor-critic learning by reducing the planning horizon. The whole framework is shown as follows.
 ![alt text](https://github.com/clthegoat/DL_MBMF/blob/main/experiment/assets/framework_reduction.png?raw=true)
 
 ## 2.Getting started ##
