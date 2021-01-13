@@ -37,6 +37,9 @@ class Memory():
         return np.random.choice(self.memory[0:self.count], batch_size)
 
     def MB_sample(self, batch_size, trail_len, K):
+        '''
+        sample a batch of data for model-based training
+        '''
         memory = self.memory.tolist()
         mb_transition = namedtuple('mb_transition',
                                    ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
@@ -53,6 +56,9 @@ class Memory():
         return np.random.choice(new_MB_memory[0:self.count], batch_size)
 
     def MF_sample(self, batch_size, trail_len, K):
+        '''
+        sample a batch of data for model-free training
+        '''
         memory = self.memory.tolist()
         mf_transition = namedtuple('mf_transition',
                                    ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
@@ -84,7 +90,6 @@ class Memory():
                 i = i + 1
         new_MB_memory = MB_memory[np.s_[:i:1]]
         return new_MB_memory
-        # return np.random.choice(new_MB_memory[0:self.count], batch_size)
 
 
 class MBMF_agent(MVE_agent):
@@ -104,8 +109,6 @@ class MBMF_agent(MVE_agent):
         self.c1 = self.conf.train.c1
         self.c2 = self.conf.train.c2
         self.mb_batchsize = self.conf.data.mb_mem_batchsize
-        # self.trail_len = self.conf.trail_len # steps in each trail
-        # self.batch_size = self.conf.data.mem_batchsize
 
         #model based configs
         self.shooting_num = self.conf.planning.shooting_num
@@ -319,7 +322,6 @@ class MBMF_agent(MVE_agent):
         # print("transition loss: {}".format(trans_loss))
 
         # update reward model
-        # this should be cost model?
         reward_loss = self.reward_learn(all_s_a, all_r)
         # print("reward loss: {}".format(reward_loss))
 
@@ -331,8 +333,6 @@ class MBMF_agent(MVE_agent):
                 if not (mb_s == None):
                     mb_critic_loss, mb_actor_loss = self.MB_learn(
                         mb_s, mb_s_a, mb_s_, mb_r, mb_t, mb_d)
-                    # print("MB actor loss: {}".format(mb_actor_loss))
-                    # print("MB critic loss: {}".format(mb_critic_loss))
                 """ automatic transformation"""
                 tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
                     "judge")
@@ -343,8 +343,6 @@ class MBMF_agent(MVE_agent):
                 mf_s, _, mf_s_a, mf_s_, mf_r, mb_t, mf_d = self.sample_transitions("all")
                 mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
                                                             mf_r, mb_t, mf_d)
-                # print("MF actor loss: {}".format(mf_actor_loss))
-                # print("MF critic loss: {}".format(mf_critic_loss))
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
         else:
             if (mode and not self.backward and self.T>0) or (mode and self.backward and self.K!=self.trail_len):
@@ -353,8 +351,6 @@ class MBMF_agent(MVE_agent):
                 if not (mb_s == None):
                     mb_critic_loss, mb_actor_loss = self.MB_learn(
                         mb_s, mb_s_a, mb_s_, mb_r, mb_t, mb_d)
-                    # print("MB actor loss: {}".format(mb_actor_loss))
-                    # print("MB critic loss: {}".format(mb_critic_loss))
                 """ fixed transformation"""
                 if ((self.training_episode - self.num_random) % self.fixed_num_per_reduction==0) and not self.tmp_training_episode == self.training_episode:
                     
@@ -363,17 +359,11 @@ class MBMF_agent(MVE_agent):
                     else:
                         self.T = max(self.T-1,0)
                     self.tmp_training_episode = self.training_episode
-                # tk_s, _, tk_s_a, tk_s_, tk_r, tk_t = self.sample_transitions(
-                #     "judge")
-                # if not tk_s == None:
-                #     self.Auto_Transform(tk_s, tk_s_a, tk_s_, tk_r, tk_t)
             else:
                 """ update critic and actor model, data sampled from MF memory"""
                 mf_s, _, mf_s_a, mf_s_, mf_r, mb_t, mf_d = self.sample_transitions("all")
                 mf_critic_loss, mf_actor_loss = self.MF_learn(mf_s, mf_s_a, mf_s_,
                                                             mf_r, mb_t, mf_d)
-                # print("MF actor loss: {}".format(mf_actor_loss))
-                # print("MF critic loss: {}".format(mf_critic_loss))
             return trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss
 
     def MB_target_compute(self, state, state_action, next_state, reward, time_step, done, mode):
@@ -517,6 +507,9 @@ class MBMF_agent(MVE_agent):
         return target_action, critic_target
 
     def MB_learn(self, states, states_actions, next_states, rewards, time_steps, dones):
+        '''
+        train actor&critic net through model-based method
+        '''
         # q prediction and target
         if self.time_dependent == True:
             q_pred = self.critic_local(
@@ -587,6 +580,9 @@ class MBMF_agent(MVE_agent):
 
     def MF_learn(self, states, states_actions, next_states, rewards,
                  time_steps, dones):
+        '''
+        train actor&critic net through model-free method
+        '''
         if self.time_dependent == True:
             mf_actor_loss = self.actor_learn(states, time_steps)
             actions_pred = self.actor_target(
