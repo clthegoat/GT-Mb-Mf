@@ -17,13 +17,8 @@ wandb.init(project="dl_mbmf")
 wandb.config["more"] = "custom"
 
 # basic setting
-# Transition = namedtuple('Transition', ['s_a', 's_', 'r'])
-# Ext_transition = namedtuple('Ext_transition', ['state', 'action', 'state_action', 'next state', 'reward', 'done'])
-# Ext_transition = namedtuple('Ext_transition', ['s', 'a', 's_a', 's_', 'r', 'done'])
-# MBMF_transition = namedtuple('MBMF_transition', ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
 Ext_transition = namedtuple('MBMF_transition',
                             ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
-
 
 
 class NormalizedActions(gym.ActionWrapper):
@@ -48,7 +43,6 @@ class NormalizedActions(gym.ActionWrapper):
 
 def main(conf, type):
     print('****** begin! ******')
-    # env = PendulumEnv()
     if type == 'pendulum':
         env = NormalizedActions(gym.make('Pendulum-v0'))
     elif type == 'ant':
@@ -62,7 +56,6 @@ def main(conf, type):
 
 
     ##normalize environment
-
     state_dim = len(env.reset())
     state_high = list(map(float, list(env.observation_space.high)))
     state_low = list(map(float, list(env.observation_space.low)))
@@ -86,8 +79,6 @@ def main(conf, type):
     }
     conf = OmegaConf.merge(conf, new_conf)
     Agent_Type = conf.train.Agent_Type
-
-    # parser = argparse.ArgumentParser()
 
     # train params
     args.train_num_trials = conf.train.num_trials
@@ -120,7 +111,6 @@ def main(conf, type):
     args.mve_horizon = conf.MVE.horizon
     args.mve_iteration_num = conf.MVE.iteration_num
     args.mve_target_model_update_rate = conf.MVE.target_model_update_rate
-    # args = parser.parse_args()
 
     wandb.config.update(args)  # adds all of the arguments as config variables
 
@@ -143,40 +133,31 @@ def main(conf, type):
     for i in range(num_trials):
         if Agent_Type == "MBMF":
             agent.training_episode += 1
-        # print('episode {}'.format(i))
         # initial state
         state_list = []
-        #init_state = env.reset()
         #reset the state to be a single start point:
-
         init_state = env.reset()
         # if i>agent.num_random:
         #     env.state = np.asarray([0.,0.])
         #     init_state = env._get_obs()
         #     env.last_u = None
         #     print(init_state)
-        #print(agent.value_model(torch.from_numpy(init_state).float()))
         state_list.append(torch.tensor(init_state, dtype=torch.float))
 
         #record done for MVE and backward
         episode_done = 0
         episode_reward = 0
         for j in range(trial_len):
-            # print('step {} in episode {}'.format(j,i))
             interaction_step+=1
             # here should be replace with action solved by LQR
-
             if i <= 20:
                 action = env.action_space.sample()
             else:
                 if Agent_Type == "MBMF":
                     action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1).reshape((-1,))
-                    #print("episode {} action".format(i))
                 else:
                     action = agent.select_action(state_list[j], exploration=1)
 
-            
-            # print(action.shape)
             state_action = np.concatenate((state_list[j], action))
 
             # environment iteraction
@@ -219,7 +200,6 @@ def main(conf, type):
                             "mf_actor_loss": mf_actor_loss,
                             "mf_critic_loss": mf_critic_loss
                         })
-                        #print("episode {} update".format(i))
 
                 if Agent_Type == "MVE":
                     trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
@@ -252,8 +232,6 @@ def main(conf, type):
                             "mb_actor_loss": mb_actor_loss,
                             "mb_critic_loss": mb_critic_loss
                         })
-                #see the trend of reward
-                # print('episode {}, total reward {}'.format(i,episode_reward))
             
             if done and agent.backward:
                 episode_done = 1
@@ -278,7 +256,6 @@ def main(conf, type):
             # print('start test!')
             # test
             for num in range(10):
-                # print('test time {}'.format(num))
                 test_state_list = []
                 # init_state = env.reset()
                 # reset the state to be a single start point:
@@ -286,8 +263,6 @@ def main(conf, type):
                 test_state_list.append(
                     torch.tensor(test_init_state, dtype=torch.float))
                 for step_num in range(trial_len):
-                    
-                    # print('step {} in episode {}'.format(step_num,i))
                     if Agent_Type == "MVE" or "MPC":
                         test_action = agent.select_action(
                             test_state_list[step_num], exploration=0).reshape((-1,))
@@ -297,16 +272,12 @@ def main(conf, type):
                             test_state_list[step_num],
                             exploration=0,
                             relative_step=1).reshape((-1,))
-
-                    
-                    
+                        
                     test_state_action = np.concatenate(
                         (test_state_list[step_num], test_action))
 
                     if num==0:
                         env.render()
-                        # if step_num == 0:
-                        #     print(test_action)
 
                     # environment iteraction
                     # print(env.state)
@@ -325,8 +296,6 @@ def main(conf, type):
                     if done and not agent.backward:
                         break
             average_test_reward_sum = test_reward_sum / 10
-            # print(
-            #     'average_test_reward_sum = {}'.format(average_test_reward_sum))
             wandb.log({
                 "episode": i,
                 "step_num": interaction_step,
