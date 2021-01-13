@@ -2,8 +2,7 @@
 
 ## 1.Description ##
 Reinforcement learning (RL) algorithms have been shown to be ca-pable of learning a wide range of robotic skills. They are divided intotwo categories: model-basedRLand model-freeRL. In this project, we propose our method that could gradually transform a model-based RL training framework to a model-free actor-critic ar-chitecture such as Deep Deterministic Policy Gradient (DDPG).
-[image of framework]
-(https://github.com/clthegoat/DL_MBMF/blob/main/experiment/assets/framework_reduction.png)
+![alt text](https://github.com/clthegoat/DL_MBMF/blob/main/experiment/assets/framework_reduction.png?raw=true)
 
 ## 2.Getting started ##
 Run the following commands to install this repository and the required dependencies:
