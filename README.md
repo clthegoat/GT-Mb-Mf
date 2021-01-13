@@ -1,4 +1,6 @@
-# MBMF Combination Via Value Expansion #
+# Gradual Transition From Model-Based to Model-Free Actor-Critic Reinforcement Learning #
+This repo contains the code for our Deep Learning course project. 
+ <br> Developed by Le Chen, Yunke Ao, Kaiyue Shen and Zheyu Ye.
 
 ## 1.Description ##
 Reinforcement learning (RL) algorithms have been shown to be ca-pable of learning a wide range of robotic skills. They are divided into two categories: model-based RL and model-free RL. In this project, we propose our method that could gradually transform a model-based RL training framework to a model-free actor-critic ar-chitecture such as Deep Deterministic Policy Gradient (DDPG). The framework is shown as follows.
