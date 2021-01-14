@@ -1,5 +1,4 @@
 import argparse
-# from experiment.Agent import Agent
 import logging
 from numpy.lib.function_base import average
 import torch
@@ -10,14 +9,14 @@ from collections import namedtuple
 from omegaconf import OmegaConf
 from MPC_agent import *
 from MVE_agent import *
-from MBMF_agent import *
+from GTMBMF_agent import *
 
 import wandb
-wandb.init(project="dl_mbmf")
+wandb.init(project="dl_gtmbmf")
 wandb.config["more"] = "custom"
 
 # basic setting
-Ext_transition = namedtuple('MBMF_transition',
+Ext_transition = namedtuple('GTMBMF_transition',
                             ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
 
 
@@ -118,8 +117,8 @@ def main(conf, type):
         agent = MPC_agent(conf)
     elif Agent_Type == "MVE":
         agent = MVE_agent(conf)
-    elif Agent_Type == "MBMF":
-        agent = MBMF_agent(conf)
+    elif Agent_Type == "GT-Mb-Mf":
+        agent = GTMBMF_agent(conf)
     else:
         raise ValueError
     print('****** step1 ******')
@@ -131,17 +130,12 @@ def main(conf, type):
     interaction_step = 0
 
     for i in range(num_trials):
-        if Agent_Type == "MBMF":
+        if Agent_Type == "GT-Mb-Mf":
             agent.training_episode += 1
         # initial state
         state_list = []
         #reset the state to be a single start point:
         init_state = env.reset()
-        # if i>agent.num_random:
-        #     env.state = np.asarray([0.,0.])
-        #     init_state = env._get_obs()
-        #     env.last_u = None
-        #     print(init_state)
         state_list.append(torch.tensor(init_state, dtype=torch.float))
 
         #record done for MVE and backward
@@ -149,12 +143,11 @@ def main(conf, type):
         episode_reward = 0
         for j in range(trial_len):
             interaction_step+=1
-            # here should be replace with action solved by LQR
             if i <= 20:
                 action = env.action_space.sample()
             else:
-                if Agent_Type == "MBMF":
-                    action = agent.mbmf_select_action(j, state_list[j], exploration=1, relative_step=1).reshape((-1,))
+                if Agent_Type == "GT-Mb-Mf":
+                    action = agent.gtmbmf_select_action(j, state_list[j], exploration=1, relative_step=1).reshape((-1,))
                 else:
                     action = agent.select_action(state_list[j], exploration=1)
 
@@ -177,11 +170,12 @@ def main(conf, type):
        
             # train
             if agent.memory.count > agent.batch_size:
-                if Agent_Type == "MBMF":
+                if Agent_Type == "GT-Mb-Mf":
                     if i <= agent.num_random or i>agent.num_random+agent.fixed_num_per_reduction*agent.conf.MVE.horizon:
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             0)
                         wandb.log({
+                            "episode": i,
                             "trans_loss": trans_loss,
                             "reward_loss": reward_loss,
                             "mb_actor_loss": mb_actor_loss,
@@ -193,6 +187,7 @@ def main(conf, type):
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss, mf_actor_loss, mf_critic_loss = agent.update(
                             1)
                         wandb.log({
+                            "episode": i,
                             "trans_loss": trans_loss,
                             "reward_loss": reward_loss,
                             "mb_actor_loss": mb_actor_loss,
@@ -201,32 +196,33 @@ def main(conf, type):
                             "mf_critic_loss": mf_critic_loss
                         })
 
-                if Agent_Type == "MVE":
+                elif Agent_Type == "MVE":
                     trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                     )
                     wandb.log({
+                            "episode": i,
                             "trans_loss": trans_loss,
                             "reward_loss": reward_loss,
                             "mb_actor_loss": mb_actor_loss,
                             "mb_critic_loss": mb_critic_loss
                         })
 
-                if Agent_Type == "MPC":
+                elif Agent_Type == "MPC":
                     if i <= agent.num_random or i>=agent.num_random + agent.fixed_num_per_reduction:
                         trans_loss, reward_loss, mf_actor_loss, mf_critic_loss = agent.update(
                         0)
                         wandb.log({
+                            "episode": i,
                             "trans_loss": trans_loss,
                             "reward_loss": reward_loss,
                             "mf_actor_loss": mf_actor_loss,
                             "mf_critic_loss": mf_critic_loss
                         })
                     else:
-                        # if i % agent.num_random==0 and agent.T>1:
-                        #     agent.T -= 1
                         trans_loss, reward_loss, mb_actor_loss, mb_critic_loss = agent.update(
                         1)
                         wandb.log({
+                            "episode": i,
                             "trans_loss": trans_loss,
                             "reward_loss": reward_loss,
                             "mb_actor_loss": mb_actor_loss,
@@ -244,7 +240,7 @@ def main(conf, type):
                 "step_num": interaction_step,
                 "total reward": episode_reward})
 
-        if i > agent.num_random and Agent_Type == "MBMF":
+        if i > agent.num_random and Agent_Type == "GT-Mb-Mf":
             if agent.backward:
                 print("automotic reduction stage {}".format(agent.K))
             else:
@@ -254,10 +250,8 @@ def main(conf, type):
         if i % 10 == 0 and i > 0:
             test_reward_sum = 0
             # print('start test!')
-            # test
             for num in range(10):
                 test_state_list = []
-                # init_state = env.reset()
                 # reset the state to be a single start point:
                 test_init_state = env.reset()
                 test_state_list.append(
@@ -266,8 +260,8 @@ def main(conf, type):
                     if Agent_Type == "MVE" or "MPC":
                         test_action = agent.select_action(
                             test_state_list[step_num], exploration=0).reshape((-1,))
-                    if Agent_Type == "MBMF":
-                        test_action = agent.mbmf_select_action(
+                    if Agent_Type == "GT-Mb-Mf":
+                        test_action = agent.gtmbmf_select_action(
                             step_num,
                             test_state_list[step_num],
                             exploration=0,
@@ -280,7 +274,6 @@ def main(conf, type):
                         env.render()
 
                     # environment iteraction
-                    # print(env.state)
                     test_gt_state, test_gt_reward, done, info = env.step(
                         test_action)
                     test_state_list.append(

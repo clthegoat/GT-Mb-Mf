@@ -74,10 +74,6 @@ class Memory():
         return np.random.choice(new_MF_memory[0:self.count], batch_size)
 
     def judge_sample(self, trail_len, K):
-        # memory = self.memory.tolist()
-        # trans_memory = [tran for tran in memory if tran.t == trail_len - K]
-        # trans_memory = np.array(trans_memory)
-        # return trans_memory
         memory = self.memory.tolist()
         mb_transition = namedtuple('mb_transition',
                                    ['s', 'a', 's_a', 's_', 'r', 't', 'done'])
@@ -92,17 +88,14 @@ class Memory():
         return new_MB_memory
 
 
-class MBMF_agent(MVE_agent):
+class GTMBMF_agent(MVE_agent):
     def __init__(self, conf):
         super().__init__(conf)
 
-        self.reduction_method = self.conf.MBMF.reduction_type
+        self.reduction_method = self.conf.GTMBMF.reduction_type
         self.memory = Memory(self.conf.data.mem_capacity)
         self.training_episode = -1
-
-        # agent (not used here, easily cause problem)
-        # self.mb_agent = MPC_agent(self.conf)
-        # self.mf_agent = MVE_agent(self.conf)
+        self.T = self.conf.planning.horizon
 
         # here we temporarily fix K
         self.K = self.conf.train.K
@@ -142,8 +135,8 @@ class MBMF_agent(MVE_agent):
                                          lr=self.conf.train.mb_a_lr)
 
         #reduction
-        self.fixed_num_per_reduction = self.conf.MBMF.fixed_num_per_reduction
-        if self.conf.MBMF.reduction_type == "direct_fixed":
+        self.fixed_num_per_reduction = self.conf.GTMBMF.fixed_num_per_reduction
+        if self.conf.GTMBMF.reduction_type == "direct_fixed":
             self.backward = 0
         else:
             self.backward = 1
@@ -153,17 +146,11 @@ class MBMF_agent(MVE_agent):
     '''
     No value model here, so build it based on critic model and target actor
     '''
-
     def value_model(self, state):
         '''
         given state, return the value function according to the current critic and actor
         input: state (torch)
         '''
-        # if self.time_dependent == True:
-        #     target_action = self.actor_target(torch.cat((state, time_step), 1))
-        #     value = -self.critic_target(
-        #         torch.cat((state, target_action, time_step), -1))[0]
-        # else:
         target_action = self.actor_target(state)
         value = -self.critic_target(torch.cat(
             (state, target_action), -1))[0]
@@ -173,7 +160,7 @@ class MBMF_agent(MVE_agent):
 
         return -self.reward_model(state_action)
 
-    def mbmf_select_action(self, num_step, state, exploration, relative_step):
+    def gtmbmf_select_action(self, num_step, state, exploration, relative_step):
         '''
         according to yunkao, there are two choices for selecting action
         1) select actions w.r.t step
@@ -264,13 +251,10 @@ class MBMF_agent(MVE_agent):
         #if it is empty
         if len(transitions) == 0:
             return None, None, None, None, None, None
-        # for t in transitions:
-        #     if t.a.shape[0]<6:
-        #         print(t)
+
         s = torch.from_numpy(
             np.vstack((t.s for t in transitions
                        if t is not None))).float().to(self.device)
-        # s = torch.tensor([t.s for t in transitions], dtype=torch.float).view(-1, self.dim_state).to(self.device)
         a = torch.from_numpy(
             np.vstack((t.a.reshape((1,-1)) for t in transitions
                        if t is not None))).float().to(self.device)
@@ -297,19 +281,19 @@ class MBMF_agent(MVE_agent):
         update all
         '''
         if self.reduction_method == "back_fixed":
-            # print("MBMF auto reduction method: back fixed")
+            # print("GTMBMF auto reduction method: back fixed")
             self.backward = True
             self.critiria = False
         elif self.reduction_method == "direct_fixed":
             self.backward = False
             self.critiria = False
-            # print("MBMF auto reduction method: direct fixed")
+            # print("GTMBMF auto reduction method: direct fixed")
         elif self.reduction_method == "back_bellman":
-            # print("MBMF auto reduction method: back bellman equation")
+            # print("GTMBMF auto reduction method: back bellman equation")
             self.backward = False
             self.critiria = True
         else:
-            # print("Please indicate MBMF auto reduction method! Now default: back bellman equation")
+            # print("Please indicate GTMBMF auto reduction method! Now default: back bellman equation")
             self.backward = False
             self.critiria = True
         
@@ -319,11 +303,9 @@ class MBMF_agent(MVE_agent):
 
         # update transition model
         trans_loss = self.trans_learn(all_s_a, all_s_)
-        # print("transition loss: {}".format(trans_loss))
 
         # update reward model
         reward_loss = self.reward_learn(all_s_a, all_r)
-        # print("reward loss: {}".format(reward_loss))
 
         mb_critic_loss, mb_actor_loss, mf_actor_loss, mf_critic_loss = 0.0, 0.0, 0.0, 0.0
         if self.critiria == True:
@@ -377,7 +359,7 @@ class MBMF_agent(MVE_agent):
         #     cur_state = states[i]
         #     j = 0
         #     while time_step < self.trail_len - self.K:  # here not sure whether < or <=
-        #         action = torch.tensor(self.mbmf_select_action(time_step,\
+        #         action = torch.tensor(self.gtmbmf_select_action(time_step,\
         #                                                       cur_state,\
         #                                                       relative_step=j,\
         #                                                       mode=2,\
@@ -394,7 +376,7 @@ class MBMF_agent(MVE_agent):
         #         time_step += 1
         #         j += 1
 
-        #     action_H = torch.tensor(self.mbmf_select_action(time_step, \
+        #     action_H = torch.tensor(self.gtmbmf_select_action(time_step, \
         #                                                     cur_state, \
         #                                                     relative_step=j, \
         #                                                     mode=2, \
@@ -468,7 +450,6 @@ class MBMF_agent(MVE_agent):
             R_value = np.concatenate([-C, -last_value.reshape((-1, ))])
 
             critic_target = np.dot(gamma_array, R_value)
-            #print(critic_target)
         else:
             num_plan_step = self.T
             X_seq = torch.zeros(num_plan_step + 1, self.shooting_num, self.dim_state)
@@ -558,8 +539,6 @@ class MBMF_agent(MVE_agent):
 
         # update mb-critic model
         q_target, q_pred = q_target.view([-1, 1]), q_pred.view([-1, 1])
-        # print(q_pred[0])
-        # print(q_target[0])
         mb_critic_loss = F.mse_loss(q_target, q_pred)
         self.optimizer_mb_c.zero_grad()
         mb_critic_loss.backward()
@@ -613,8 +592,6 @@ class MBMF_agent(MVE_agent):
 
     def actor_learn(self, states, time_steps=None):
         """Runs a learning iteration for the actor"""
-        # if self.done: #we only update the learning rate at end of each episode
-        #     self.update_learning_rate(self.hyperparameters["Actor"]["learning_rate"], self.actor_optimizer)
         if time_steps == None:
             actions_pred = self.actor_local(states).to(self.device)
             actor_loss = -self.critic_local(
@@ -637,18 +614,17 @@ class MBMF_agent(MVE_agent):
 
     def Auto_Transform(self, states, states_actions, next_states, rewards,
                        time_steps):
-        # print(self.K)
         if self.time_dependent == True:
             q_pred = self.critic_local(
                 torch.cat((states_actions, time_steps),
-                          1))  # not sure here use local or target
+                          1))  
             actions_pred = self.actor_local(
                 torch.cat((next_states, time_steps + 1), 1))
             q_target = rewards + self.gamma * self.critic_local(
                 torch.cat((next_states, actions_pred, time_steps + 1), 1))
         else:
             q_pred = self.critic_local(
-                states_actions)  # not sure here use local or target
+                states_actions)  
             actions_pred = self.actor_local(next_states)
             q_target = rewards + self.gamma * self.critic_local(
                 torch.cat((next_states, actions_pred), 1))

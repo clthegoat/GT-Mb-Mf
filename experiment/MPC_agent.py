@@ -74,11 +74,9 @@ class MPC_agent():
         self.dim_action = self.conf.data.action.dim
         self.dim_state_action = self.dim_state + self.dim_action
         self.trans_model = trans_model(self.dim_state, self.dim_action)
-        #this is actually cost model
         self.reward_model = reward_model(self.dim_state, self.dim_action)
         self.critic_model = critic_model(self.dim_state, self.dim_action)
         self.target_critic = critic_model(self.dim_state, self.dim_action)
-        #TODO: add policy network
         self.actor_model = actor_model(self.dim_state, self.dim_action)
         self.target_actor = actor_model(self.dim_state, self.dim_action)
 
@@ -122,14 +120,14 @@ class MPC_agent():
         self.k = np.zeros((self.T, self.dim_action, 1))
 
         self.num_random = self.conf.train.num_random
-        self.fixed_num_per_reduction = self.conf.MBMF.fixed_num_per_reduction
+        self.fixed_num_per_reduction = self.conf.GTMBMF.fixed_num_per_reduction
         self.training_step = 0
         self.shooting_num = self.conf.planning.shooting_num
         self.tau = self.conf.MVE.target_model_update_rate
 
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
 
-        if self.conf.MBMF.reduction_type == "direct_fixed":
+        if self.conf.GTMBMF.reduction_type == "direct_fixed":
             self.backward = 0
         else:
             self.backward = 1
@@ -188,7 +186,6 @@ class MPC_agent():
         #policy init
 
         num_plan_step = self.T
-
         if mode == 0:
             num_plan_step = self.T
             X_seq = torch.zeros(num_plan_step + 1, self.shooting_num, self.dim_state)
@@ -207,24 +204,17 @@ class MPC_agent():
                 )
 
             batch_cost += self.value_model(X_seq[-1, :, :])
-
-
             X_seq = X_seq.reshape(
                 (num_plan_step + 1, self.shooting_num, self.dim_state)).cpu().detach().numpy()
             U_seq = U_seq.reshape(
                 (num_plan_step, self.shooting_num, self.dim_action)).cpu().detach().numpy()
 
             min_c, index = torch.min(batch_cost, 0)
-
             min_U = U_seq[:, index, :]
 
             target_action = min_U[0]
-
             critic_target = 0
-
-
         else:
-       
             #state,action sequence
             X_seq = torch.zeros(num_plan_step + 1, 1, self.dim_state)
             U_seq = torch.zeros(num_plan_step, 1, self.dim_action)
@@ -236,12 +226,10 @@ class MPC_agent():
                 X_seq[i + 1, :, :] = self.trans_model(
                     torch.cat((X_seq[i, :, :], U_seq[i, :, :]), 1))
 
-
             X_seq = X_seq.reshape(
                 (num_plan_step + 1, self.dim_state, 1)).cpu().detach().numpy()
             U_seq = U_seq.reshape(
                 (num_plan_step, self.dim_action, 1)).cpu().detach().numpy()
-
 
             self.up_X = np.asarray([[1.], [1.], [8.]])
             self.low_X = -self.up_X
@@ -257,8 +245,6 @@ class MPC_agent():
 
             _, _, traj_X, traj_U, C, last_value = ilqr_ctrl.solve_ilqr()
 
-
-        
             #compute target action
             target_action = traj_U[0, :, :]  #m*1
 
@@ -268,9 +254,7 @@ class MPC_agent():
                                     num_plan_step + 1,
                                     base=self.gamma)
             R_value = np.concatenate([-C, -last_value.reshape((-1, ))])
-
             critic_target = np.dot(gamma_array, R_value)
-            #print(critic_target)
 
         return target_action, critic_target
 
@@ -284,7 +268,6 @@ class MPC_agent():
                                              local_model.parameters()):
             target_param.data.copy_(tau * local_param.data +
                                     (1.0 - tau) * target_param.data)
-
 
     def update(self, mode):
         '''
@@ -321,8 +304,7 @@ class MPC_agent():
 
         s_a, s_, r, done = s_a.to(device), s_.to(device), r.to(device), done.to(device)
 
-        #get value target
-        
+        #get value target  
         if mode:
             a_q_target_list = Parallel(n_jobs=4, prefer="threads")(
                 delayed(self.MB_target_compute)(s_a[i][:self.dim_state], s_a[i], 0)
@@ -336,13 +318,9 @@ class MPC_agent():
                 a_q_target_list[i][1] for i in range(self.mb_batch_size)
             ]
             
-        
-
         # update transition model
         pred_state = self.trans_model(s_a)
         trans_loss = F.mse_loss(pred_state, s_)
-        # print("transition loss: {}".format(trans_loss.item()))
-
         self.optimizer_t.zero_grad()
         trans_loss.backward()
         self.optimizer_t.step()
@@ -350,12 +328,9 @@ class MPC_agent():
         # update reward model
         pred_reward = self.reward_model(s_a)
         reward_loss = F.mse_loss(pred_reward, r)
-        # print("reward loss: {}".format(reward_loss.item()))
         self.optimizer_r.zero_grad()
         reward_loss.backward()
         self.optimizer_r.step()
-
-       
 
         # update value model
         q_pred = self.critic_model(s_a).to(self.device)
@@ -369,11 +344,8 @@ class MPC_agent():
         self.optimizer_c.zero_grad()
         critic_loss.backward()
         self.optimizer_c.step()
-        # print("critic loss: {}".format(critic_loss.item()))
-
+        
         if mode:
-            # for g in self.optimizer_a.param_groups:
-            #     g['lr'] = 1e-4
             # update action model
             a_pred = self.actor_model(s).to(self.device)
             with torch.no_grad():
@@ -383,11 +355,7 @@ class MPC_agent():
             self.optimizer_a.zero_grad()
             actor_loss.backward()
             self.optimizer_a.step()
-            # print("actor loss: {}".format(actor_loss.item()))
-
         else:
-            # for g in self.optimizer_a.param_groups:
-            #     g['lr'] = 1e-4
             actions_pred = self.actor_model(s)
             actor_loss = -self.critic_model(
                 torch.cat((s, actions_pred), 1)).to(
@@ -395,17 +363,13 @@ class MPC_agent():
             self.optimizer_a.zero_grad()
             actor_loss.backward()
             self.optimizer_a.step()
-            # print("actor loss: {}".format(actor_loss.item()))
-
-
-        # update value target
-        # TODO: change it to EMA?
+        
+        # update target models
         self.soft_update_of_target_network(self.critic_model,
                                         self.target_critic, self.tau)
         self.soft_update_of_target_network(self.actor_model,
                                         self.target_actor, self.tau)
 
-        
         return trans_loss.item(), reward_loss.item(), actor_loss.item(), critic_loss.item()
 
     

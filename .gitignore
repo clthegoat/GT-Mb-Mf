@@ -1,4 +1,5 @@
 experiment/__pycache__/
 .vscode/
 experiment/wandb/
-
+.DS_Store
+*/.DS_Store

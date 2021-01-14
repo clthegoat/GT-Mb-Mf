@@ -4,7 +4,6 @@ import torch.nn.functional as F
 import torch.optim as optim
 from torch.distributions import Normal
 from models.model_based import actor_model, critic_model, trans_model, reward_model
-# from Pendulum import PendulumEnv
 from MPC_agent import Memory
 import copy
 import numpy as np
@@ -64,20 +63,9 @@ class MVE_agent():
         self.dim_state = self.conf.data.state.dim
         self.dim_action = self.conf.data.action.dim
         self.dim_state_action = self.dim_state + self.dim_action
-        # for "pendulumEnv", state & action limitation
-        # self.up_X = torch.Tensor([1., 1., 8.]).expand(self.batch_size, -1)
-        # self.low_X = -self.up_X
-        # self.up_U = 2.
-        # self.low_U = -self.up_U
         self.up_X = torch.tensor(self.conf.data.state.high).expand(self.batch_size, -1)
         self.low_X = torch.tensor(self.conf.data.state.low).expand(self.batch_size, -1)
-        #normalize actions
-        # self.up_U = torch.tensor(self.conf.data.action.high)
-        # self.low_U = torch.tensor(self.conf.data.action.low)
-        self.up_U = 1.
-        self.low_U = -self.up_U
 
-        print('low: {}'.format(self.low_U))
         """ models"""
         self.trans_model = trans_model(self.dim_state,
                                        self.dim_action).to(self.device)
@@ -101,15 +89,12 @@ class MVE_agent():
         self.optimizer_a = optim.Adam(self.actor_local.parameters(), lr=self.conf.train.mf_a_lr)
         self.exploration_strategy = OU_Noise_Exploration(self.dim_action)
         self.training_step = 0
-        if self.conf.MBMF.reduction_type == "direct_fixed":
+        if self.conf.GTMBMF.reduction_type == "direct_fixed":
             self.backward = 0
         else:
             self.backward = 1
-        # self.select_action()
-        # self.store_transition()
-        # self.sample_transitions()
         self.max_grad_norm = 0.01
-        if self.conf.MBMF.reduction_type == "direct_fixed":
+        if self.conf.GTMBMF.reduction_type == "direct_fixed":
             self.backward = 0
         else:
             self.backward = 1
@@ -124,7 +109,6 @@ class MVE_agent():
         if exploration:
             action = self.exploration_strategy.perturb_action_for_exploration_purposes(
                 action)
-        action = np.clip(action, self.low_U, self.up_U)
         return action.squeeze(0)
 
     def store_transition(self, transition):
@@ -141,7 +125,6 @@ class MVE_agent():
         s = torch.from_numpy(
             np.vstack((t.s for t in transitions
                        if t is not None))).float().to(self.device)
-        # s = torch.tensor([t.s for t in transitions], dtype=torch.float).view(-1, self.dim_state).to(self.device)
         a = torch.tensor([t.a for t in transitions], dtype=torch.float).view(
             -1, self.dim_action).to(self.device)
         s_a = torch.tensor([t.s_a for t in transitions],
@@ -151,30 +134,22 @@ class MVE_agent():
             -1, self.dim_state).to(self.device)
         r = torch.tensor([t.r for t in transitions],
                          dtype=torch.float).view(-1, 1).to(self.device)
-        return s, a, s_a, r, s_,  #dones
+        return s, a, s_a, r, s_,
 
     def update(self):
         """ update transition, reward, actor, critic model"""
         self.training_step += 1
         for _ in range(self.iter_num):
-            # s, a, s_a, r, s_, dones = self.sample_transitions()
             s, a, s_a, r, s_ = self.sample_transitions()
             trans_loss = self.trans_learn(s_a, s_)
             reward_loss = self.reward_learn(s_a, r)
-            # env = PendulumEnv() # used to get true reward
             actor_loss = self.actor_learn(s)
             critic_loss = self.critic_learn(s_a, r, s_)
-        # if self.training_step % 20:
-        #     print("transition loss: {}".format(trans_loss))
-        #     print("reward loss: {}".format(reward_loss))
-        #     print("actor loss: {}".format(actor_loss))
-        #     print("critic loss: {}".format(critic_loss))
 
         return trans_loss, reward_loss, actor_loss, critic_loss
 
     def trans_learn(self, states_actions, next_states):
         """Runs a learning iteration for the transition model"""
-        # states_pred = self.trans_model(torch.cat((states, actions), 1))
         states_pred = self.trans_model(states_actions).to(self.device)
         trans_loss = F.mse_loss(states_pred, next_states)
         self.optimizer_t.zero_grad()
@@ -195,8 +170,6 @@ class MVE_agent():
 
     def actor_learn(self, states):
         """Runs a learning iteration for the actor"""
-        # if self.done: #we only update the learning rate at end of each episode
-        #     self.update_learning_rate(self.hyperparameters["Actor"]["learning_rate"], self.actor_optimizer)
         actions_pred = self.actor_local(states).to(self.device)
         actor_loss = -self.critic_local(torch.cat(
             (states, actions_pred), 1)).to(self.device).mean()
@@ -230,8 +203,6 @@ class MVE_agent():
             next_states = torch.max(torch.min(next_states, self.up_X),
                                     self.low_X)
             rewards = self.reward_model(states_actions)
-            # env.state = states
-            # _, rewards, _, _ = env.step(actions)
             imag_rewards_list.append(rewards)
 
         critic_pred = critic_pred[:, :-1]  # Q(s^t,a^t), t~[-1,T-1]
@@ -246,11 +217,9 @@ class MVE_agent():
                                         dtype=torch.float)
             critic_target[:, self.T - 1:self.T] = imag_rewards_list[
                 self.T - 1] + self.gamma * final_critic
-            #add -1
             for t in range(self.T - 1, -1, -1):
                 critic_target[:, t - 1:t] = imag_rewards_list[
                     t - 1] + self.gamma * critic_target[:, t:t + 1]
-        #print(critic_pred.size())
         critic_loss = F.mse_loss(critic_pred, critic_target) / (self.T)
         self.optimizer_c.zero_grad()
         critic_loss.backward()

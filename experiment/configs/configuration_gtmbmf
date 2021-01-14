@@ -16,7 +16,7 @@ train:
   mf_c_lr: 1e-3
   mf_a_lr: 1e-4
 
-MBMF:
+GTMBMF:
   reduction_type: direct_fixed
   fixed_num_per_reduction: 1
 
