@@ -1,4 +1,4 @@
-# Gradual Transition From Model-Based to Model-Free Actor-Critic Reinforcement Learning (GT-Mb-Mf)#
+# Gradual Transition From Model-Based to Model-Free Actor-Critic Reinforcement Learning (GT-Mb-Mf) #
 This repo contains the code for our Deep Learning course project. 
  <br> Developed by Le Chen, Yunke Ao, Kaiyue Shen and Zheyu Ye.
 
