@@ -18,6 +18,8 @@ You can run the experiment on the simplest environment 'Pendulum-v1' after insta
 cd experiment
 python GTMBMF.py --conf configs/configuration_gtmbmf --type [type name]
 ```
+The type names include 'pendulum', 'luna', 'halfcheet', 'walker' and 'hopper', corresponding to 'Pendulum-v0', 'LunarLanderContinuous-v2', 'HalfCheetah-v2', 'Walker2d-v2' and 'Hopper-v2' gym environments respectively.
+
 ## 3.Experiments ##
 Besides running on different environments, you could try different baselines, i.e. *DDPG*, *MVE*, *MPC* to compare with our method *GT-Mb-Mf* via modifying parameters in configuration file *experiment/configs/configuration_gtmbmf*.
 
