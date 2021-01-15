@@ -44,7 +44,7 @@ def main(conf, type):
     print('****** begin! ******')
     if type == 'pendulum':
         env = NormalizedActions(gym.make('Pendulum-v0'))
-    elif type == 'ant':
+    elif type == 'luna':
         env = NormalizedActions(gym.make('LunarLanderContinuous-v2'))
     elif type == 'halfcheet':
         env = NormalizedActions(gym.make('HalfCheetah-v2'))
