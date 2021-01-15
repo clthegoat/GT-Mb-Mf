@@ -1,6 +1,7 @@
 # Gradual Transition From Model-Based to Model-Free Actor-Critic Reinforcement Learning (GT-Mb-Mf) #
 This repo contains the code for our Deep Learning course project. 
  <br> Developed by Le Chen, Yunke Ao, Kaiyue Shen and Zheyu Ye.
+ github link: https://github.com/clthegoat/GT-Mb-Mf
 
 ## 1.Description ##
 Reinforcement learning (RL) algorithms have been shown to be capable of learning a wide range of robotic skills. Model-free RL algorithms directly optimize the policy based on gathered interaction experiences, while model-based ones additionally learn the dynamic and reward functions of the environment. Generally, model-free RL could achieve higher performance for different tasks but typically with millions of trials for convergence. For model-based RL, much fewer samples are required for learning a decent policy, but the existence of bias in learned model usually results in relatively lower final performance compared with model-free RL algorithms. 
